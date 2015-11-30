@@ -22,3 +22,6 @@ HEADERS  += \
 
 FORMS    += \
     BrowseWindow.ui
+
+CONFIG += c++11
+

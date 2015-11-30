@@ -20,6 +20,8 @@ public:
 private:
     Ui::BrowseWindow *ui;
     databaseConnection dbConnection;
+    QSqlDatabase* db;
+
 
     void initializeTable();
     void executeQuery();
