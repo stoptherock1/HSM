@@ -14,14 +14,13 @@ class BrowseWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit BrowseWindow(QWidget *parent = 0);
+    explicit BrowseWindow(QWidget *parent = 0, std::shared_ptr<databaseConnection> dbConnection = 0);
     ~BrowseWindow();
 
 private:
     Ui::BrowseWindow *ui;
-    databaseConnection dbConnection;
-    QSqlDatabase* db;
-
+    const QSqlDatabase* db;
+    std::shared_ptr<databaseConnection> dbConnection;
 
     void initializeTable();
     void executeQuery();

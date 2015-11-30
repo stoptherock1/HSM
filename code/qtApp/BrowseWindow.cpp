@@ -43,25 +43,24 @@ void BrowseWindow::executeQuery()
     qDebug() << Q_FUNC_INFO;
 
     // example of query to existing database
-
     if( db->isOpen() )
     {
-        QSqlQuery query(*db);
+        QSqlQuery query( *db );
         query.exec("select * from Room");
 
-        qDebug() << "db = " << db;
+        qDebug() << "db =" << db;
         while( query.next() )
             qDebug() << query.value(0);
     }
 }
 
-BrowseWindow::BrowseWindow(QWidget *parent) :
+BrowseWindow::BrowseWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection_) :
     QDialog(parent),
-    ui(new Ui::BrowseWindow)
+    ui(new Ui::BrowseWindow),
+  dbConnection(dbConnection_)
 {
     ui->setupUi(this);
-    db = dbConnection.establish();  // establishing the database connection
-                                    // (see databaseConnection class)
+    db = dbConnection->getDbPtr();
 
     initializeTable();
     executeQuery();

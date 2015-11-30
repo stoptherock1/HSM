@@ -5,17 +5,20 @@
 #include <QMessageBox>
 #include <QString>
 
+// Change to the path to the database file on your computer
+#define PATH_TO_THE_DATABASE "/Users/str1/repo/hsm/database/Team13.sqlite"
 
 class databaseConnection
 {
-public:
-    QSqlDatabase* db;
+    QSqlDatabase db;
 
+public:
     databaseConnection();
     ~databaseConnection();
 
-    QSqlDatabase* establish();
+    void establish();
 
+    const QSqlDatabase* getDbPtr() const;
 };
 
 #endif // DATABASECONNECTION_H
