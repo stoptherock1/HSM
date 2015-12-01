@@ -1,6 +1,6 @@
 #ifndef BROWSEWINDOW_H
 #define BROWSEWINDOW_H
-
+#include <memory>
 #include <QDialog>
 #include <QDebug>
 #include "databaseConnection.h"

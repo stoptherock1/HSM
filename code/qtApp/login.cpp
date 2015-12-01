@@ -1,11 +1,14 @@
 #include "login.h"
 #include "ui_login.h"
 
-login::login(QWidget *parent) :
+login::login(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection_) :
     QDialog(parent),
-    ui(new Ui::login)
+    ui(new Ui::login),
+    dbConnection(dbConnection_)
 {
     ui->setupUi(this);
+    db = dbConnection->getDbPtr();
+
 }
 
 login::~login()
@@ -15,13 +18,12 @@ login::~login()
 
 void login::on_pushButton_Login_clicked()
 {
-
-    databaseConnection.db->open();
+    dbConnection.get()->establish();
     QString username = ui->lineEdit_username->text();
     QString password = ui->lineEdit_password->text();
 
     //QSqlQueryModel *modal = new QSqlQueryModel();
-    QSqlQuery *qry = new QSqlQuery(databaseConnection.db);
+    QSqlQuery *qry = new QSqlQuery();
     qry->prepare("SELECT username FROM Staff WHERE username = :BVusername");
     qry->bindValue(":BVusername", username);
 
@@ -37,4 +39,5 @@ void login::on_pushButton_Login_clicked()
 
     }
     */
+
 }

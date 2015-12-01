@@ -2,7 +2,7 @@
 #define LOGIN_H
 
 #include <QDialog>
-#include <databaseConnection.h>
+#include "databaseConnection.h"
 namespace Ui {
 class login;
 }
@@ -12,7 +12,7 @@ class login : public QDialog
     Q_OBJECT
 
 public:
-    explicit login(QWidget *parent = 0);
+    explicit login(QWidget *parent = 0, std::shared_ptr<databaseConnection> dbConnection = 0);
     ~login();
 
 private slots:
@@ -20,6 +20,8 @@ private slots:
 
 private:
     Ui::login *ui;
+    std::shared_ptr<databaseConnection> dbConnection;
+    const QSqlDatabase* db;
 
 };
 
