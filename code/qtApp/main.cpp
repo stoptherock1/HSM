@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "BrowseWindow.h"
 #include "databaseConnection.h"
+#include <memory>
 
 int main(int argc, char *argv[])
 {

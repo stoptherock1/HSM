@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QDebug>
 #include "databaseConnection.h"
+#include <memory>
 
 namespace Ui {
 class BrowseWindow;
