@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "BrowseWindow.h"
 #include "databaseConnection.h"
+#include <loginWindow.h>
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +9,9 @@ int main(int argc, char *argv[])
 
     std::shared_ptr<databaseConnection> dbConnection = std::make_shared<databaseConnection>();
     dbConnection->establish();
+
+    loginWindow login;
+    login.exec();
 
     BrowseWindow browse(0, dbConnection);
     browse.show();

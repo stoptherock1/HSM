@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>735</width>
-    <height>366</height>
+    <width>773</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <widget class="QTableWidget" name="tableWidget"/>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0,0">
+      <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0">
        <item row="2" column="0">
         <widget class="QLineEdit" name="lineEdit_4">
          <property name="placeholderText">

@@ -17,6 +17,7 @@ void BrowseWindow::initializeTable()
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->horizontalHeader()->setHighlightSections(false);
     table->setAlternatingRowColors(true);
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
 
     QStringList headerLabels;
     headerLabels << "Room No" << "Number\nof persons" << "Available from" << "Reserved till";
@@ -26,6 +27,8 @@ void BrowseWindow::initializeTable()
     table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+
+    table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     for(int i=0; i<rowsCount ; ++i)
     {
@@ -61,6 +64,7 @@ BrowseWindow::BrowseWindow(QWidget *parent, std::shared_ptr<databaseConnection> 
 {
     ui->setupUi(this);
     db = dbConnection->getDbPtr();
+    setWindowTitle("HSM: Room browser");
 
     initializeTable();
     executeQuery();

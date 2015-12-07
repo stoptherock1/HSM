@@ -14,14 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     BrowseWindow.cpp \
-    databaseConnection.cpp
+    databaseConnection.cpp \
+    loginWindow.cpp
 
 HEADERS  += \
     BrowseWindow.h \
-    databaseConnection.h
+    databaseConnection.h \
+    loginWindow.h
 
 FORMS    += \
-    BrowseWindow.ui
+    BrowseWindow.ui \
+    loginWindow.ui
 
 CONFIG += c++11
 
