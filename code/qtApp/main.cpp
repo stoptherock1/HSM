@@ -2,6 +2,7 @@
 #include "BrowseWindow.h"
 #include "databaseConnection.h"
 #include <loginWindow.h>
+#include <memory>
 
 int main(int argc, char *argv[])
 {
