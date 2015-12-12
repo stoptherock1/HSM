@@ -1,7 +1,24 @@
-#include "BrowseWindow.h"
-#include "ui_BrowseWindow.h"
+#include "browseWindow.h"
+#include "ui_browseWindow.h"
 
-void BrowseWindow::initializeTable()
+browseWindow::browseWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection) :
+    QDialog(parent),
+    ui(new Ui::browseWindow)
+{
+    ui->setupUi(this);
+    db = dbConnection->getDbPtr();
+    setWindowTitle("HSM: Room browser");
+
+    initializeTable();
+    executeQuery();
+}
+
+browseWindow::~browseWindow()
+{
+    delete ui;
+}
+
+void browseWindow::initializeTable()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -41,7 +58,7 @@ void BrowseWindow::initializeTable()
     }
 }
 
-void BrowseWindow::executeQuery()
+void browseWindow::executeQuery()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -55,22 +72,4 @@ void BrowseWindow::executeQuery()
         while( query.next() )
             qDebug() << query.value(0);
     }
-}
-
-BrowseWindow::BrowseWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection_) :
-    QDialog(parent),
-    ui(new Ui::BrowseWindow),
-  dbConnection(dbConnection_)
-{
-    ui->setupUi(this);
-    db = dbConnection->getDbPtr();
-    setWindowTitle("HSM: Room browser");
-
-    initializeTable();
-    executeQuery();
-}
-
-BrowseWindow::~BrowseWindow()
-{
-    delete ui;
 }
