@@ -56,6 +56,7 @@ void loginWindow::login()
 //        model.setQuery("SELECT username, password FROM Staff "
 //                       "WHERE username='%1' AND password='mousaZB'", *db);
 //        qDebug() << "Result: " << model.record(1).value("username").toString();
+//        some comment
 
 //        qDebug() << loggedinUser
         ui->status_label->setHidden(true);
