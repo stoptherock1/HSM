@@ -14,12 +14,19 @@ class loginWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit loginWindow(QWidget *parent = 0, std::shared_ptr<databaseConnection> dbConnection = 0);
+    explicit loginWindow(QWidget *parent = 0,
+                         std::shared_ptr<databaseConnection> dbConnection = 0);
     ~loginWindow();
 
 private:
     Ui::loginWindow *ui;
     const QSqlDatabase* db;
+
+    const QString normalLabelText = "Provide credentials";
+    const QString emptyFieldsLabelText = "<font color='Red'>Username and Password cannot be empty</font>";
+
+private slots:
+    void login();
 };
 
 #endif // LOGINWINDOW_H

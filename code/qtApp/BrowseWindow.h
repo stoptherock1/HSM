@@ -15,7 +15,8 @@ class browseWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit browseWindow(QWidget *parent = 0, std::shared_ptr<databaseConnection> dbConnection = 0);
+    explicit browseWindow(QWidget *parent = 0,
+                          std::shared_ptr<databaseConnection> dbConnection = 0);
     ~browseWindow();
 
 private:

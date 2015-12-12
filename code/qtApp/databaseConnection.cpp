@@ -38,10 +38,11 @@ void databaseConnection::establish()
     */
     if( !db.open() || !db.tables().contains(tableName) )
     {
-        QMessageBox::critical(0, "Cannot open database",
+        QMessageBox::critical(0,
+                              "Cannot open database",
                               QString("Unable to establish a database connection."
-                              "\nReason: %1\nClick Cancel to "
-                              "exit.").arg( db.lastError().text() ),
+                                      "\nReason: %1\nClick Cancel to "
+                                      "exit.").arg( db.lastError().text() ),
                               QMessageBox::Cancel);
         db.close();
     }
