@@ -6,7 +6,7 @@ loginWindow::loginWindow(QWidget *parent, std::shared_ptr<databaseConnection> db
     ui(new Ui::loginWindow)
 {
     ui->setupUi(this);
-
+    db = dbConnection->getDbPtr();
 
     ui->label->setText(normalLabelText);
 
@@ -41,25 +41,35 @@ void loginWindow::login()
     }
     else
     {
+        QString dbPassword = "";
+        QString getPasswordQuery = QString("SELECT password FROM Staff WHERE username='%1'").arg(username);
+        QSqlQueryModel model;
 
-//       @Mousa: your code goes here
-//        if (password is wrong)
-//            change status_label text to 'Username or Password is wrong' (red color)
-//        else
-//            change status_label text to 'Username and Password are ok' (green color)
+        model.setQuery(getPasswordQuery, *db);
+        dbPassword = model.record(0).value("password").toString();
 
-//        EXAMPLE
-//        QSqlQueryModel model;
-//        model.setQuery("SELECT username, password FROM Staff "
-//                       "WHERE username='%1' AND password='mousaZB'", *db);
-//        qDebug() << "Result: " << model.record(1).value("username").toString();
-//        some comment
 
-        ui->status_label->setHidden(true);
+        if (password != dbPassword)
+        {
+            ui->status_label->setText(wrongUsernameOrPasswordText);
+            ui->status_label->setHidden(false);
+            qDebug() << getPasswordQuery;
+            qDebug() << username << " " << dbPassword;
+        }
+
+        else
+        {
+            qDebug() << username << " " << dbPassword;
+            ui->status_label->setText(correctUsernameAndPasswordText);
+            ui->status_label->setHidden(false);
+        }
+
+
+
+
     }
 
     adjustSize();
     adjustSize();
 
-    qDebug() << username << " " << password;
 }

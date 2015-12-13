@@ -24,6 +24,8 @@ private:
 
     const QString normalLabelText = "Provide credentials";
     const QString emptyFieldsLabelText = "<font color='Red'>Username and Password cannot be empty</font>";
+    const QString wrongUsernameOrPasswordText = "<font color='Red'>Username or Password wrong</font>";
+    const QString correctUsernameAndPasswordText = "<font color='Green'>Username and Password correct</font>";
 
 private slots:
     void login();
