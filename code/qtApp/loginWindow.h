@@ -15,12 +15,14 @@ class loginWindow : public QDialog
 
 public:
     explicit loginWindow(QWidget *parent = 0,
-                         std::shared_ptr<databaseConnection> dbConnection = 0);
+                         std::shared_ptr<databaseConnection> dbConnection = 0,
+                         QString* loggedinUser=0);
     ~loginWindow();
 
 private:
     Ui::loginWindow *ui;
     const QSqlDatabase* db;
+    QString* loggedinUser;
 
     const QString normalLabelText = "Provide credentials";
     const QString emptyFieldsLabelText = "<font color='Red'>Username and Password cannot be empty</font>";

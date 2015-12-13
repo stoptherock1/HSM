@@ -1,9 +1,10 @@
 #include "loginWindow.h"
 #include "ui_loginWindow.h"
 
-loginWindow::loginWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection) :
+loginWindow::loginWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection, QString *loggedinUser_) :
     QDialog(parent),
-    ui(new Ui::loginWindow)
+    ui(new Ui::loginWindow),
+    loggedinUser(loggedinUser_)
 {
     ui->setupUi(this);
     db = dbConnection->getDbPtr();
@@ -38,6 +39,8 @@ void loginWindow::login()
     {
         ui->status_label->setText(emptyFieldsLabelText);
         ui->status_label->setHidden(false);
+        //        qDebug() <<
+//        qDebug() << loggedinUser
     }
     else
     {
@@ -65,9 +68,13 @@ void loginWindow::login()
         }
 
 
-
-
     }
+/*
+<<<<<<< HEAD
+//        qDebug() << loggedinUser
+//       ui->status_label->setHidden(true);
+>>>>>>> origin/master
+*/
 
     adjustSize();
     adjustSize();
