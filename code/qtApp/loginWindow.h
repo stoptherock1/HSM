@@ -16,7 +16,7 @@ class loginWindow : public QDialog
 public:
     explicit loginWindow(QWidget *parent = 0,
                          std::shared_ptr<databaseConnection> dbConnection = 0,
-                         QString* loggedinUser);
+                         QString* loggedinUser=0);
     ~loginWindow();
 
 private:
