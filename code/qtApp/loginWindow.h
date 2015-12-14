@@ -2,8 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QDialog>
-#include "databaseConnection.h"
-#include <memory>
+#include "hsmMetaData.h"
 
 namespace Ui {
 class loginWindow;
@@ -15,7 +14,7 @@ class loginWindow : public QDialog
 
 public:
     explicit loginWindow(QWidget *parent = 0,
-                         std::shared_ptr<databaseConnection> dbConnection = 0,
+                         const viewParameters* parameters = 0,
                          QString* loggedinUser=0);
     ~loginWindow();
 

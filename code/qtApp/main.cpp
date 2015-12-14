@@ -1,21 +1,19 @@
 #include <QApplication>
 #include "browseWindow.h"
-#include "databaseConnection.h"
 #include <loginWindow.h>
-#include <memory>
+#include "hsmMetaData.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QString loggedinUser = "";
 
-    std::shared_ptr<databaseConnection> dbConnection = std::make_shared<databaseConnection>();
-    dbConnection->establish();
+    viewParameters parameters;
 
-    loginWindow login(0, dbConnection, &loggedinUser);
+    loginWindow login(0, &parameters);
     login.exec();
 
-    browseWindow browse(0, dbConnection);
+    browseWindow browse(0, &parameters);
     browse.show();
 
     return a.exec();

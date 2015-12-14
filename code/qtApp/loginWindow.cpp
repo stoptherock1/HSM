@@ -1,13 +1,13 @@
 #include "loginWindow.h"
 #include "ui_loginWindow.h"
 
-loginWindow::loginWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection, QString *loggedinUser_) :
+loginWindow::loginWindow(QWidget *parent, const viewParameters *parameters, QString *loggedinUser_) :
     QDialog(parent),
     ui(new Ui::loginWindow),
     loggedinUser(loggedinUser_)
 {
     ui->setupUi(this);
-    db = dbConnection->getDbPtr();
+    db = parameters->dbConnection->getDbPtr();
 
     ui->label->setText(normalLabelText);
 

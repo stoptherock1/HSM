@@ -3,8 +3,7 @@
 
 #include <QDialog>
 #include <QDebug>
-#include "databaseConnection.h"
-#include <memory>
+#include "hsmMetaData.h"
 
 namespace Ui {
 class browseWindow;
@@ -16,7 +15,7 @@ class browseWindow : public QDialog
 
 public:
     explicit browseWindow(QWidget *parent = 0,
-                          std::shared_ptr<databaseConnection> dbConnection = 0);
+                          const viewParameters* parameters = 0);
     ~browseWindow();
 
 private:

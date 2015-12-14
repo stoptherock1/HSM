@@ -1,12 +1,12 @@
 #include "browseWindow.h"
 #include "ui_browseWindow.h"
 
-browseWindow::browseWindow(QWidget *parent, std::shared_ptr<databaseConnection> dbConnection) :
+browseWindow::browseWindow(QWidget *parent, const viewParameters *parameters) :
     QDialog(parent),
     ui(new Ui::browseWindow)
 {
     ui->setupUi(this);
-    db = dbConnection->getDbPtr();
+    db = parameters->dbConnection->getDbPtr();
     setWindowTitle("HSM: Room browser");
 
     initializeTable();

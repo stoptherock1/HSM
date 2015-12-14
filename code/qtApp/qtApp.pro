@@ -20,7 +20,8 @@ SOURCES += main.cpp\
 HEADERS  += \
     databaseConnection.h \
     loginWindow.h \
-    browseWindow.h
+    browseWindow.h \
+    hsmMetaData.h
 
 FORMS    += \
     loginWindow.ui \
