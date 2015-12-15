@@ -15,16 +15,59 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
      <item>
-      <widget class="QTableView" name="tableView"/>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,2,0">
+         <item>
+          <widget class="QLineEdit" name="availableFrom_lineEdit">
+           <property name="placeholderText">
+            <string>From: YYYY-MM-DD</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="availableTo_lineEdit">
+           <property name="placeholderText">
+            <string>To: YYYY-MM-DD</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="text">
+            <string>Search</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableView" name="tableView"/>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0">
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="lineEdit_2">
          <property name="placeholderText">
-          <string>Available from</string>
+          <string>Reserved till</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPlainTextEdit" name="plainTextEdit">
+         <property name="placeholderText">
+          <string>Additional notes</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="placeholderText">
+          <string>Number of persons</string>
          </property>
         </widget>
        </item>
@@ -39,27 +82,6 @@
         <widget class="QCheckBox" name="checkBox">
          <property name="text">
           <string>Balcony</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="lineEdit_6">
-         <property name="placeholderText">
-          <string>Number of persons</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLineEdit" name="lineEdit_2">
-         <property name="placeholderText">
-          <string>Reserved till</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPlainTextEdit" name="plainTextEdit">
-         <property name="placeholderText">
-          <string>Additional notes</string>
          </property>
         </widget>
        </item>
@@ -86,6 +108,13 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="lineEdit_4">
+         <property name="placeholderText">
+          <string>Available from</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

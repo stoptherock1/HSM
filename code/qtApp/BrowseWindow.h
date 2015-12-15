@@ -23,7 +23,9 @@ private:
     const QSqlDatabase* db;
 
     void initializeTable();
-    void executeQuery();
+
+public slots:
+    void checkAvailableRooms();
 };
 
 #endif // BROWSEWINDOW_H
