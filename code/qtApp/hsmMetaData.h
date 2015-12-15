@@ -7,7 +7,7 @@
 struct viewParameters
 {
     std::shared_ptr<databaseConnection> dbConnection;
-    QString loggedinUser;
+    QString loggedInUser;
     bool isAdmin;
 
 
@@ -15,7 +15,7 @@ struct viewParameters
     {
         dbConnection = std::make_shared<databaseConnection>();
         dbConnection->establish();
-        loggedinUser = "";
+        loggedInUser = "";
         isAdmin = false;
     }
 };
