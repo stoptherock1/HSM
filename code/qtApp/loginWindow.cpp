@@ -1,13 +1,15 @@
 #include "loginWindow.h"
 #include "ui_loginWindow.h"
 
-loginWindow::loginWindow(QWidget *parent, const viewParameters *parameters, QString *loggedinUser_) :
+loginWindow::loginWindow(QWidget *parent,  viewParameters *parameters_) :
     QDialog(parent),
     ui(new Ui::loginWindow),
-    loggedinUser(loggedinUser_)
+    parameters(parameters_)
 {
     ui->setupUi(this);
     db = parameters->dbConnection->getDbPtr();
+
+    ui->password_lineEdit->setEchoMode(QLineEdit::Password);
 
     ui->label->setText(normalLabelText);
 
@@ -39,8 +41,6 @@ void loginWindow::login()
     {
         ui->status_label->setText(emptyFieldsLabelText);
         ui->status_label->setHidden(false);
-        //        qDebug() <<
-//        qDebug() << loggedinUser
     }
     else
     {
@@ -59,22 +59,19 @@ void loginWindow::login()
             qDebug() << getPasswordQuery;
             qDebug() << username << " " << dbPassword;
         }
-
         else
         {
             qDebug() << username << " " << dbPassword;
-            ui->status_label->setText(correctUsernameAndPasswordText);
+
+             qDebug() << &parameters->loggedInUser;
+            //ui->status_label->setText(correctUsernameAndPasswordText);
+//            parameters->loggedInUser = username;
+            parameters->setLoggedInUser(username);
+
             ui->status_label->setHidden(false);
+            done(1);
         }
-
-
     }
-/*
-<<<<<<< HEAD
-//        qDebug() << loggedinUser
-//       ui->status_label->setHidden(true);
->>>>>>> origin/master
-*/
 
     adjustSize();
     adjustSize();
