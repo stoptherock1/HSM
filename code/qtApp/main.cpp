@@ -5,6 +5,19 @@
 
 int main(int argc, char *argv[])
 {
+    /* some comments
+     * sdnchvdnskdfv]df
+     * v
+     * dfs
+     * vdf
+     * sv
+     * df
+     * v
+     * dfsv
+     * dfs
+     * v
+     * dfs*/
+
     QApplication a(argc, argv);
     QString loggedinUser = "";
 
@@ -17,4 +30,10 @@ int main(int argc, char *argv[])
     browse.show();
 
     return a.exec();
+}
+
+
+void function()
+{
+    qDebug() << "bla bla bla";
 }
