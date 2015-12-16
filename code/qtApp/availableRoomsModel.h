@@ -8,7 +8,7 @@
 
 class availableRoomsModel: public QAbstractTableModel
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
     availableRoomsModel(QObject *parent = 0/*, const viewParameters* parameters = 0*/);

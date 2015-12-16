@@ -15,13 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
     databaseConnection.cpp \
     loginWindow.cpp \
-    browseWindow.cpp
+    browseWindow.cpp \
+    availableRoomsModel.cpp
 
 HEADERS  += \
     databaseConnection.h \
     loginWindow.h \
     browseWindow.h \
-    hsmMetaData.h
+    hsmMetaData.h \
+    availableRoomsModel.h
 
 FORMS    += \
     loginWindow.ui \

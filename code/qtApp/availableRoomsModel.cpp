@@ -4,7 +4,7 @@ availableRoomsModel::availableRoomsModel(QObject* parent/*, const viewParameters
     :QAbstractTableModel(parent)
 {
 
-    db = dbConnection->getDbPtr();
+    //db = dbConnection->getDbPtr();
     QString availableRoomQuery = "SELECT * FROM Room ";
                                  "Left OUTER JOIN Current_Reservation "
                                  "ON Current_Reservation.roomNr = Room.roomNr "
@@ -12,7 +12,7 @@ availableRoomsModel::availableRoomsModel(QObject* parent/*, const viewParameters
                                  "or checkInDate is NULL";
     qDebug() << availableRoomQuery;
 
-    model.setQuery(availableRoomQuery, *db);
+    model.setQuery(availableRoomQuery);
 
 }
 
@@ -24,12 +24,6 @@ int availableRoomsModel::rowCount(const QModelIndex & /*parent*/) const
 int availableRoomsModel::columnCount(const QModelIndex & /*parent*/) const
 {
     return model.columnCount();
-}
-
-
-QVariant availableRoomsModel::data(const QModelIndex &index, int role) const
-{
-    return model.record(index.row()).value(index.column());
 }
 
 void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
@@ -45,5 +39,18 @@ void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
 
     model.setQuery(availableRoomQuery);
     //emit dataChanged(topLeft, topLeft);
+}
+
+
+QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
+{
+    qDebug() << Q_FUNC_INFO;
+
+
+    if (role == Qt::DisplayRole)
+    {
+       return model.record(index.row()).value(index.column()).toString();
+    }
+    return QVariant();
 }
 

@@ -18,6 +18,11 @@ struct viewParameters
         loggedInUser = "";
         isAdmin = false;
     }
+
+    void setLoggedInUser(const QString &username)
+    {
+        loggedInUser = username;
+    }
 };
 
 #endif // HSMMETADATA
