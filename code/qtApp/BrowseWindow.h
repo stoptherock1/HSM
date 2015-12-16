@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QDebug>
 #include "hsmMetaData.h"
+#include "availableRoomsModel.h"
 
 namespace Ui {
 class browseWindow;
@@ -21,6 +22,7 @@ public:
 private:
     Ui::browseWindow *ui;
     const QSqlDatabase* db;
+    availableRoomsModel model;
 
     void initializeTable();
 

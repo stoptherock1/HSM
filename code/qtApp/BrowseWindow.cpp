@@ -1,6 +1,7 @@
 #include "browseWindow.h"
 #include "ui_browseWindow.h"
 
+
 browseWindow::browseWindow(QWidget *parent, const viewParameters *parameters) :
     QDialog(parent),
     ui(new Ui::browseWindow)
@@ -23,7 +24,7 @@ browseWindow::browseWindow(QWidget *parent, const viewParameters *parameters) :
     initializeTable();
 
     connect(ui->search_pushButton, SIGNAL(clicked()),
-            this, SLOT(checkAvailableRooms());
+            this, SLOT(checkAvailableRooms()));
 }
 
 browseWindow::~browseWindow()
@@ -36,6 +37,7 @@ void browseWindow::initializeTable()
     qDebug() << Q_FUNC_INFO;
 
     QTableView* tableView = ui->tableView;
+    tableView->setModel(&model);
 
 //    left as an example for a model design
 //    the tableWidget is now replaced with the tableView
@@ -77,6 +79,6 @@ void browseWindow::checkAvailableRooms()
 {
     QString from = ui->availableFrom_lineEdit->text();
     QString to = ui->availableTo_lineEdit->text();
-
+    model.searchForAvailableRooms(from, to);
     //call model
 }
