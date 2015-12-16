@@ -5,19 +5,6 @@
 
 int main(int argc, char *argv[])
 {
-    /* some comments
-     * sdnchvdnskdfv]df
-     * v
-     * dfs
-     * vdf
-     * sv
-     * df
-     * v
-     * dfsv
-     * dfs
-     * v
-     * dfs*/
-
     QApplication a(argc, argv);
     QString loggedinUser = "";
 
