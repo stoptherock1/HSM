@@ -3,7 +3,7 @@
 #include <loginWindow.h>
 #include <hsmMetaData.h>
 #include <bookingPage.h>
-#include <fistPage.h>
+#include <firstPage.h>
 #include <roomAvailability.h>
 #include <staffPage.h>
 #include <updateInformation.h>
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     bookingPage window1;
     window1.exec();
 
-    fistPage window2;
+    firstPage window2;
     window2.show();
 
     roomAvailability window3;

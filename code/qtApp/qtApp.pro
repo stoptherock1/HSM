@@ -19,9 +19,9 @@ SOURCES += main.cpp\
     availableRoomsModel.cpp \
     staffPage.cpp \
     bookingPage.cpp \
-    fistPage.cpp \
     roomAvailability.cpp \
-    updateInformation.cpp
+    updateInformation.cpp \
+    firstPage.cpp
 
 HEADERS  += \
     databaseConnection.h \
@@ -33,16 +33,16 @@ HEADERS  += \
     bookingPage.h \
     staffPage.h \
     updateInformation.h \
-    fistPage.h
+    firstPage.h
 
 FORMS    += \
     loginWindow.ui \
     browseWindow.ui \
     bookingPage.ui \
-    fistPage.ui \
     roomAvailability.ui \
     staffPage.ui \
-    updateInformation.ui
+    updateInformation.ui \
+    firstPage.ui
 
 CONFIG += c++11
 
