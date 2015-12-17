@@ -59,6 +59,8 @@ void browseWindow::initializeTable()
 //    headerLabels << "Room No" << "Number\nof persons" << "Available from" << "Reserved till";
 //    tableView->setHorizontalHeaderLabels(headerLabels);
 
+//    tableView->hideColumn(0);
+
     tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
@@ -71,6 +73,26 @@ void browseWindow::checkAvailableRooms()
 {
     QString from = ui->availableFrom_lineEdit->text();
     QString to = ui->availableTo_lineEdit->text();
+
+    QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+    QDateTime todaysDate = todaysDate.currentDateTime();
+
+    //set todays date to 'from', if provided date has improper format or is emty
+    if( !rx.exactMatch(from) )
+    {
+        from = todaysDate.toString("yyyy-MM-dd");
+        ui->availableFrom_lineEdit->setText(from);
+    }
+
+
+    //set date from 'from' + 7 days, if provided date has improper format or is emty
+    if( !rx.exactMatch(to) )
+    {
+        QDate fromDate = fromDate.fromString(from, "yyyy-MM-dd");
+        QDateTime toDate( fromDate.addDays(7) );
+        to = toDate.toString("yyyy-MM-dd");
+        ui->availableTo_lineEdit->setText(to);
+    }
+
     model->searchForAvailableRooms(from, to);
-    //call model
 }

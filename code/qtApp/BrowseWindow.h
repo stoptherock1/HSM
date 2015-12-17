@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "hsmMetaData.h"
 #include "availableRoomsModel.h"
+#include <QDateTime>
 
 namespace Ui {
 class browseWindow;
