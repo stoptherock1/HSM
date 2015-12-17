@@ -45,27 +45,21 @@ void loginWindow::login()
     else
     {
         QString dbPassword = "";
-        QString getPasswordQuery = QString("SELECT password FROM Staff WHERE username='%1'").arg(username);
+        QString getPasswordQuery = QString("SELECT password FROM Staff "
+                                           "WHERE username='%1'").arg(username);
         QSqlQueryModel model;
 
         model.setQuery(getPasswordQuery, *db);
         dbPassword = model.record(0).value("password").toString();
 
-
         if (password != dbPassword)
         {
             ui->status_label->setText(wrongUsernameOrPasswordText);
             ui->status_label->setHidden(false);
-            qDebug() << getPasswordQuery;
-            qDebug() << username << " " << dbPassword;
         }
         else
         {
-            qDebug() << username << " " << dbPassword;
-
-             qDebug() << &parameters->loggedInUser;
-            //ui->status_label->setText(correctUsernameAndPasswordText);
-//            parameters->loggedInUser = username;
+            parameters->loggedInUser = username;
             parameters->setLoggedInUser(username);
 
             ui->status_label->setHidden(false);
@@ -75,5 +69,4 @@ void loginWindow::login()
 
     adjustSize();
     adjustSize();
-
 }
