@@ -1,14 +1,14 @@
-#include "fistpage.h"
-#include "ui_fistpage.h"
+#include "fistPage.h"
+#include "ui_fistPage.h"
 
-fistpage::fistpage(QWidget *parent) :
+fistPage::fistPage(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::fistpage)
+    ui(new Ui::fistPage)
 {
     ui->setupUi(this);
 }
 
-fistpage::~fistpage()
+fistPage::~fistPage()
 {
     delete ui;
 }

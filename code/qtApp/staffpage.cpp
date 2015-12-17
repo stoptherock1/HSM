@@ -1,5 +1,5 @@
-#include "staffpage.h"
-#include "ui_staffpage.h"
+#include "staffPage.h"
+#include "ui_staffPage.h"
 
 staffPage::staffPage(QWidget *parent) :
     QDialog(parent),

@@ -1,5 +1,5 @@
-#include "bookingpage.h"
-#include "ui_bookingpage.h"
+#include "bookingPage.h"
+#include "ui_bookingPage.h"
 
 bookingPage::bookingPage(QWidget *parent) :
     QDialog(parent),

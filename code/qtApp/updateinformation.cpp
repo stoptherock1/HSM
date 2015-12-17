@@ -1,5 +1,5 @@
-#include "updateinformation.h"
-#include "ui_updateinformation.h"
+#include "updateInformation.h"
+#include "ui_updateInformation.h"
 
 updateInformation::updateInformation(QWidget *parent) :
     QDialog(parent),

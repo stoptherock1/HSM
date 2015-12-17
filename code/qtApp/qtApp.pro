@@ -17,12 +17,11 @@ SOURCES += main.cpp\
     loginWindow.cpp \
     browseWindow.cpp \
     availableRoomsModel.cpp \
-    bookingpage.cpp \
-    fistpage.cpp \
-    roomavailability.cpp \
-    simpleClass.cpp \
-    staffpage.cpp \
-    updateinformation.cpp
+    staffPage.cpp \
+    bookingPage.cpp \
+    fistPage.cpp \
+    roomAvailability.cpp \
+    updateInformation.cpp
 
 HEADERS  += \
     databaseConnection.h \
@@ -30,21 +29,20 @@ HEADERS  += \
     browseWindow.h \
     hsmMetaData.h \
     availableRoomsModel.h \
-    bookingpage.h \
-    fistpage.h \
-    roomavailability.h \
-    simpleClass.h \
-    staffpage.h \
-    updateinformation.h
+    roomAvailability.h \
+    bookingPage.h \
+    staffPage.h \
+    updateInformation.h \
+    fistPage.h
 
 FORMS    += \
     loginWindow.ui \
     browseWindow.ui \
-    bookingpage.ui \
-    fistpage.ui \
-    roomavailability.ui \
-    staffpage.ui \
-    updateinformation.ui
+    bookingPage.ui \
+    fistPage.ui \
+    roomAvailability.ui \
+    staffPage.ui \
+    updateInformation.ui
 
 CONFIG += c++11
 

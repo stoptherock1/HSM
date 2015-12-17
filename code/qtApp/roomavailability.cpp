@@ -1,5 +1,5 @@
-#include "roomavailability.h"
-#include "ui_roomavailability.h"
+#include "roomAvailability.h"
+#include "ui_roomAvailability.h"
 
 roomAvailability::roomAvailability(QWidget *parent) :
     QDialog(parent),

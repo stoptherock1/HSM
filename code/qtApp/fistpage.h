@@ -4,19 +4,19 @@
 #include <QMainWindow>
 
 namespace Ui {
-class fistpage;
+class fistPage;
 }
 
-class fistpage : public QMainWindow
+class fistPage : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit fistpage(QWidget *parent = 0);
-    ~fistpage();
+    explicit fistPage(QWidget *parent = 0);
+    ~fistPage();
 
 private:
-    Ui::fistpage *ui;
+    Ui::fistPage *ui;
 };
 
 #endif // FISTPAGE_H

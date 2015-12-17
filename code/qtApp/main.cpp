@@ -2,40 +2,36 @@
 #include <browseWindow.h>
 #include <loginWindow.h>
 #include <hsmMetaData.h>
-#include <bookingpage.h>
-#include <fistpage.h>
-#include <roomavailability.h>
-#include <staffpage.h>
-#include <updateinformation.h>
+#include <bookingPage.h>
+#include <fistPage.h>
+#include <roomAvailability.h>
+#include <staffPage.h>
+#include <updateInformation.h>
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QString loggedinUser = "";
 
     viewParameters parameters;
 
+    bookingPage window1;
+    window1.exec();
 
+    fistPage window2;
+    window2.show();
 
-//    bookingPage window1;
-//    window1.exec();
+    roomAvailability window3;
+    window3.exec();
 
-//    fistpage window2;
-//    window2.show();
+    staffPage window4;
+    window4.exec();
 
-//    roomAvailability window3;
-//    window3.exec();
+    updateInformation window5;
+    window5.exec();
 
-//    staffPage window4;
-//    window4.exec();
-
-//    updateInformation window5;
-//    window5.exec();
-
-//    loginWindow login(0, &parameters);
-//    login.exec();
-
+    loginWindow login(0, &parameters);
+    login.exec();
 
     browseWindow browse(0, &parameters);
     browse.show();
