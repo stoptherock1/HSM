@@ -10,18 +10,11 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-    loginWindow login(0, &parameters);
-    login.exec();
+//    loginWindow login(0, &parameters);
+//    login.exec();
 
     browseWindow browse(0, &parameters);
     browse.show();
 
     return a.exec();
-}
-
-//dfbdfbf
-
-void function()
-{
-    qDebug() << "bla bla bla";
 }

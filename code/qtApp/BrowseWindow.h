@@ -22,7 +22,7 @@ public:
 private:
     Ui::browseWindow *ui;
     const QSqlDatabase* db;
-    availableRoomsModel model;
+    availableRoomsModel *model;
 
     void initializeTable();
 
