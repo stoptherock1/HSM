@@ -2,28 +2,43 @@
 #include "ui_browseWindow.h"
 
 
-browseWindow::browseWindow(QWidget *parent, const viewParameters *parameters) :
+browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
     QDialog(parent),
     ui(new Ui::browseWindow)
 {
     ui->setupUi(this);
     db = parameters->dbConnection->getDbPtr();
-    QString title = "HSM: Room browser";
-
-    if(parameters->loggedInUser != "")
-        title.append( QString( ": %1 is logged in").arg(parameters->loggedInUser) );
 
     QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+    dateValidator = new QRegExpValidator(rx, this);
 
-    //memory leak
-    ui->availableFrom_lineEdit->setValidator( new QRegExpValidator(rx, this) );
-    ui->availableTo_lineEdit->setValidator( new QRegExpValidator(rx, this) );
+    ui->availableFrom_lineEdit->setValidator(dateValidator);
+    ui->availableTo_lineEdit->setValidator(dateValidator);
 
-    setWindowTitle(title);
 
     model = new availableRoomsModel(0, parameters);
 
     initializeTable();
+
+    //login window
+    loginWnd = new loginWindow(this, parameters);
+    int result = loginWnd->exec();
+    if(1 != result)
+    {
+        qDebug() << "Unsuccessfull login";
+        exit(1);
+    }
+    else
+    {
+        QString title = "HSM: Room browser";
+
+        if(parameters->loggedInUser != "")
+            title.append( QString( ": %1 is logged in")
+                          .arg(parameters->loggedInUser) );
+
+        setWindowTitle(title);
+    }
+
 
     connect(ui->search_pushButton, SIGNAL(clicked()),
             this, SLOT(checkAvailableRooms()));
@@ -31,6 +46,8 @@ browseWindow::browseWindow(QWidget *parent, const viewParameters *parameters) :
 
 browseWindow::~browseWindow()
 {
+    delete model;
+    delete dateValidator;
     delete ui;
 }
 

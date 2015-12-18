@@ -7,13 +7,7 @@ firstPage::firstPage(QWidget *parent, viewParameters *parameters) :
 {
     ui->setupUi(this);
 
-    login = new loginWindow(this, parameters);
-    int result = login->exec();
-    if(1 != result)
-    {
-        qDebug() << "Unsuccessfull login";
-        exit(1);
-    }
+
 }
 
 firstPage::~firstPage()

@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
 //    bookingPage window1;
 //    window1.exec();
 
-    firstPage window2(0, &parameters);
-    window2.show();
+//    firstPage window2(0, &parameters);
+//    window2.show();
 
 //    roomAvailability window3;
 //    window3.exec();
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
 //    loginWindow login(0, &parameters);
 //    login.exec();
 
-//    browseWindow browse(0, &parameters);
-//    browse.show();
+    browseWindow browse(0, &parameters);
+    browse.show();
 
     return a.exec();
 }
