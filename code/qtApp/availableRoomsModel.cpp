@@ -8,7 +8,7 @@ availableRoomsModel::availableRoomsModel(QObject* parent, const viewParameters* 
 
 QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
 {
-    if (role == Qt::DisplayRole)
+    if(role == Qt::DisplayRole | role == Qt::EditRole)
     {
        return model.record(index.row()).value(index.column()).toString();
     }

@@ -21,14 +21,14 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,2,0">
          <item>
-          <widget class="QLineEdit" name="availableFrom_lineEdit">
+          <widget class="QLineEdit" name="searchFrom_lineEdit">
            <property name="placeholderText">
             <string>From: YYYY-MM-DD</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="availableTo_lineEdit">
+          <widget class="QLineEdit" name="searchTo_lineEdit">
            <property name="placeholderText">
             <string>To: YYYY-MM-DD</string>
            </property>
@@ -51,7 +51,7 @@
      <item>
       <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0">
        <item row="3" column="0">
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="reservedTill_lineEdit">
          <property name="placeholderText">
           <string>Reserved till</string>
          </property>
@@ -65,21 +65,21 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLineEdit" name="lineEdit_6">
+        <widget class="QLineEdit" name="numberOfPersons_lineEdit">
          <property name="placeholderText">
           <string>Number of persons</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLineEdit" name="lineEdit_5">
+        <widget class="QLineEdit" name="roomNumber_lineEdit">
          <property name="placeholderText">
           <string>Room number</string>
          </property>
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="balcony_checkBox">
          <property name="text">
           <string>Balcony</string>
          </property>
@@ -110,7 +110,7 @@
         </layout>
        </item>
        <item row="2" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
+        <widget class="QLineEdit" name="availableFrom_lineEdit">
          <property name="placeholderText">
           <string>Available from</string>
          </property>

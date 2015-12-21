@@ -12,8 +12,8 @@ browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
     QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
     dateValidator = new QRegExpValidator(rx, this);
 
-    ui->availableFrom_lineEdit->setValidator(dateValidator);
-    ui->availableTo_lineEdit->setValidator(dateValidator);
+    ui->searchFrom_lineEdit->setValidator(dateValidator);
+    ui->searchTo_lineEdit->setValidator(dateValidator);
 
 
     model = new availableRoomsModel(0, parameters);
@@ -22,13 +22,13 @@ browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
 
     //login window
     loginWnd = new loginWindow(this, parameters);
-    int result = loginWnd->exec();
-    if(1 != result)
-    {
-        qDebug() << "Unsuccessfull login";
-        exit(1);
-    }
-    else
+//    int result = loginWnd->exec();
+//    if(1 != result)
+//    {
+//        qDebug() << "Unsuccessfull login";
+//        exit(1);
+//    }
+//    else
     {
         QString title = "HSM: Room browser";
 
@@ -39,13 +39,39 @@ browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
         setWindowTitle(title);
     }
 
+    widgetMapper = new QDataWidgetMapper(this);
+    widgetMapper->setModel(model);
+    widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
+    widgetMapper->addMapping(ui->numberOfPersons_lineEdit, 3);
+    widgetMapper->addMapping(ui->availableFrom_lineEdit, 9);
+    widgetMapper->addMapping(ui->reservedTill_lineEdit, 10);
+    widgetMapper->addMapping(ui->balcony_checkBox, 5);
+
+    ui->availableFrom_lineEdit->setReadOnly(true);
+    ui->reservedTill_lineEdit->setReadOnly(true);
+    ui->numberOfPersons_lineEdit->setReadOnly(true);
+    ui->roomNumber_lineEdit->setReadOnly(true);
+    ui->balcony_checkBox->setDisabled(true);
+    ui->plainTextEdit->setReadOnly(true);
 
     connect(ui->search_pushButton, SIGNAL(clicked()),
             this, SLOT(checkAvailableRooms()));
+
+    connect(ui->tableView->selectionModel(),
+            SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
+            this, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)) );
+}
+
+void browseWindow::selectionChanged(const QItemSelection& selected, const QItemSelection&)
+{
+    QList<QModelIndex> indexes = selected.indexes();
+    widgetMapper->setCurrentIndex(indexes.at(0).row());
 }
 
 browseWindow::~browseWindow()
 {
+    delete loginWnd;
+    delete widgetMapper;
     delete model;
     delete dateValidator;
     delete ui;
@@ -57,15 +83,6 @@ void browseWindow::initializeTable()
 
     QTableView* tableView = ui->tableView;
     tableView->setModel(model);
-
-//    left as an example for a model design
-//    the tableWidget is now replaced with the tableView
-
-//    QTableWidget* tableView = ui->tableWidget;
-//    int rowsCount = 99;
-//    int columnsCount = 4;
-//    tableView->setRowCount(rowsCount);
-//    tableView->setColumnCount(columnsCount);
 
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView->horizontalHeader()->setHighlightSections(false);
@@ -88,8 +105,8 @@ void browseWindow::initializeTable()
 
 void browseWindow::checkAvailableRooms()
 {
-    QString from = ui->availableFrom_lineEdit->text();
-    QString to = ui->availableTo_lineEdit->text();
+    QString from = ui->searchFrom_lineEdit->text();
+    QString to = ui->searchTo_lineEdit->text();
 
     QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
     QDateTime todaysDate = todaysDate.currentDateTime();
@@ -98,7 +115,7 @@ void browseWindow::checkAvailableRooms()
     if( !rx.exactMatch(from) )
     {
         from = todaysDate.toString("yyyy-MM-dd");
-        ui->availableFrom_lineEdit->setText(from);
+        ui->searchFrom_lineEdit->setText(from);
     }
 
 
@@ -108,7 +125,7 @@ void browseWindow::checkAvailableRooms()
         QDate fromDate = fromDate.fromString(from, "yyyy-MM-dd");
         QDateTime toDate( fromDate.addDays(7) );
         to = toDate.toString("yyyy-MM-dd");
-        ui->availableTo_lineEdit->setText(to);
+        ui->searchTo_lineEdit->setText(to);
     }
 
     model->searchForAvailableRooms(from, to);
