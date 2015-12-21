@@ -11,7 +11,11 @@ databaseConnection::databaseConnection()
     qDebug() << Q_FUNC_INFO;
 
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(PATH_TO_THE_DATABASE);
+
+    if( QFile("/Users/str1/repo/hsm/database/Team13.sqlite").exists() )
+        db.setDatabaseName("/Users/str1/repo/hsm/database/Team13.sqlite");
+    else
+        db.setDatabaseName(PATH_TO_THE_DATABASE);
 }
 
 databaseConnection::~databaseConnection()
