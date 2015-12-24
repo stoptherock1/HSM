@@ -11,6 +11,7 @@ QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
     if(role == Qt::DisplayRole | role == Qt::EditRole)
     {
        return model.record(index.row()).value(index.column()).toString();
+
     }
 
     return QVariant();
@@ -62,4 +63,35 @@ void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
 
     emit dataChanged(topLeft, bottomRight);
+}
+
+void availableRoomsModel::insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser)
+{
+    QString createBookingQuery = QString("INSERT into Current_Reservation "
+                                         "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9')").arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, addedByUser);
+    model.setQuery(createBookingQuery);
+
+    if( model.lastError().isValid() )
+    {
+        qDebug() << model.lastError();
+        QMessageBox::critical(0,
+                              "Cannot set query",
+                              QString("Unable to set query."
+                                      "\nReason: %1\nClick Cancel to "
+                                      "exit.").arg( model.lastError().text() ),
+                              QMessageBox::Cancel);
+    }
+}
+
+void availableRoomsModel::insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, Bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser)
+{
+
+}
+
+int availableRoomsModel::calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate)
+{
+    int daysBetweenDates = checkInDate.daysTo(checkOutDate);
+    int totalPrice = price*daysBetweenDates;
+
+    return totalPrice;
 }
