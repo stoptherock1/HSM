@@ -47,7 +47,7 @@
      <item>
       <widget class="QLabel" name="status_label">
        <property name="text">
-        <string>sdcds</string>
+        <string>Status label</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

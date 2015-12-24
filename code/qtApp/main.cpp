@@ -2,7 +2,7 @@
 #include <browseWindow.h>
 #include <loginWindow.h>
 #include <hsmMetaData.h>
-#include <bookingPage.h>
+#include <bookingDialog.h>
 #include <firstPage.h>
 #include <roomAvailability.h>
 #include <staffPage.h>
@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-//    bookingPage window1;
-//    window1.exec();
+    bookingDialog window1;
+    window1.exec();
 
 //    firstPage window2(0, &parameters);
 //    window2.show();

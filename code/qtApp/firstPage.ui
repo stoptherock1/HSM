@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>628</height>
+    <width>923</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,7 +89,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Welcomne To Hotel Booking Systems </string>
+     <string>Welcome To Hotel Booking Systems </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
