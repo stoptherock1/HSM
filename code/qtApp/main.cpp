@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-    bookingDialog window1;
-    window1.exec();
+//    bookingDialog window1;
+//    window1.exec();
 
 //    firstPage window2(0, &parameters);
 //    window2.show();

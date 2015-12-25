@@ -2,23 +2,23 @@
 #include "ui_browseWindow.h"
 
 
-browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
+browseWindow::browseWindow(QWidget *parent, viewParameters *parameters_) :
     QDialog(parent),
     ui(new Ui::browseWindow)
 {
     ui->setupUi(this);
     db = parameters->dbConnection->getDbPtr();
+    parameters = parameters_;
 
-    QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
-    dateValidator = new QRegExpValidator(rx, this);
-
-    ui->searchFrom_lineEdit->setValidator(dateValidator);
-    ui->searchTo_lineEdit->setValidator(dateValidator);
-
+    setGeometry( QStyle::alignedRect( Qt::LeftToRight,
+                                      Qt::AlignCenter,
+                                      size(),
+                                      qApp->desktop()->availableGeometry() ) );
 
     model = new availableRoomsModel(0, parameters);
 
     initializeTable();
+    configureLineEdits();
 
     //login window
     loginWnd = new loginWindow(this, parameters);
@@ -33,26 +33,12 @@ browseWindow::browseWindow(QWidget *parent, viewParameters *parameters) :
         QString title = "HSM: Room browser";
 
         if(parameters->loggedInUser != "")
-            title.append( QString( ": %1 is logged in")
+            title.append( QString( "  |  Logged in user: %1")
                           .arg(parameters->loggedInUser) );
 
         setWindowTitle(title);
     }
 
-    widgetMapper = new QDataWidgetMapper(this);
-    widgetMapper->setModel(model);
-    widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
-    widgetMapper->addMapping(ui->numberOfPersons_lineEdit, 3);
-    widgetMapper->addMapping(ui->availableFrom_lineEdit, 9);
-    widgetMapper->addMapping(ui->reservedTill_lineEdit, 10);
-    widgetMapper->addMapping(ui->balcony_checkBox, 5);
-
-    ui->availableFrom_lineEdit->setReadOnly(true);
-    ui->reservedTill_lineEdit->setReadOnly(true);
-    ui->numberOfPersons_lineEdit->setReadOnly(true);
-    ui->roomNumber_lineEdit->setReadOnly(true);
-    ui->balcony_checkBox->setDisabled(true);
-    ui->plainTextEdit->setReadOnly(true);
 
     connect(ui->search_pushButton, SIGNAL(clicked()),
             this, SLOT(checkAvailableRooms()));
@@ -129,4 +115,37 @@ void browseWindow::checkAvailableRooms()
     }
 
     model->searchForAvailableRooms(from, to);
+}
+
+
+void browseWindow::configureLineEdits()
+{
+    QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+    dateValidator = new QRegExpValidator(rx, this);
+
+    ui->searchFrom_lineEdit->setValidator(dateValidator);
+    ui->searchTo_lineEdit->setValidator(dateValidator);
+
+    widgetMapper = new QDataWidgetMapper(this);
+    widgetMapper->setModel(model);
+    widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
+    widgetMapper->addMapping(ui->roomName_lineEdit, 1);
+    widgetMapper->addMapping(ui->numberOfBeds_lineEdit, 3);
+    widgetMapper->addMapping(ui->roomType_lineEdit, 4);
+    widgetMapper->addMapping(ui->price_lineEdit, 2);
+    widgetMapper->addMapping(ui->balcony_checkBox, 5);
+
+    ui->roomNumber_lineEdit->setReadOnly(true);
+    ui->roomName_lineEdit->setReadOnly(true);
+    ui->numberOfBeds_lineEdit->setReadOnly(true);
+    ui->roomType_lineEdit->setReadOnly(true);
+    ui->price_lineEdit->setReadOnly(true);
+    ui->plainTextEdit->setReadOnly(true);
+    ui->balcony_checkBox->setDisabled(true);
+
+    ui->roomNumber_lineEdit->setPlaceholderText("");
+    ui->roomName_lineEdit->setPlaceholderText("");
+    ui->numberOfBeds_lineEdit->setPlaceholderText("");
+    ui->roomType_lineEdit->setPlaceholderText("");
+    ui->price_lineEdit->setPlaceholderText("");
 }

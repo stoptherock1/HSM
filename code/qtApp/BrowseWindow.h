@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QDialog>
 #include <QDataWidgetMapper>
+#include <QDesktopWidget>
 
 #include <hsmMetaData.h>
 #include <availableRoomsModel.h>
@@ -30,8 +31,10 @@ private:
     loginWindow* loginWnd;
     QRegExpValidator* dateValidator;
     QDataWidgetMapper* widgetMapper;
+    viewParameters *parameters;
 
     void initializeTable();
+    void configureLineEdits();
 
 public slots:
     void checkAvailableRooms();
