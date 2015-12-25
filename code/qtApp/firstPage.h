@@ -2,7 +2,7 @@
 #define FIRSTPAGE_H
 
 #include <QMainWindow>
-#include <loginWindow.h>
+#include <loginDialog.h>
 #include <hsmMetaData.h>
 
 
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::firstPage *ui;
-    loginWindow *login;
+    loginDialog *login;
 };
 
 #endif // FIRSTPAGE_H

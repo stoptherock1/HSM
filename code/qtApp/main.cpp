@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <availableRoomsBrowserDialog.h>
-#include <loginWindow.h>
+#include <loginDialog.h>
 #include <hsmMetaData.h>
 #include <bookingDialog.h>
 #include <firstPage.h>
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 //    updateInformation window5;
 //    window5.exec();
 
-//    loginWindow login(0, &parameters);
+//    loginDialog login(0, &parameters);
 //    login.exec();
 
     availableRoomsBrowserDialog browse(0, &parameters);

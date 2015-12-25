@@ -1,5 +1,5 @@
-#ifndef BOOKING_DIALOG_H
-#define BOOKING_DIALOG_H
+#ifndef BOOKINGDIALOG_H
+#define BOOKINGDIALOG_H
 
 #include <QDialog>
 #include <QStyle>
@@ -24,4 +24,4 @@ private:
     Ui::bookingDialog *ui;
 };
 
-#endif // BOOKING_DIALOG_H
+#endif // BOOKINGDIALOG_H

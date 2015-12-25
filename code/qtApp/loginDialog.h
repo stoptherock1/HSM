@@ -1,24 +1,24 @@
-#ifndef LOGINWINDOW_H
-#define LOGINWINDOW_H
+#ifndef LOGINDIALOG_H
+#define LOGINDIALOG_H
 
 #include <QDialog>
 #include "hsmMetaData.h"
 
 namespace Ui {
-class loginWindow;
+class loginDialog;
 }
 
-class loginWindow : public QDialog
+class loginDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit loginWindow(QWidget *parent = 0,
+    explicit loginDialog(QWidget *parent = 0,
                          viewParameters *parameters = 0);
-    ~loginWindow();
+    ~loginDialog();
 
 private:
-    Ui::loginWindow *ui;
+    Ui::loginDialog *ui;
     const QSqlDatabase* db;
     viewParameters *parameters;
 
@@ -30,4 +30,4 @@ private slots:
     void login();
 };
 
-#endif // LOGINWINDOW_H
+#endif // LOGINDIALOG_H

@@ -1,9 +1,9 @@
-#include "loginWindow.h"
-#include "ui_loginWindow.h"
+#include "loginDialog.h"
+#include "ui_loginDialog.h"
 
-loginWindow::loginWindow(QWidget *parent,  viewParameters *parameters_) :
+loginDialog::loginDialog(QWidget *parent,  viewParameters *parameters_) :
     QDialog(parent),
-    ui(new Ui::loginWindow),
+    ui(new Ui::loginDialog),
     parameters(parameters_)
 {
     ui->setupUi(this);
@@ -26,13 +26,13 @@ loginWindow::loginWindow(QWidget *parent,  viewParameters *parameters_) :
              this, SLOT( login() ) );
 }
 
-loginWindow::~loginWindow()
+loginDialog::~loginDialog()
 {
     delete ui;
 }
 
 
-void loginWindow::login()
+void loginDialog::login()
 {
     QString username = ui->usename_lineEdit->text();
     QString password = ui->password_lineEdit->text();
