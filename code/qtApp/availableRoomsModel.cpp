@@ -10,13 +10,36 @@ QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
 {
     if(role == Qt::DisplayRole | role == Qt::EditRole)
     {
-       return model.record(index.row()).value(index.column()).toString();
-
+        return model.record(index.row()).value(index.column()).toString();
     }
 
     return QVariant();
 }
 
+QVariant availableRoomsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole)
+    {
+        if (orientation == Qt::Horizontal) {
+            switch (section)
+            {
+            case 0:
+                return QString("Room nr");
+            case 1:
+                return QString("Name");
+            case 2:
+                return QString("Price per night");
+            case 3:
+                return QString("Nr of beds");
+            case 4:
+                return QString("Type of room");
+            case 5:
+                return QString("Balcony");
+            }
+        }
+    }
+    return QVariant();
+}
 
 int availableRoomsModel::rowCount(const QModelIndex & /*parent*/) const
 {
@@ -67,9 +90,9 @@ void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
 
 void availableRoomsModel::insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser)
 {
-    QString createBookingQuery = QString("INSERT into Current_Reservation "
-                                         "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9')").arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, addedByUser);
-    model.setQuery(createBookingQuery);
+    /*QString createBookingQuery = QString("INSERT into Current_Reservation "
+                                         "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9')").arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, addedByUser);*/
+    //model.setQuery(createBookingQuery);
 
     if( model.lastError().isValid() )
     {
@@ -83,7 +106,7 @@ void availableRoomsModel::insertCurrent_Reservation(QString bookingNr, QString r
     }
 }
 
-void availableRoomsModel::insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, Bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser)
+void availableRoomsModel::insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser)
 {
 
 }

@@ -16,10 +16,11 @@ public:
     int rowCount( const QModelIndex &parent = QModelIndex() ) const ;
     int columnCount( const QModelIndex &parent = QModelIndex() ) const ;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     void searchForAvailableRooms(QString &from, QString &to);
     void insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser);
-    void insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, Bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser);
+    void insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser);
     int calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate);
 
 private:
