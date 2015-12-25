@@ -15,34 +15,34 @@ TEMPLATE = app
 SOURCES += main.cpp\
     databaseConnection.cpp \
     loginWindow.cpp \
-    browseWindow.cpp \
     availableRoomsModel.cpp \
     staffPage.cpp \
     roomAvailability.cpp \
     updateInformation.cpp \
     firstPage.cpp \
-    bookingDialog.cpp
+    bookingDialog.cpp \
+    availableRoomsBrowserDialog.cpp
 
 HEADERS  += \
     databaseConnection.h \
     loginWindow.h \
-    browseWindow.h \
     hsmMetaData.h \
     availableRoomsModel.h \
     roomAvailability.h \
     staffPage.h \
     updateInformation.h \
     firstPage.h \
-    bookingDialog.h
+    bookingDialog.h \
+    availableRoomsBrowserDialog.h
 
 FORMS    += \
     loginWindow.ui \
-    browseWindow.ui \
     roomAvailability.ui \
     staffPage.ui \
     updateInformation.ui \
     firstPage.ui \
-    bookingDialog.ui
+    bookingDialog.ui \
+    availableRoomsBrowserDialog.ui
 
 CONFIG += c++11
 

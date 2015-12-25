@@ -6,7 +6,7 @@
 #include <QDesktopWidget>
 
 #include <hsmMetaData.h>
-#include <browseWindow.h>
+#include <availableRoomsBrowserDialog.h>
 
 namespace Ui {
 class bookingDialog;
