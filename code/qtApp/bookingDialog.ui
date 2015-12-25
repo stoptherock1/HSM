@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>399</height>
+    <width>577</width>
+    <height>443</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -97,7 +97,7 @@
      <item>
       <widget class="QGroupBox" name="formGroupBox_2">
        <property name="title">
-        <string>Room specifications</string>
+        <string>Room specification</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <item row="0" column="0">
@@ -305,10 +305,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>horizontalLayoutWidget_4</zorder>
-  <zorder>horizontalLayoutWidget_5</zorder>
-  <zorder>horizontalLayoutWidget_6</zorder>
-  <zorder>verticalSpacer</zorder>
  </widget>
  <resources/>
  <connections/>
