@@ -26,7 +26,6 @@ public:
 
 private:
     Ui::availableRoomsBrowserDialog *ui;
-    const QSqlDatabase* db;
     availableRoomsModel *model;
     loginDialog* loginWnd;
     QRegExpValidator* dateValidator;

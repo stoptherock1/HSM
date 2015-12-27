@@ -7,7 +7,6 @@ availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewPa
     ui(new Ui::availableRoomsBrowserDialog)
 {
     ui->setupUi(this);
-    db = parameters->dbConnection->getDbPtr();
     parameters = parameters_;
 
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
