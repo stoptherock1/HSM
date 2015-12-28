@@ -19,23 +19,23 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,2,0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0">
          <item>
-          <widget class="QLineEdit" name="searchFrom_lineEdit">
-           <property name="placeholderText">
-            <string>From: YYYY-MM-DD</string>
+          <widget class="QDateEdit" name="from_dateEdit">
+           <property name="displayFormat">
+            <string>yyyy-MM-dd</string>
            </property>
-           <property name="clearButtonEnabled">
+           <property name="calendarPopup">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="searchTo_lineEdit">
-           <property name="placeholderText">
-            <string>To: YYYY-MM-DD</string>
+          <widget class="QDateEdit" name="till_dateEdit">
+           <property name="displayFormat">
+            <string>yyyy-MM-dd</string>
            </property>
-           <property name="clearButtonEnabled">
+           <property name="calendarPopup">
             <bool>true</bool>
            </property>
           </widget>
@@ -175,7 +175,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="book_pushButton">
            <property name="text">
             <string>Book</string>
            </property>

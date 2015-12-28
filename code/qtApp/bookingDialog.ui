@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
-    <height>443</height>
+    <width>597</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,7 +49,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+             <widget class="QDateEdit" name="from_dateEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy-MM-dd</string>
+              </property>
+              <property name="calendarPopup">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_3">
@@ -59,7 +69,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+             <widget class="QDateEdit" name="till_dateEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy-MM-dd</string>
+              </property>
+              <property name="calendarPopup">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -100,75 +120,93 @@
         <string>Room specification</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QLabel" name="label_14">
           <property name="text">
-           <string>Number of guests: </string>
+           <string>Number of beds: </string>
           </property>
          </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="spinBox_2"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string>Type of room:  </string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QSpinBox" name="spinBox_3"/>
         </item>
         <item row="2" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Room type:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
          <widget class="QLabel" name="label_16">
           <property name="text">
            <string>Balcony:</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QRadioButton" name="radioButton_3">
-            <property name="text">
-             <string>Yes</string>
+           <widget class="QCheckBox" name="balcony_checkBox">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_4">
             <property name="text">
-             <string>No</string>
+             <string>Balcony</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_17">
           <property name="text">
            <string>Room Service: </string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QRadioButton" name="radioButton">
+           <widget class="QRadioButton" name="roomServiceYes_radioButton">
             <property name="text">
              <string>Yes</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="roomServiceNo_radioButton">
             <property name="text">
              <string>No</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="roomType_lineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="numberOfBeds_lineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="roomNumber_lineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Room number</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -191,7 +229,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="numberOfGuestsSpinBox"/>
+         <widget class="QSpinBox" name="numberOfGuests_SpinBox"/>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="nameLabel">
@@ -201,7 +239,11 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="nameLineEdit"/>
+         <widget class="QLineEdit" name="name_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="lastNameLabel">
@@ -211,7 +253,11 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lastNameLineEdit"/>
+         <widget class="QLineEdit" name="surname_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="socialSecurityNumberLabel">
@@ -221,7 +267,11 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="socialSecurityNumberLineEdit"/>
+         <widget class="QLineEdit" name="socialSecurityNumber_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="phoneNumberLabel">
@@ -231,7 +281,11 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLineEdit" name="phoneNumberLineEdit"/>
+         <widget class="QLineEdit" name="phoneNumber_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="addressLabel">
@@ -241,7 +295,11 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QLineEdit" name="addressLineEdit"/>
+         <widget class="QLineEdit" name="address_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="eMailAddressLabel">
@@ -251,7 +309,11 @@
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QLineEdit" name="eMailAddressLineEdit"/>
+         <widget class="QLineEdit" name="email_lineEdit">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -274,7 +336,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="book_pushButton">
            <property name="font">
             <font>
              <pointsize>10</pointsize>

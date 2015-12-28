@@ -4,24 +4,25 @@
 
 availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewParameters *parameters_) :
     QDialog(parent),
-    ui(new Ui::availableRoomsBrowserDialog)
+    ui(new Ui::availableRoomsBrowserDialog),
+    parameters(parameters_)
 {
     ui->setupUi(this);
-    parameters = parameters_;
+    model = new availableRoomsModel(0, parameters);
+
+    parameters->model = model;
 
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
                                       Qt::AlignCenter,
                                       size(),
                                       qApp->desktop()->availableGeometry() ) );
-
-    model = new availableRoomsModel(0, parameters);
-
     initializeTable();
-    configureLineEdits();
+    configureInputs();
+    updateBookButton();
 
     //login window
-    loginWnd = new loginDialog(this, parameters);
-//    int result = loginWnd->exec();
+    loginDlg = new loginDialog(this, parameters);
+//    int result = loginDlg->exec();
 //    if(1 != result)
 //    {
 //        qDebug() << "Unsuccessfull login";
@@ -38,27 +39,67 @@ availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewPa
         setWindowTitle(title);
     }
 
+    bookingDlg = new bookingDialog(this, parameters);
 
-    connect(ui->search_pushButton, SIGNAL(clicked()),
-            this, SLOT(checkAvailableRooms()));
 
-    connect(ui->tableView->selectionModel(),
-            SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
-            this, SLOT(selectionChanged(const QItemSelection&, const QItemSelection&)) );
+    connect( ui->search_pushButton, SIGNAL( clicked() ),
+             this, SLOT( checkAvailableRooms() ) );
+
+    connect( ui->tableView->selectionModel(),
+             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
+             this, SLOT( selectionChanged( const QItemSelection&, const QItemSelection&) ) );
+
+    connect( model, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
+             this, SLOT( updateBookButton() ) );
+
+    connect( model, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
+             this, SLOT( updateMaxGuestNumber() ) );
 }
 
 void availableRoomsBrowserDialog::selectionChanged(const QItemSelection& selected, const QItemSelection&)
 {
     QList<QModelIndex> indexes = selected.indexes();
-    widgetMapper->setCurrentIndex(indexes.at(0).row());
+
+    if(indexes.size() == 0)
+        return;
+
+    widgetMapper->setCurrentIndex( indexes.at(0).row() );
+    bookingDlg->getWidgetMapper()->setCurrentIndex( indexes.at(0).row() );
+
+    updateMaxGuestNumber();
+    updateBookButton();
+}
+
+void availableRoomsBrowserDialog::updateMaxGuestNumber()
+{
+    QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
+
+    // set 'maxGuestsNumber' for the 'bookingDlg'
+    if(indexes.size() > 0)
+    {
+        int maxGuestsNumber = model->data( indexes.at(3) ).toInt();
+        bookingDlg->setMaximumGuestsNumber(maxGuestsNumber);
+    }
+    else
+        bookingDlg->setMaximumGuestsNumber(0);
+}
+
+void availableRoomsBrowserDialog::updateBookButton()
+{
+    QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
+    // enable/disable 'Book' button, depending on the selection
+    if( indexes.size() > 0 &&  "" != model->data( indexes.at(0) ).toString() )
+        ui->book_pushButton->setEnabled(true);
+    else
+        ui->book_pushButton->setEnabled(false);
 }
 
 availableRoomsBrowserDialog::~availableRoomsBrowserDialog()
 {
-    delete loginWnd;
+    delete loginDlg;
+    delete bookingDlg;
     delete widgetMapper;
     delete model;
-    delete dateValidator;
     delete ui;
 }
 
@@ -90,41 +131,14 @@ void availableRoomsBrowserDialog::initializeTable()
 
 void availableRoomsBrowserDialog::checkAvailableRooms()
 {
-    QString from = ui->searchFrom_lineEdit->text();
-    QString to = ui->searchTo_lineEdit->text();
+    QString from = ui->from_dateEdit->date().toString("yyyy-MM-dd");
+    QString till = ui->till_dateEdit->date().toString("yyyy-MM-dd");
 
-    QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
-    QDateTime todaysDate = todaysDate.currentDateTime();
-
-    //set todays date to 'from', if provided date has improper format or is emty
-    if( !rx.exactMatch(from) )
-    {
-        from = todaysDate.toString("yyyy-MM-dd");
-        ui->searchFrom_lineEdit->setText(from);
-    }
-
-
-    //set date from 'from' + 7 days, if provided date has improper format or is emty
-    if( !rx.exactMatch(to) )
-    {
-        QDate fromDate = fromDate.fromString(from, "yyyy-MM-dd");
-        QDateTime toDate( fromDate.addDays(7) );
-        to = toDate.toString("yyyy-MM-dd");
-        ui->searchTo_lineEdit->setText(to);
-    }
-
-    model->searchForAvailableRooms(from, to);
+    model->searchForAvailableRooms(from, till);
 }
 
-
-void availableRoomsBrowserDialog::configureLineEdits()
+void availableRoomsBrowserDialog::configureInputs()
 {
-    QRegExp rx("[0-9]{4}-[0-9]{2}-[0-9]{2}");
-    dateValidator = new QRegExpValidator(rx, this);
-
-    ui->searchFrom_lineEdit->setValidator(dateValidator);
-    ui->searchTo_lineEdit->setValidator(dateValidator);
-
     widgetMapper = new QDataWidgetMapper(this);
     widgetMapper->setModel(model);
     widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
@@ -147,4 +161,20 @@ void availableRoomsBrowserDialog::configureLineEdits()
     ui->numberOfBeds_lineEdit->setPlaceholderText("");
     ui->roomType_lineEdit->setPlaceholderText("");
     ui->price_lineEdit->setPlaceholderText("");
+
+    QDate todaysDate = todaysDate.currentDate();
+    ui->from_dateEdit->setDate( todaysDate );
+    ui->till_dateEdit->setDate( todaysDate.addDays(7) );
+}
+
+void availableRoomsBrowserDialog::updateDate()
+{
+    bookingDlg->setFromTillDates( ui->from_dateEdit->date(),
+                                  ui->till_dateEdit->date() );
+}
+
+void availableRoomsBrowserDialog::on_book_pushButton_clicked()
+{
+    updateDate();
+    bookingDlg->exec();
 }

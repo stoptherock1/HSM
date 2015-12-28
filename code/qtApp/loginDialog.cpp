@@ -60,7 +60,6 @@ void loginDialog::login()
         else
         {
             parameters->loggedInUser = username;
-            parameters->setLoggedInUser(username);
 
             ui->status_label->setHidden(false);
             done(1);

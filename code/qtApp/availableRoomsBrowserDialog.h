@@ -2,7 +2,6 @@
 #define AVAILABLEROOMSBROWSERDIALOG_H
 
 #include <QDebug>
-#include <QDateTime>
 #include <QDialog>
 #include <QDataWidgetMapper>
 #include <QDesktopWidget>
@@ -10,6 +9,7 @@
 #include <hsmMetaData.h>
 #include <availableRoomsModel.h>
 #include <loginDialog.h>
+#include <bookingDialog.h>
 
 namespace Ui {
 class availableRoomsBrowserDialog;
@@ -27,17 +27,25 @@ public:
 private:
     Ui::availableRoomsBrowserDialog *ui;
     availableRoomsModel *model;
-    loginDialog* loginWnd;
+    loginDialog* loginDlg;
     QRegExpValidator* dateValidator;
     QDataWidgetMapper* widgetMapper;
-    viewParameters *parameters;
+    viewParameters* parameters;
+    bookingDialog* bookingDlg;
 
     void initializeTable();
-    void configureLineEdits();
+    void configureInputs();
+
+private slots:
+    void updateBookButton();
+    void updateMaxGuestNumber();
+
+    void on_book_pushButton_clicked();
 
 public slots:
     void checkAvailableRooms();
     void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    void updateDate();
 };
 
 #endif // AVAILABLEROOMSBROWSERDIALOG_H

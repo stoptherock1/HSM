@@ -2,13 +2,17 @@
 #define HSMMETADATA
 
 #include <memory>
-#include "databaseConnection.h"
+#include <databaseConnection.h>
+#include <QAbstractTableModel>
+
+
 
 struct viewParameters
 {
     std::shared_ptr<databaseConnection> dbConnection;
     QString loggedInUser;
     bool isAdmin;
+    QAbstractTableModel* model;
 
 
     viewParameters()
@@ -17,11 +21,7 @@ struct viewParameters
         dbConnection->establish();
         loggedInUser = "";
         isAdmin = false;
-    }
-
-    void setLoggedInUser(const QString &username)
-    {
-        loggedInUser = username;
+        model = NULL;
     }
 };
 
