@@ -20,6 +20,8 @@ availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewPa
     configureInputs();
     updateBookButton();
 
+    this->setFixedSize(this->width(),this->height());
+
     //login window
     loginDlg = new loginDialog(this, parameters);
 //    int result = loginDlg->exec();
@@ -111,20 +113,25 @@ void availableRoomsBrowserDialog::initializeTable()
     tableView->setModel(model);
 
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tableView->horizontalHeader()->setHighlightSections(false);
     tableView->setAlternatingRowColors(true);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-//    QStringList headerLabels;
-//    headerLabels << "Room No" << "Number\nof persons" << "Available from" << "Reserved till";
-//    tableView->setHorizontalHeaderLabels(headerLabels);
+    tableView->horizontalHeader()->setHighlightSections(false);
+    tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    tableView->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
 
-//    tableView->hideColumn(0);
-
-    tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-    tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    tableView->hideColumn(1);
+    tableView->hideColumn(6);
+    tableView->hideColumn(7);
+    tableView->hideColumn(8);
+    tableView->hideColumn(9);
+    tableView->hideColumn(10);
+    tableView->hideColumn(11);
+    tableView->hideColumn(12);
+    tableView->hideColumn(13);
 
     tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }

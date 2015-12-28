@@ -8,9 +8,23 @@ availableRoomsModel::availableRoomsModel(QObject* parent, const viewParameters* 
 
 QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
 {
-    if(role == Qt::DisplayRole | role == Qt::EditRole)
+    int row = index.row();
+    int column = index.column();
+
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
     {
-        return model.record(index.row()).value(index.column()).toString();
+        if(5 == column && Qt::DisplayRole == role)
+            return QVariant();
+
+        return model.record(row).value(column);
+    }
+
+    if( Qt::CheckStateRole == role && 5 == column && row < model.rowCount() )
+    {
+        if( 1 == model.record(row).value(column).toInt() )
+            return Qt::Checked;
+        else if( 0 == model.record(row).value(column).toInt() )
+            return Qt::Unchecked;
     }
 
     return QVariant();

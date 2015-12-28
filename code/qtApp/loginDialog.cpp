@@ -9,6 +9,8 @@ loginDialog::loginDialog(QWidget *parent,  viewParameters *parameters_) :
     ui->setupUi(this);
     db = parameters->dbConnection->getDbPtr();
 
+    this->setFixedSize(this->width(),this->height());
+
     ui->password_lineEdit->setEchoMode(QLineEdit::Password);
 
     ui->label->setText(normalLabelText);
