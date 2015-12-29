@@ -19,10 +19,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     void searchForAvailableRooms(QString &from, QString &to);
-    void insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser);
-    void insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser);
-    int calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate);
 
+    int calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate);
+    int getBedsNumber(int row);
 private:
     const QSqlDatabase* db;
     QSqlQueryModel model;
