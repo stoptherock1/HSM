@@ -1,8 +1,8 @@
-#ifndef AVAILABLEROOMSBROWSERDIALOG_H
-#define AVAILABLEROOMSBROWSERDIALOG_H
+#ifndef AVAILABLEROOMSWINDOW_H
+#define AVAILABLEROOMSWINDOW_H
 
 #include <QDebug>
-#include <QDialog>
+#include <QMainWindow>
 #include <QDataWidgetMapper>
 #include <QDesktopWidget>
 
@@ -12,20 +12,20 @@
 #include <bookingDialog.h>
 
 namespace Ui {
-class availableRoomsBrowserDialog;
+class availableRoomsWindow;
 }
 
-class availableRoomsBrowserDialog : public QDialog
+class availableRoomsWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit availableRoomsBrowserDialog(QWidget *parent = 0,
+    explicit availableRoomsWindow(QWidget *parent = 0,
                           viewParameters* parameters = 0);
-    ~availableRoomsBrowserDialog();
+    ~availableRoomsWindow();
 
 private:
-    Ui::availableRoomsBrowserDialog *ui;
+    Ui::availableRoomsWindow *ui;
     availableRoomsModel *model;
     loginDialog* loginDlg;
     QRegExpValidator* dateValidator;
@@ -39,8 +39,9 @@ private:
 private slots:
     void updateBookButton();
     void updateMaxGuestNumber();
-
     void on_book_pushButton_clicked();
+    void manageReservationsTriggered();
+    void editUsersDataTriggered();
 
 public slots:
     void checkAvailableRooms();
@@ -48,4 +49,4 @@ public slots:
     void updateDate();
 };
 
-#endif // AVAILABLEROOMSBROWSERDIALOG_H
+#endif // AVAILABLEROOMSWINDOW_H

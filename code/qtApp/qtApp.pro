@@ -20,8 +20,8 @@ SOURCES += main.cpp\
     updateInformation.cpp \
     firstPage.cpp \
     bookingDialog.cpp \
-    availableRoomsBrowserDialog.cpp \
-    loginDialog.cpp
+    loginDialog.cpp \
+    availableRoomsWindow.cpp
 
 HEADERS  += \
     databaseConnection.h \
@@ -32,8 +32,8 @@ HEADERS  += \
     updateInformation.h \
     firstPage.h \
     bookingDialog.h \
-    availableRoomsBrowserDialog.h \
-    loginDialog.h
+    loginDialog.h \
+    availableRoomsWindow.h
 
 FORMS    += \
     roomAvailability.ui \
@@ -41,8 +41,8 @@ FORMS    += \
     updateInformation.ui \
     firstPage.ui \
     bookingDialog.ui \
-    availableRoomsBrowserDialog.ui \
-    loginDialog.ui
+    loginDialog.ui \
+    availableRoomsWindow.ui
 
 CONFIG += c++11
 

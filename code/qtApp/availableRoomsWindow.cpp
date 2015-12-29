@@ -1,10 +1,10 @@
-#include "availableRoomsBrowserDialog.h"
-#include "ui_availableRoomsBrowserDialog.h"
+#include "availableRoomsWindow.h"
+#include "ui_availableRoomsWindow.h"
 
 
-availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewParameters *parameters_) :
-    QDialog(parent),
-    ui(new Ui::availableRoomsBrowserDialog),
+availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :
+    QMainWindow(parent),
+    ui(new Ui::availableRoomsWindow),
     parameters(parameters_)
 {
     ui->setupUi(this);
@@ -56,9 +56,29 @@ availableRoomsBrowserDialog::availableRoomsBrowserDialog(QWidget *parent, viewPa
 
     connect( model, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
              this, SLOT( updateMaxGuestNumber() ) );
+
+    connect( ui->actionManage_reservations,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( manageReservationsTriggered() ) );
+
+    connect( ui->actionEdit_users__data,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( editUsersDataTriggered() ) );
 }
 
-void availableRoomsBrowserDialog::selectionChanged(const QItemSelection& selected, const QItemSelection&)
+void availableRoomsWindow::manageReservationsTriggered()
+{
+    qDebug() << "manageReservationsTriggered";
+}
+
+void availableRoomsWindow::editUsersDataTriggered()
+{
+    qDebug() << "editUsersDataTriggered";
+}
+
+void availableRoomsWindow::selectionChanged(const QItemSelection& selected, const QItemSelection&)
 {
     QList<QModelIndex> indexes = selected.indexes();
 
@@ -72,7 +92,7 @@ void availableRoomsBrowserDialog::selectionChanged(const QItemSelection& selecte
     updateBookButton();
 }
 
-void availableRoomsBrowserDialog::updateMaxGuestNumber()
+void availableRoomsWindow::updateMaxGuestNumber()
 {
     QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
 
@@ -86,7 +106,7 @@ void availableRoomsBrowserDialog::updateMaxGuestNumber()
         bookingDlg->setMaximumGuestsNumber(0);
 }
 
-void availableRoomsBrowserDialog::updateBookButton()
+void availableRoomsWindow::updateBookButton()
 {
     QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
     // enable/disable 'Book' button, depending on the selection
@@ -96,7 +116,7 @@ void availableRoomsBrowserDialog::updateBookButton()
         ui->book_pushButton->setEnabled(false);
 }
 
-availableRoomsBrowserDialog::~availableRoomsBrowserDialog()
+availableRoomsWindow::~availableRoomsWindow()
 {
     delete loginDlg;
     delete bookingDlg;
@@ -105,7 +125,7 @@ availableRoomsBrowserDialog::~availableRoomsBrowserDialog()
     delete ui;
 }
 
-void availableRoomsBrowserDialog::initializeTable()
+void availableRoomsWindow::initializeTable()
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -136,7 +156,7 @@ void availableRoomsBrowserDialog::initializeTable()
     tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
-void availableRoomsBrowserDialog::checkAvailableRooms()
+void availableRoomsWindow::checkAvailableRooms()
 {
     QString from = ui->from_dateEdit->date().toString("yyyy-MM-dd");
     QString till = ui->till_dateEdit->date().toString("yyyy-MM-dd");
@@ -144,7 +164,7 @@ void availableRoomsBrowserDialog::checkAvailableRooms()
     model->searchForAvailableRooms(from, till);
 }
 
-void availableRoomsBrowserDialog::configureInputs()
+void availableRoomsWindow::configureInputs()
 {
     widgetMapper = new QDataWidgetMapper(this);
     widgetMapper->setModel(model);
@@ -174,13 +194,13 @@ void availableRoomsBrowserDialog::configureInputs()
     ui->till_dateEdit->setDate( todaysDate.addDays(7) );
 }
 
-void availableRoomsBrowserDialog::updateDate()
+void availableRoomsWindow::updateDate()
 {
     bookingDlg->setFromTillDates( ui->from_dateEdit->date(),
                                   ui->till_dateEdit->date() );
 }
 
-void availableRoomsBrowserDialog::on_book_pushButton_clicked()
+void availableRoomsWindow::on_book_pushButton_clicked()
 {
     updateDate();
     bookingDlg->exec();
