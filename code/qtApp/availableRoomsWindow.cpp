@@ -174,13 +174,14 @@ void availableRoomsWindow::configureInputs()
     widgetMapper->addMapping(ui->roomType_lineEdit, 4);
     widgetMapper->addMapping(ui->price_lineEdit, 2);
     widgetMapper->addMapping(ui->balcony_checkBox, 5);
+    widgetMapper->addMapping(ui->additionalNotes_plainTextEdit, 6);
 
     ui->roomNumber_lineEdit->setReadOnly(true);
     ui->roomName_lineEdit->setReadOnly(true);
     ui->numberOfBeds_lineEdit->setReadOnly(true);
     ui->roomType_lineEdit->setReadOnly(true);
     ui->price_lineEdit->setReadOnly(true);
-    ui->plainTextEdit->setReadOnly(true);
+    ui->additionalNotes_plainTextEdit->setReadOnly(true);
     ui->balcony_checkBox->setDisabled(true);
 
     ui->roomNumber_lineEdit->setPlaceholderText("");

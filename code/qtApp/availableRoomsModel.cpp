@@ -34,7 +34,8 @@ QVariant availableRoomsModel::headerData(int section, Qt::Orientation orientatio
 {
     if (role == Qt::DisplayRole)
     {
-        if (orientation == Qt::Horizontal) {
+        if (orientation == Qt::Horizontal)
+        {
             switch (section)
             {
             case 0:
@@ -51,6 +52,9 @@ QVariant availableRoomsModel::headerData(int section, Qt::Orientation orientatio
                 return QString("Balcony");
             }
         }
+
+        if (orientation == Qt::Vertical)
+            return section + 1;
     }
     return QVariant();
 }
