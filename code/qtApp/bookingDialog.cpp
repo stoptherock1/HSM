@@ -12,6 +12,8 @@ bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
                                       size(),
                                       qApp->desktop()->availableGeometry() ) );
 
+    this->setFixedSize(this->width(),this->height());
+
     widgetMapper = new QDataWidgetMapper(this);
     widgetMapper->setModel(parameters->model);
 
