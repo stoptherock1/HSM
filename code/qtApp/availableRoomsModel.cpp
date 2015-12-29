@@ -73,8 +73,8 @@ int availableRoomsModel::columnCount(const QModelIndex & /*parent*/) const
 
 void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
 {
-    QString availableRoomQuery = QString("SELECT * FROM Room "
-                                 "Left OUTER JOIN Current_Reservation "
+    QString availableRoomQuery = QString("SELECT DISTINCT Room.roomNr, Room.name, Room.price, Room.nrOfBeds, Room.typeOfRoom, Room.balcony, Room.additionalNotes "
+                                 "FROM Room Left OUTER JOIN Current_Reservation "
                                  "ON Current_Reservation.roomNr = Room.roomNr "
                                  "WHERE '%1T00:00:00.000' < checkInDate "
                                          "AND '%2T00:00:00.000' < checkInDate "

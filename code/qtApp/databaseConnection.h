@@ -6,7 +6,7 @@
 #include <QString>
 
 // Change to the path to the database file on your computer
-#define PATH_TO_THE_DATABASE "/D:/BTH/Team13.sqlite"
+#define PATH_TO_THE_DATABASE "/D:/BTH/PA2515 Applied software project management/Team13.sqlite"
 
 class databaseConnection
 {
