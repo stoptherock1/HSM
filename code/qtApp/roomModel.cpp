@@ -6,6 +6,22 @@ roomModel::roomModel(QObject* parent, const viewParameters* parameters)
      db = parameters->dbConnection->getDbPtr();
 }
 
+int roomModel::rowCount(const QModelIndex & /*parent*/) const
+{
+    if(model.rowCount() < 99)
+        return 99;
+    else
+        return model.rowCount();
+}
+
+int roomModel::columnCount(const QModelIndex & /*parent*/) const
+{
+    if(model.columnCount() < 14)
+        return 14;
+    else
+        return model.columnCount();
+}
+
 QVariant roomModel::data(const QModelIndex & index, int role) const
 {
     int row = index.row();
@@ -28,22 +44,6 @@ QVariant roomModel::data(const QModelIndex & index, int role) const
     }
 
     return QVariant();
-}
-
-int roomModel::rowCount(const QModelIndex & /*parent*/) const
-{
-    if(model.rowCount() < 99)
-        return 99;
-    else
-        return model.rowCount();
-}
-
-int roomModel::columnCount(const QModelIndex & /*parent*/) const
-{
-    if(model.columnCount() < 14)
-        return 14;
-    else
-        return model.columnCount();
 }
 
 QVariant roomModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -74,3 +74,29 @@ QVariant roomModel::headerData(int section, Qt::Orientation orientation, int rol
     }
     return QVariant();
 }
+
+bool roomModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role == Qt::EditRole)
+      {
+          //save value from editor to member m_gridData
+          m_gridData[index.row()][index.column()] = value.toString();
+          //for presentation purposes only: build and emit a joined string
+          QString result;
+          for(int row= 0; row < ROWS; row++)
+          {
+              for(int col= 0; col < COLS; col++)
+              {
+                  result += m_gridData[row][col] + " ";
+              }
+          }
+          emit editCompleted( result );
+      }
+      return true;
+}
+
+Qt::ItemFlags roomModel::flags(const QModelIndex & /*index*/) const
+{
+    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
