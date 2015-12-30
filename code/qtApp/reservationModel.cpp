@@ -46,6 +46,35 @@ int reservationModel::columnCount(const QModelIndex & /*parent*/) const
         return model.columnCount();
 }
 
+QVariant reservationModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole)
+    {
+        if (orientation == Qt::Horizontal)
+        {
+            switch (section)
+            {
+            case 0:
+                return QString("");
+            case 1:
+                return QString("");
+            case 2:
+                return QString("");
+            case 3:
+                return QString("");
+            case 4:
+                return QString("");
+            case 5:
+                return QString("");
+            }
+        }
+
+        if (orientation == Qt::Vertical)
+            return section + 1;
+    }
+    return QVariant();
+}
+
 void reservationModel::insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser)
 {
     /*QString createBookingQuery = QString("INSERT into Current_Reservation "

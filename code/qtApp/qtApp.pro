@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     bookingDialog.cpp \
     loginDialog.cpp \
     availableRoomsWindow.cpp \
-    reservationModel.cpp
+    reservationModel.cpp \
+    roomModel.cpp \
+    staffModel.cpp
 
 HEADERS  += \
     databaseConnection.h \
@@ -35,7 +37,9 @@ HEADERS  += \
     bookingDialog.h \
     loginDialog.h \
     availableRoomsWindow.h \
-    reservationModel.h
+    reservationModel.h \
+    roomModel.h \
+    staffModel.h
 
 FORMS    += \
     roomAvailability.ui \
