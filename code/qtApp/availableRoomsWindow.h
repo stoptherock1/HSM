@@ -39,9 +39,12 @@ private:
 private slots:
     void updateBookButton();
     void updateMaxGuestNumber();
+    void updateRoomPrice();
     void on_book_pushButton_clicked();
     void manageReservationsTriggered();
     void editUsersDataTriggered();
+
+    void on_search_pushButton_clicked();
 
 public slots:
     void checkAvailableRooms();

@@ -24,10 +24,18 @@ public:
     QDataWidgetMapper *getWidgetMapper() const;
     void setWidgetMapper(QDataWidgetMapper *value);
 
+    int getRoomPrice() const;
+    void setRoomPrice(int value);
+
 private:
     Ui::bookingDialog *ui;
     viewParameters* parameters;
     QDataWidgetMapper* widgetMapper;
+    int roomPrice;
+    QDate from;
+    QDate till;
+
+    void setReservationTotalPrice();
 
 public slots:
     void setFromTillDates(QDate from, QDate till);

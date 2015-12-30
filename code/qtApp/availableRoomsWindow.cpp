@@ -43,10 +43,6 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
 
     bookingDlg = new bookingDialog(this, parameters);
 
-
-    connect( ui->search_pushButton, SIGNAL( clicked() ),
-             this, SLOT( checkAvailableRooms() ) );
-
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
              this, SLOT( selectionChanged( const QItemSelection&, const QItemSelection&) ) );
@@ -90,6 +86,7 @@ void availableRoomsWindow::selectionChanged(const QItemSelection& selected, cons
 
     updateMaxGuestNumber();
     updateBookButton();
+    updateRoomPrice();
 }
 
 void availableRoomsWindow::updateMaxGuestNumber()
@@ -104,6 +101,20 @@ void availableRoomsWindow::updateMaxGuestNumber()
     }
     else
         bookingDlg->setMaximumGuestsNumber(0);
+}
+
+void availableRoomsWindow::updateRoomPrice()
+{
+    QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
+
+    // set 'roomPrice' for the 'bookingDlg'
+    if(indexes.size() > 0)
+    {
+        int roomPrice = model->data( indexes.at(2) ).toInt();
+        bookingDlg->setRoomPrice(roomPrice);
+    }
+    else
+        bookingDlg->setRoomPrice(0);
 }
 
 void availableRoomsWindow::updateBookButton()
@@ -205,4 +216,13 @@ void availableRoomsWindow::on_book_pushButton_clicked()
 {
     updateDate();
     bookingDlg->exec();
+}
+
+void availableRoomsWindow::on_search_pushButton_clicked()
+{
+    checkAvailableRooms();
+
+    QItemSelection selection = ui->tableView->selectionModel()->selection();
+
+    selectionChanged(selection, selection);
 }

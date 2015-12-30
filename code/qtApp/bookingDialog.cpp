@@ -1,10 +1,13 @@
 #include "bookingDialog.h"
 #include "ui_bookingDialog.h"
+#include "availableRoomsModel.h"
+
 
 bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
     QDialog(parent),
     ui(new Ui::bookingDialog),
-    parameters(parameters_)
+    parameters(parameters_),
+    roomPrice(0)
 {
     ui->setupUi(this);
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
@@ -37,6 +40,7 @@ bookingDialog::~bookingDialog()
 {
     delete ui;
 }
+
 QDataWidgetMapper *bookingDialog::getWidgetMapper() const
 {
     return widgetMapper;
@@ -47,20 +51,42 @@ void bookingDialog::setWidgetMapper(QDataWidgetMapper *value)
     widgetMapper = value;
 }
 
+int bookingDialog::getRoomPrice() const
+{
+    return roomPrice;
+}
+
+void bookingDialog::setRoomPrice(int value)
+{
+    roomPrice = value;
+}
+
+void bookingDialog::setReservationTotalPrice()
+{
+    int totalPrice = ( (availableRoomsModel*) parameters->model )->calculateTotalPrice(roomPrice, from, till);
+    ui->totalPrice_lineEdit->setText( QString::number(totalPrice) );
+}
+
+
 void bookingDialog::setMaximumGuestsNumber(int maxGuestsNumber)
 {
     ui->numberOfGuests_SpinBox->setMaximum(maxGuestsNumber);
     ui->numberOfGuests_SpinBox->setValue(maxGuestsNumber);
 }
 
-void bookingDialog::setFromTillDates(QDate from, QDate till)
+void bookingDialog::setFromTillDates(QDate from_, QDate till_)
 {
+    from = from_;
+    till = till_;
+
     ui->from_dateEdit->setDate(from);
     ui->till_dateEdit->setDate(till);
 }
 
 int bookingDialog::exec()
 {
+    setReservationTotalPrice();
+
     ui->name_lineEdit->setFocus();
     return QDialog::exec();
 }
