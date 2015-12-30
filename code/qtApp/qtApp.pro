@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     staffPage.cpp \
     roomAvailability.cpp \
     updateInformation.cpp \
-    firstPage.cpp \
     bookingDialog.cpp \
     loginDialog.cpp \
     availableRoomsWindow.cpp
@@ -30,7 +29,6 @@ HEADERS  += \
     roomAvailability.h \
     staffPage.h \
     updateInformation.h \
-    firstPage.h \
     bookingDialog.h \
     loginDialog.h \
     availableRoomsWindow.h
@@ -39,7 +37,6 @@ FORMS    += \
     roomAvailability.ui \
     staffPage.ui \
     updateInformation.ui \
-    firstPage.ui \
     bookingDialog.ui \
     loginDialog.ui \
     availableRoomsWindow.ui

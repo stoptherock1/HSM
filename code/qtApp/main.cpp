@@ -3,7 +3,6 @@
 #include <loginDialog.h>
 #include <hsmMetaData.h>
 #include <bookingDialog.h>
-#include <firstPage.h>
 #include <roomAvailability.h>
 #include <staffPage.h>
 #include <updateInformation.h>
