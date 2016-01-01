@@ -6,6 +6,22 @@ availableRoomsModel::availableRoomsModel(QObject* parent, const viewParameters* 
     db = parameters->dbConnection->getDbPtr();
 }
 
+int availableRoomsModel::rowCount(const QModelIndex & /*parent*/) const
+{
+    if(model.rowCount() < 99)
+        return 99;
+    else
+        return model.rowCount();
+}
+
+int availableRoomsModel::columnCount(const QModelIndex & /*parent*/) const
+{
+    if(model.columnCount() < 14)
+        return 14;
+    else
+        return model.columnCount();
+}
+
 QVariant availableRoomsModel::data(const QModelIndex & index, int role) const
 {
     int row = index.row();
@@ -60,21 +76,32 @@ QVariant availableRoomsModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
-int availableRoomsModel::rowCount(const QModelIndex & /*parent*/) const
+bool availableRoomsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if(model.rowCount() < 99)
-        return 99;
-    else
-        return model.rowCount();
+    if (role == Qt::EditRole)
+      {
+          //save value from editor to member m_gridData
+          m_gridData[index.row()][index.column()] = value.toString();
+          //for presentation purposes only: build and emit a joined string
+          QString result;
+          for(int row= 0; row < ROWS; row++)
+          {
+              for(int col= 0; col < COLS; col++)
+              {
+                  result += m_gridData[row][col] + " ";
+              }
+          }
+          emit editCompleted( result );
+      }
+      return true;
 }
 
-int availableRoomsModel::columnCount(const QModelIndex & /*parent*/) const
+Qt::ItemFlags availableRoomsModel::flags(const QModelIndex & /*index*/) const
 {
-    if(model.columnCount() < 14)
-        return 14;
-    else
-        return model.columnCount();
+    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
+
+
 
 void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
 {
@@ -107,33 +134,7 @@ void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
     emit dataChanged(topLeft, bottomRight);
 }
 
-void availableRoomsModel::insertCurrent_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QString addedByUser)
+int availableRoomsModel::getBedsNumber(int row)
 {
-    /*QString createBookingQuery = QString("INSERT into Current_Reservation "
-                                         "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9')").arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, addedByUser);*/
-    //model.setQuery(createBookingQuery);
-
-    if( model.lastError().isValid() )
-    {
-        qDebug() << model.lastError();
-        QMessageBox::critical(0,
-                              "Cannot set query",
-                              QString("Unable to set query."
-                                      "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( model.lastError().text() ),
-                              QMessageBox::Cancel);
-    }
-}
-
-void availableRoomsModel::insertOld_Reservation(QString bookingNr, QString roomNr, int ssNr, QDate checkInDate, QDate checkOutDate, int totalPrice, int extraBed, QDate actuallyCheckInDate, QDate actuallyCheckOutDate, bool ifDeleted, QDate whenDeletedDate, QString addedByUser, QString deletedByUser)
-{
-
-}
-
-int availableRoomsModel::calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate)
-{
-    int daysBetweenDates = checkInDate.daysTo(checkOutDate);
-    int totalPrice = price*daysBetweenDates;
-
-    return totalPrice;
+    return model.record(row).value(3).toInt();
 }
