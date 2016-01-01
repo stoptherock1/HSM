@@ -121,24 +121,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_21">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>20</y>
-     <width>53</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Edit </string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_22">
    <property name="geometry">
     <rect>
