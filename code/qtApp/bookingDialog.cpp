@@ -63,8 +63,8 @@ void bookingDialog::setRoomPrice(int value)
 
 void bookingDialog::setReservationTotalPrice()
 {
-    int totalPrice = ( (availableRoomsModel*) parameters->model )->calculateTotalPrice(roomPrice, from, till);
-    ui->totalPrice_lineEdit->setText( QString::number(totalPrice) );
+//    int totalPrice = ( (availableRoomsModel*) parameters->model )->calculateTotalPrice(roomPrice, from, till);
+//    ui->totalPrice_lineEdit->setText( QString::number(totalPrice) );
 }
 
 
@@ -81,6 +81,16 @@ void bookingDialog::setFromTillDates(QDate from_, QDate till_)
 
     ui->from_dateEdit->setDate(from);
     ui->till_dateEdit->setDate(till);
+}
+
+void bookingDialog::clearInputs()
+{
+    ui->name_lineEdit->setText("");
+    ui->surname_lineEdit->setText("");
+    ui->socialSecurityNumber_lineEdit->setText("");
+    ui->phoneNumber_lineEdit->setText("");
+    ui->address_lineEdit->setText("");
+    ui->email_lineEdit->setText("");
 }
 
 int bookingDialog::exec()
@@ -119,4 +129,7 @@ void bookingDialog::on_book_pushButton_clicked()
                 "till " << till << ", " <<
                 "roomType " << roomType << ", " <<
                 "roomService " << roomService << ". ";
+
+    clearInputs();
+    done(1);
 }

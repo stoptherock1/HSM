@@ -5,8 +5,6 @@
 #include "hsmMetaData.h"
 #include <QSqlQueryModel>
 
-const int COLS= 0;
-const int ROWS= 0;
 
 class availableRoomsModel: public QAbstractTableModel
 {
@@ -27,9 +25,11 @@ public:
 
     int getBedsNumber(int row);
 private:
+//    const int COLS= 0;
+//    const int ROWS= 0;
     const QSqlDatabase* db;
     QSqlQueryModel model;
-    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
+//    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
 signals:
     void editCompleted(const QString &);
 };

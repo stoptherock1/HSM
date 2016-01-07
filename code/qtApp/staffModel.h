@@ -5,8 +5,6 @@
 #include "hsmMetaData.h"
 #include <QSqlQueryModel>
 
-const int COLS= 3;
-const int ROWS= 2;
 
 class staffModel: public QAbstractTableModel
 {
@@ -28,9 +26,11 @@ public:
     void setPassword(QString userName, QString password);
     void setNewUser(QString ssNr, QString name, QString username, QString password, QString ifAdmin);
 private:
+//    const int COLS= 3;
+//    const int ROWS= 2;
     const QSqlDatabase* db;
     QSqlQueryModel model;
-    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
+//    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
 signals:
     void editCompleted(const QString &);
 };

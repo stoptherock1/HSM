@@ -57,20 +57,7 @@ QVariant reservationModel::data(const QModelIndex & index, int role) const
     int column = index.column();
 
     if(Qt::DisplayRole == role || Qt::EditRole == role)
-    {
-        if(5 == column && Qt::DisplayRole == role)
-            return QVariant();
-
         return model.record(row).value(column);
-    }
-
-    if( Qt::CheckStateRole == role && 5 == column && row < model.rowCount() )
-    {
-        if( 1 == model.record(row).value(column).toInt() )
-            return Qt::Checked;
-        else if( 0 == model.record(row).value(column).toInt() )
-            return Qt::Unchecked;
-    }
 
     return QVariant();
 }
@@ -80,16 +67,16 @@ bool reservationModel::setData(const QModelIndex &index, const QVariant &value, 
     if (role == Qt::EditRole)
       {
           //save value from editor to member m_gridData
-          m_gridData[index.row()][index.column()] = value.toString();
+//          m_gridData[index.row()][index.column()] = value.toString();
           //for presentation purposes only: build and emit a joined string
           QString result;
-          for(int row= 0; row < ROWS; row++)
-          {
-              for(int col= 0; col < COLS; col++)
-              {
-                  result += m_gridData[row][col] + " ";
-              }
-          }
+//          for(int row= 0; row < ROWS; row++)
+//          {
+//              for(int col= 0; col < COLS; col++)
+//              {
+//                  result += m_gridData[row][col] + " ";
+//              }
+//          }
           emit editCompleted( result );
       }
       return true;
@@ -109,7 +96,12 @@ int reservationModel::calculateTotalPrice(int price, QDate checkInDate, QDate ch
     return totalPrice;
 }
 
-void reservationModel::insertCurrent_Reservation(QString roomNr, int ssNrInt, QDate checkInDateInt, QDate checkOutDateInt, int extraBedInt, QString addedByUser)
+void reservationModel::insertCurrent_Reservation(QString roomNr,
+                                                 int ssNrInt,
+                                                 QDate checkInDateInt,
+                                                 QDate checkOutDateInt,
+                                                 int extraBedInt,
+                                                 QString addedByUser)
 {
     //Generate booking nr
     QString getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Current_Reservation");
@@ -153,7 +145,6 @@ void reservationModel::insertCurrent_Reservation(QString roomNr, int ssNrInt, QD
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
 
     emit dataChanged(topLeft, bottomRight);
-
 }
 
 void reservationModel::insertOld_Reservation(int bookingNrInt)

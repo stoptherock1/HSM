@@ -6,6 +6,7 @@
 #include <roomAvailability.h>
 #include <staffPage.h>
 #include <updateInformation.h>
+#include <reservationsDialog.h>
 
 
 int main(int argc, char *argv[])
@@ -13,6 +14,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     viewParameters parameters;
+
+    reservationsDialog dialog(0, &parameters);
+    dialog.exec();
+
+    availableRoomsWindow availableRoomsWnd(0, &parameters);
+    availableRoomsWnd.show();
 
 //    bookingDialog window1;
 //    window1.exec();
@@ -32,8 +39,6 @@ int main(int argc, char *argv[])
 //    loginDialog login(0, &parameters);
 //    login.exec();
 
-    availableRoomsWindow availableRoomsWnd(0, &parameters);
-    availableRoomsWnd.show();
 
     return a.exec();
 }

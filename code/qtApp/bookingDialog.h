@@ -37,6 +37,8 @@ private:
 
     void setReservationTotalPrice();
 
+    void clearInputs();
+
 public slots:
     void setFromTillDates(QDate from, QDate till);
     void setMaximumGuestsNumber(int maxGuestsNumber);

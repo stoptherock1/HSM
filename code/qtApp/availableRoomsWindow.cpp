@@ -215,7 +215,8 @@ void availableRoomsWindow::updateDate()
 void availableRoomsWindow::on_book_pushButton_clicked()
 {
     updateDate();
-    bookingDlg->exec();
+    int result = bookingDlg->exec();
+    qDebug() << "result: " << result;
 }
 
 void availableRoomsWindow::on_search_pushButton_clicked()

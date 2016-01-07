@@ -12,43 +12,44 @@ TARGET = qtApp
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-    databaseConnection.cpp \
-    availableRoomsModel.cpp \
-    staffPage.cpp \
-    roomAvailability.cpp \
-    updateInformation.cpp \
-    bookingDialog.cpp \
-    loginDialog.cpp \
-    availableRoomsWindow.cpp \
-    reservationsDialog.cpp
-    reservationModel.cpp \
-    roomModel.cpp \
-    staffModel.cpp
+CONFIG += c++11
 
-HEADERS  += \
-    databaseConnection.h \
-    hsmMetaData.h \
-    availableRoomsModel.h \
-    roomAvailability.h \
-    staffPage.h \
-    updateInformation.h \
-    bookingDialog.h \
-    loginDialog.h \
-    availableRoomsWindow.h \
-    reservationsDialog.h
-    reservationModel.h \
-    roomModel.h \
-    staffModel.h
-
-FORMS    += \
-    roomAvailability.ui \
-    staffPage.ui \
-    updateInformation.ui \
+FORMS += \
+    availableRoomsWindow.ui \
     bookingDialog.ui \
     loginDialog.ui \
-    availableRoomsWindow.ui \
-    reservationsDialog.ui
+    reservationsDialog.ui \
+    roomavailability.ui \
+    staffPage.ui \
+    updateInformation.ui
 
-CONFIG += c++11
+HEADERS += \
+    availableRoomsModel.h \
+    availableRoomsWindow.h \
+    bookingDialog.h \
+    databaseConnection.h \
+    hsmMetaData.h \
+    loginDialog.h \
+    reservationModel.h \
+    reservationsDialog.h \
+    roomavailability.h \
+    roomModel.h \
+    staffModel.h \
+    staffPage.h \
+    updateInformation.h
+
+SOURCES += \
+    availableRoomsModel.cpp \
+    availableRoomsWindow.cpp \
+    bookingDialog.cpp \
+    databaseConnection.cpp \
+    loginDialog.cpp \
+    main.cpp \
+    reservationModel.cpp \
+    reservationsDialog.cpp \
+    roomAvailability.cpp \
+    roomModel.cpp \
+    staffModel.cpp \
+    staffpage.cpp \
+    updateInformation.cpp
 
