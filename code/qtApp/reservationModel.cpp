@@ -4,6 +4,21 @@ reservationModel::reservationModel(QObject* parent, const viewParameters* parame
     :QAbstractTableModel(parent)
 {
     db = parameters->dbConnection->getDbPtr();
+    readCurrentReservationsTable();
+}
+
+void reservationModel::readCurrentReservationsTable()
+{
+    model.setQuery("SELECT * FROM Current_reservation");
+
+    qDebug() << "model.rowCount(): " << model.rowCount();
+
+    //inform table, that data have changed in the whole table
+    QModelIndex topLeft = createIndex(0,0);
+    QModelIndex bottomRight = createIndex( model.rowCount(),
+                                           model.columnCount() );
+
+    emit dataChanged(topLeft, bottomRight);
 }
 
 int reservationModel::rowCount(const QModelIndex & /*parent*/) const
@@ -16,8 +31,8 @@ int reservationModel::rowCount(const QModelIndex & /*parent*/) const
 
 int reservationModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    if(model.columnCount() < 14)
-        return 14;
+    if(model.columnCount() < 9)
+        return 9;
     else
         return model.columnCount();
 }
@@ -31,17 +46,23 @@ QVariant reservationModel::headerData(int section, Qt::Orientation orientation, 
             switch (section)
             {
             case 0:
-                return QString("");
+                return QString("Booking nr");
             case 1:
-                return QString("");
+                return QString("Room nr");
             case 2:
-                return QString("");
+                return QString("SSN");
             case 3:
-                return QString("");
+                return QString("Check-In date");
             case 4:
-                return QString("");
+                return QString("Check-Out date");
             case 5:
-                return QString("");
+                return QString("Total Price");
+            case 6:
+                return QString("Extra bed");
+            case 7:
+                return QString("Actually check-In date");
+            case 8:
+                return QString("Added by user");
             }
         }
 

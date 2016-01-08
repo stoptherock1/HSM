@@ -26,7 +26,7 @@ public:
 
 private:
     Ui::availableRoomsWindow *ui;
-    availableRoomsModel *model;
+    availableRoomsModel *availableRoomsMdl;
     loginDialog* loginDlg;
     QRegExpValidator* dateValidator;
     QDataWidgetMapper* widgetMapper;

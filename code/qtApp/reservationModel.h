@@ -34,6 +34,8 @@ public:
     void insertOld_Reservation(int bookingNrInt);
     void deleteCurrent_Reservation(int bookingNrInt);
     void deleteOld_Reservation(int bookingNrInt);
+    void readCurrentReservationsTable();
+
 private:
 //    int COLS= 3;
 //    int ROWS= 2;

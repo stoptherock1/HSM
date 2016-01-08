@@ -12,7 +12,7 @@ struct viewParameters
     std::shared_ptr<databaseConnection> dbConnection;
     QString loggedInUser;
     bool isAdmin;
-    QAbstractTableModel* model;
+    QAbstractTableModel* availableRoomsMdl;
 
 
     viewParameters()
@@ -21,7 +21,7 @@ struct viewParameters
         dbConnection->establish();
         loggedInUser = "";
         isAdmin = false;
-        model = NULL;
+        availableRoomsMdl = NULL;
     }
 };
 

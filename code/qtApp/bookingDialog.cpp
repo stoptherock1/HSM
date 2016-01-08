@@ -18,7 +18,7 @@ bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
     this->setFixedSize(this->width(),this->height());
 
     widgetMapper = new QDataWidgetMapper(this);
-    widgetMapper->setModel(parameters->model);
+    widgetMapper->setModel(parameters->availableRoomsMdl);
 
     widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
     widgetMapper->addMapping(ui->numberOfBeds_lineEdit, 3);
