@@ -2,8 +2,6 @@
 #include "ui_reservationsDialog.h"
 #include <QDesktopWidget>
 
-//void reservationModel::insertOld_Reservation(int bookingNrInt)
-
 reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* parameters_) :
     QDialog(parent),
     ui(new Ui::reservationsDialog),
@@ -71,7 +69,6 @@ void reservationsDialog::on_checkout_pushButton_clicked()
         int reservationNr = parameters->reservationMdl->data( indexes.at(0) ).toInt();
 
         parameters->reservationMdl->insertOld_Reservation(reservationNr);
-        qDebug() << "reservationNr: " << reservationNr;
     }
 
 }
