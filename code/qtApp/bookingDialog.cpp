@@ -131,7 +131,8 @@ void bookingDialog::on_book_pushButton_clicked()
                 "from " << from << ", " <<
                 "till " << till << ", " <<
                 "roomType " << roomType << ", " <<
-                "roomService " << roomService << ". ";
+                "roomService " << roomService <<
+                "roomNr " << roomNr << ". ";
 
     parameters->reservationMdl->insertCurrent_Reservation(roomNr,
                                                           ssn.toInt(),
