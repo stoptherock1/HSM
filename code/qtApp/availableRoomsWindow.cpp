@@ -9,8 +9,10 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
 {
     ui->setupUi(this);
     availableRoomsMdl = new availableRoomsModel(0, parameters);
+    reservationMdl = new reservationModel(0, parameters);
 
     parameters->availableRoomsMdl = availableRoomsMdl;
+    parameters->reservationMdl = reservationMdl;
 
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
                                       Qt::AlignCenter,
@@ -24,6 +26,7 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
 
     bookingDlg = new bookingDialog(this, parameters);
     loginDlg = new loginDialog(this, parameters);
+    reservationsDlg = new reservationsDialog(this, parameters);
 
     login();
 
@@ -58,14 +61,14 @@ void availableRoomsWindow::login()
     hide();
 
     //login window
-    int result = loginDlg->exec();
-    if(1 != result)
-    {
-        qDebug() << "Unsuccessfull login";
-        close();
-    }
-    else
-    {
+//    int result = loginDlg->exec();
+//    if(1 != result)
+//    {
+//        qDebug() << "Unsuccessfull login";
+//        close();
+//    }
+//    else
+//    {
         QString title = "HSM: Available rooms browser";
 
         if(parameters->loggedInUser != "")
@@ -77,7 +80,7 @@ void availableRoomsWindow::login()
         setWindowTitle(title);
 
         show();
-    }
+//    }
 }
 
 void availableRoomsWindow::reset()
@@ -97,6 +100,7 @@ void availableRoomsWindow::reset()
 void availableRoomsWindow::manageReservationsTriggered()
 {
     qDebug() << "manageReservationsTriggered";
+    reservationsDlg->show();
 }
 
 void availableRoomsWindow::editUsersDataTriggered()

@@ -127,8 +127,12 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
     //Generate booking nr
     QString getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Current_Reservation");
     model.setQuery(getLastBookingNrQuery);
-    int bookingNrInt = model.record(0).value("bookingNr").toInt();
-    bookingNrInt++;
+    int bookingNrInt = 0;
+    if( 0 != model.rowCount() )
+    {
+        bookingNrInt = model.record(0).value(0).toInt();
+        bookingNrInt++;
+    }
 
     //Get the total price
     QString getRoomPriceQuery = QString("SELECT price FROM Room WHERE roomNr = %1").arg(roomNr);
@@ -143,6 +147,11 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
     QString extraBed = QString::number(extraBedInt);
     QString checkInDate = checkInDateInt.toString();
     QString checkOutDate = checkOutDateInt.toString();
+
+    qDebug() << QString("INSERT INTO Current_Reservation "
+                        "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser) "
+                        "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8')"
+                        ).arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser);
 
     QString createBookingQuery = QString("INSERT INTO Current_Reservation "
                                          "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser) "
@@ -161,11 +170,13 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
                               QMessageBox::Cancel);
     }
 
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
+    //replace with readCurrentReservationsTable() call
+    readCurrentReservationsTable();
+//    //inform table, that data have changed in the whole table
+//    QModelIndex topLeft = createIndex(0,0);
+//    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
 
-    emit dataChanged(topLeft, bottomRight);
+//    emit dataChanged(topLeft, bottomRight);
 }
 
 void reservationModel::insertOld_Reservation(int bookingNrInt)
@@ -219,6 +230,7 @@ void reservationModel::insertOld_Reservation(int bookingNrInt)
     //Check out from Current_Reservation
     this->deleteCurrent_Reservation(bookingNrInt);
 
+    //replace with readCurrentReservationsTable() call
     //inform table, that data have changed in the whole table
     QModelIndex topLeft = createIndex(0,0);
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
@@ -265,6 +277,7 @@ void reservationModel::deleteOld_Reservation(int bookingNrInt)
                               QMessageBox::Cancel);
     }
 
+    //replace with readCurrentReservationsTable() call
     //inform table, that data have changed in the whole table
     QModelIndex topLeft = createIndex(0,0);
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );

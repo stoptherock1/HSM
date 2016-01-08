@@ -8,8 +8,7 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
 {
     ui->setupUi(this);
 
-    model = new reservationModel(this, parameters);
-    ui->tableView_2->setModel(model);
+    ui->tableView_2->setModel(parameters->reservationMdl);
 }
 
 reservationsDialog::~reservationsDialog()

@@ -5,6 +5,7 @@
 #include <databaseConnection.h>
 #include <QAbstractTableModel>
 
+class reservationModel;
 
 
 struct viewParameters
@@ -13,6 +14,7 @@ struct viewParameters
     QString loggedInUser;
     bool isAdmin;
     QAbstractTableModel* availableRoomsMdl;
+    reservationModel* reservationMdl;
 
 
     viewParameters()
@@ -22,6 +24,7 @@ struct viewParameters
         loggedInUser = "";
         isAdmin = false;
         availableRoomsMdl = NULL;
+        reservationMdl = NULL;
     }
 };
 

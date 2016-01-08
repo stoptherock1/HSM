@@ -8,8 +8,10 @@
 
 #include <hsmMetaData.h>
 #include <availableRoomsModel.h>
+#include <reservationModel.h>
 #include <loginDialog.h>
 #include <bookingDialog.h>
+#include <reservationsDialog.h>
 
 namespace Ui {
 class availableRoomsWindow;
@@ -26,8 +28,11 @@ public:
 
 private:
     Ui::availableRoomsWindow *ui;
-    availableRoomsModel *availableRoomsMdl;
+    availableRoomsModel* availableRoomsMdl;
+    reservationModel* reservationMdl;
     loginDialog* loginDlg;
+    reservationsDialog* reservationsDlg;
+
     QRegExpValidator* dateValidator;
     QDataWidgetMapper* widgetMapper;
     viewParameters* parameters;

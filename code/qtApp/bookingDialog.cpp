@@ -1,6 +1,7 @@
 #include "bookingDialog.h"
 #include "ui_bookingDialog.h"
 #include "availableRoomsModel.h"
+#include "reservationModel.h"
 
 
 bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
@@ -115,6 +116,8 @@ void bookingDialog::on_book_pushButton_clicked()
     QString till = ui->till_dateEdit->date().toString("yyyy-MM-dd");
     QString roomType = ui->roomType_lineEdit->text();
 
+    QString roomNr = ui->roomNumber_lineEdit->text();
+
     QString roomService = ui->roomServiceYes_radioButton->isChecked() ? "true" : "false";
 
     qDebug() << "NEW BOOKING: " <<
@@ -129,6 +132,13 @@ void bookingDialog::on_book_pushButton_clicked()
                 "till " << till << ", " <<
                 "roomType " << roomType << ", " <<
                 "roomService " << roomService << ". ";
+
+    parameters->reservationMdl->insertCurrent_Reservation(roomNr,
+                                                          ssn.toInt(),
+                                                          ui->from_dateEdit->date(),
+                                                          ui->till_dateEdit->date(),
+                                                          ui->roomServiceYes_radioButton->isChecked(),
+                                                          parameters->loggedInUser);
 
     clearInputs();
     done(1);
