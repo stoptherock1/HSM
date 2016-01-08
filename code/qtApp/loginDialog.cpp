@@ -63,7 +63,10 @@ void loginDialog::login()
         {
             parameters->loggedInUser = username;
 
-            ui->status_label->setHidden(false);
+            ui->usename_lineEdit->setFocus();
+            ui->usename_lineEdit->setText("");
+            ui->password_lineEdit->setText("");
+
             done(1);
         }
     }

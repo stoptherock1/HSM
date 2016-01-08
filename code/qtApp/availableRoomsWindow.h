@@ -46,7 +46,11 @@ private slots:
 
     void on_search_pushButton_clicked();
 
+    void reset();
+    void resetDate();
+
 public slots:
+    void login();
     void checkAvailableRooms();
     void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
     void updateDate();

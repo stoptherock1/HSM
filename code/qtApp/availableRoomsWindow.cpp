@@ -22,26 +22,10 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
 
     this->setFixedSize(this->width(),this->height());
 
-    //login window
-    loginDlg = new loginDialog(this, parameters);
-//    int result = loginDlg->exec();
-//    if(1 != result)
-//    {
-//        qDebug() << "Unsuccessfull login";
-//        exit(1);
-//    }
-//    else
-    {
-        QString title = "HSM: Available rooms browser";
-
-        if(parameters->loggedInUser != "")
-            title.append( QString( "  |  Logged in user: %1")
-                          .arg(parameters->loggedInUser) );
-
-        setWindowTitle(title);
-    }
-
     bookingDlg = new bookingDialog(this, parameters);
+    loginDlg = new loginDialog(this, parameters);
+
+    login();
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
@@ -62,6 +46,52 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SIGNAL( triggered() ),
              this,
              SLOT( editUsersDataTriggered() ) );
+
+    connect( ui->actionLog_Out,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( login() ) );
+}
+
+void availableRoomsWindow::login()
+{
+    hide();
+
+    //login window
+    int result = loginDlg->exec();
+    if(1 != result)
+    {
+        qDebug() << "Unsuccessfull login";
+        close();
+    }
+    else
+    {
+        QString title = "HSM: Available rooms browser";
+
+        if(parameters->loggedInUser != "")
+            title.append( QString( "  |  Logged in user: %1")
+                          .arg(parameters->loggedInUser) );
+
+
+        reset();
+        setWindowTitle(title);
+
+        show();
+    }
+}
+
+void availableRoomsWindow::reset()
+{
+    model->reset();
+    ui->tableView->selectionModel()->clearSelection();
+
+    widgetMapper->setCurrentIndex(0);
+    bookingDlg->getWidgetMapper()->setCurrentIndex(0);
+
+    updateMaxGuestNumber();
+    updateBookButton();
+    updateRoomPrice();
+    resetDate();
 }
 
 void availableRoomsWindow::manageReservationsTriggered()
@@ -200,7 +230,10 @@ void availableRoomsWindow::configureInputs()
     ui->numberOfBeds_lineEdit->setPlaceholderText("");
     ui->roomType_lineEdit->setPlaceholderText("");
     ui->price_lineEdit->setPlaceholderText("");
+}
 
+void availableRoomsWindow::resetDate()
+{
     QDate todaysDate = todaysDate.currentDate();
     ui->from_dateEdit->setDate( todaysDate );
     ui->till_dateEdit->setDate( todaysDate.addDays(7) );

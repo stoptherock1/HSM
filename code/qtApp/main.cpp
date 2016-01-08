@@ -15,11 +15,12 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-    reservationsDialog dialog(0, &parameters);
-    dialog.exec();
+//    reservationsDialog dialog(0, &parameters);
+//    dialog.exec();
 
     availableRoomsWindow availableRoomsWnd(0, &parameters);
-    availableRoomsWnd.show();
+//    availableRoomsWnd.show();
+//    availableRoomsWnd.login();
 
 //    bookingDialog window1;
 //    window1.exec();

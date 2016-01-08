@@ -101,7 +101,10 @@ Qt::ItemFlags availableRoomsModel::flags(const QModelIndex & /*index*/) const
     return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 
-
+void availableRoomsModel::reset()
+{
+    model.clear();
+}
 
 void availableRoomsModel::searchForAvailableRooms(QString &from, QString &to)
 {

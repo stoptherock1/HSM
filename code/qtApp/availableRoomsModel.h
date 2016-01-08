@@ -21,6 +21,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex & index) const;
 
     void searchForAvailableRooms(QString &from, QString &to);
+    void reset();
 
 
     int getBedsNumber(int row);
