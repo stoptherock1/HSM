@@ -254,6 +254,8 @@ void reservationModel::deleteCurrent_Reservation(int bookingNrInt)
                               QMessageBox::Cancel);
     }
 
+    readCurrentReservationsTable();
+
     //inform table, that data have changed in the whole table
     QModelIndex topLeft = createIndex(0,0);
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );

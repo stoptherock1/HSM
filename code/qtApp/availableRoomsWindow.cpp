@@ -1,5 +1,6 @@
 #include "availableRoomsWindow.h"
 #include "ui_availableRoomsWindow.h"
+#include <QDesktopWidget>
 
 
 availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :

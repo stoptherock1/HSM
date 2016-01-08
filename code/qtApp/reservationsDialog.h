@@ -18,10 +18,18 @@ public:
                                 viewParameters *parameters = 0);
     ~reservationsDialog();
 
+private slots:
+    void on_checkout_pushButton_clicked();
+
 private:
     Ui::reservationsDialog *ui;
     reservationModel* model;
     viewParameters* parameters;
+
+    void initializeTable();
+
+public slots:
+    void selectionChanged(const QItemSelection& selected, const QItemSelection&);
 };
 
 #endif // RESERVATIONSDIALOG_H

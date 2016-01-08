@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QDataWidgetMapper>
-#include <QDesktopWidget>
+
 
 #include <hsmMetaData.h>
 #include <availableRoomsModel.h>

@@ -19,165 +19,56 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0">
          <item>
-          <widget class="QDateEdit" name="from_dateEdit_2">
-           <property name="displayFormat">
-            <string>yyyy-MM-dd</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="till_dateEdit_2">
-           <property name="displayFormat">
-            <string>yyyy-MM-dd</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="search_pushButton_2">
-           <property name="text">
-            <string>Search</string>
+          <widget class="QLineEdit" name="filter_lineEdit">
+           <property name="placeholderText">
+            <string>Type Social Security Number here...</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="tableView_2"/>
+        <widget class="QTableView" name="tableView"/>
        </item>
       </layout>
      </item>
      <item>
       <layout class="QVBoxLayout" name="RightPanel_verticalLayout_2">
        <item>
-        <widget class="QGroupBox" name="verticalGroupBox_2">
-         <property name="title">
-          <string>Room information</string>
-         </property>
-         <layout class="QVBoxLayout" name="roomInformation_verticalLayout_2">
-          <item>
-           <layout class="QFormLayout" name="roomInfo_formLayout_2">
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Room name:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="roomName_lineEdit_2">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Room name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>Number of beds:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="numberOfBeds_lineEdit_2">
-              <property name="placeholderText">
-               <string>Beds number</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>Room type:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="roomType_lineEdit_2">
-              <property name="placeholderText">
-               <string>Room type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_10">
-              <property name="text">
-               <string>Price:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>Room number:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="roomNumber_lineEdit_2">
-              <property name="placeholderText">
-               <string>Room number</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="price_lineEdit_2">
-              <property name="placeholderText">
-               <string>Price</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="balcony_checkBox_2">
-            <property name="text">
-             <string>Balcony</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Additional notes:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPlainTextEdit" name="additionalNotes_plainTextEdit_2"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="bookButton_horizontalLayout_2">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <spacer name="horizontalSpacer_2">
+          <widget class="QPushButton" name="checkout_pushButton">
+           <property name="text">
+            <string>Check Out</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
-             <height>20</height>
+             <width>20</width>
+             <height>40</height>
             </size>
            </property>
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="book_pushButton_2">
+          <widget class="QPushButton" name="modify_pushButton">
            <property name="text">
-            <string>Book</string>
+            <string>Modify</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="delete_pushButton">
+           <property name="text">
+            <string>Delete</string>
            </property>
           </widget>
          </item>
