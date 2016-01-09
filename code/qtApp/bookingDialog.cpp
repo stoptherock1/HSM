@@ -28,7 +28,7 @@ bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
 
     QString title = "HSM: Make a reservation";
 
-    ui->roomServiceYes_radioButton->setChecked(true);
+    ui->extraBedYes_radioButton->setChecked(true);
 
     if(parameters->loggedInUser != "")
         title.append( QString( "  |  Logged in user: %1")
@@ -118,7 +118,7 @@ void bookingDialog::on_book_pushButton_clicked()
 
     QString roomNr = ui->roomNumber_lineEdit->text();
 
-    QString roomService = ui->roomServiceYes_radioButton->isChecked() ? "true" : "false";
+    QString extraBed = ui->extraBedYes_radioButton->isChecked() ? "true" : "false";
 
     qDebug() << "NEW BOOKING: " <<
                 "numberOfGuests " << numberOfGuests << ", " <<
@@ -131,14 +131,14 @@ void bookingDialog::on_book_pushButton_clicked()
                 "from " << from << ", " <<
                 "till " << till << ", " <<
                 "roomType " << roomType << ", " <<
-                "roomService " << roomService <<
+                "extraBed " << extraBed <<
                 "roomNr " << roomNr << ". ";
 
     parameters->reservationMdl->insertCurrent_Reservation(roomNr,
                                                           ssn,
                                                           ui->from_dateEdit->date(),
                                                           ui->till_dateEdit->date(),
-                                                          ui->roomServiceYes_radioButton->isChecked(),
+                                                          ui->extraBedYes_radioButton->isChecked(),
                                                           parameters->loggedInUser);
 
     clearInputs();

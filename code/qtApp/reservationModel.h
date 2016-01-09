@@ -35,6 +35,7 @@ public:
     void deleteCurrent_Reservation(int bookingNrInt);
     void deleteOld_Reservation(int bookingNrInt);
     void readCurrentReservationsTable();
+    void performActualCheckIn(int bookingNrInt);
 
 private:
     const QSqlDatabase* db;

@@ -17,9 +17,10 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
 
     initializeTable();
 
-    ui->checkout_pushButton->setEnabled(false);
+    ui->checkOut_pushButton->setEnabled(false);
     ui->delete_pushButton->setEnabled(false);
     ui->modify_pushButton->setEnabled(false);
+    ui->checkIn_pushButton->setEnabled(false);
 
     QString title = "HSM: Manage current reservations";
 
@@ -61,16 +62,23 @@ reservationsDialog::~reservationsDialog()
     delete ui;
 }
 
-void reservationsDialog::on_checkout_pushButton_clicked()
+int reservationsDialog::getSelectedReservationNumber()
 {
+    int reservationNr = -1;
+
     QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
     if( indexes.size() > 0 &&  "" != parameters->reservationMdl->data( indexes.at(0) ).toString() )
-    {
-        int reservationNr = parameters->reservationMdl->data( indexes.at(0) ).toInt();
+        reservationNr = parameters->reservationMdl->data( indexes.at(0) ).toInt();
 
+    return reservationNr;
+}
+
+void reservationsDialog::on_checkOut_pushButton_clicked()
+{
+    int reservationNr = getSelectedReservationNumber();
+
+    if(0 < reservationNr)
         parameters->reservationMdl->insertOld_Reservation(reservationNr);
-    }
-
 }
 
 void reservationsDialog::selectionChanged(const QItemSelection& selected, const QItemSelection&)
@@ -79,13 +87,15 @@ void reservationsDialog::selectionChanged(const QItemSelection& selected, const 
     // enable/disable buttons, depending on the selection
     if( indexes.size() > 0 &&  "" != parameters->reservationMdl->data( indexes.at(0) ).toString() )
     {
-        ui->checkout_pushButton->setEnabled(true);
+        ui->checkOut_pushButton->setEnabled(true);
+        ui->checkIn_pushButton->setEnabled(true);
         ui->delete_pushButton->setEnabled(true);
         ui->modify_pushButton->setEnabled(true);
     }
     else
     {
-        ui->checkout_pushButton->setEnabled(false);
+        ui->checkOut_pushButton->setEnabled(false);
+        ui->checkIn_pushButton->setEnabled(false);
         ui->delete_pushButton->setEnabled(false);
         ui->modify_pushButton->setEnabled(false);
     }
@@ -93,5 +103,8 @@ void reservationsDialog::selectionChanged(const QItemSelection& selected, const 
 
 void reservationsDialog::on_checkIn_pushButton_clicked()
 {
+    int reservationNr = getSelectedReservationNumber();
 
+    if(0 < reservationNr)
+        parameters->reservationMdl->performActualCheckIn(reservationNr);
 }

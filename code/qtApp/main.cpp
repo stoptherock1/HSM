@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
+    parameters.loggedInUser = "mousaZB";
+
 //    reservationsDialog dialog(0, &parameters);
 //    dialog.show();
 

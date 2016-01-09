@@ -78,7 +78,20 @@ QVariant reservationModel::data(const QModelIndex & index, int role) const
     int column = index.column();
 
     if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(6 == column && Qt::DisplayRole == role)
+            return QVariant();
+
         return model.record(row).value(column);
+    }
+
+    if( Qt::CheckStateRole == role && 6 == column && row < model.rowCount() )
+    {
+        if( 1 == model.record(row).value(column).toInt() )
+            return Qt::Checked;
+        else if( 0 == model.record(row).value(column).toInt() )
+            return Qt::Unchecked;
+    }
 
     return QVariant();
 }
@@ -296,4 +309,20 @@ void reservationModel::deleteOld_Reservation(int bookingNrInt)
     QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
 
     emit dataChanged(topLeft, bottomRight);
+}
+
+
+void reservationModel::performActualCheckIn(int bookingNrInt)
+{
+    QString actuallyCheckInDate = QDate::currentDate().toString("yyyy-MM-dd");
+    QString query = QString("UPDATE Current_reservation "
+                            "SET actuallyCheckInDate = '%1' "
+                            "WHERE bookingNr = '%2'").arg( actuallyCheckInDate,
+                                                           QString::number(bookingNrInt) );
+    model.setQuery(query);
+
+    qDebug() << query;
+
+
+    readCurrentReservationsTable();
 }

@@ -19,7 +19,7 @@ public:
     ~reservationsDialog();
 
 private slots:
-    void on_checkout_pushButton_clicked();
+    void on_checkOut_pushButton_clicked();
 
     void on_checkIn_pushButton_clicked();
 
@@ -29,6 +29,7 @@ private:
     viewParameters* parameters;
 
     void initializeTable();
+    int getSelectedReservationNumber();
 
 public slots:
     void selectionChanged(const QItemSelection& selected, const QItemSelection&);

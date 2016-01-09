@@ -189,21 +189,21 @@
         <item row="4" column="0">
          <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>Room Service: </string>
+           <string>Extra bed:</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QRadioButton" name="roomServiceYes_radioButton">
+           <widget class="QRadioButton" name="extraBedYes_radioButton">
             <property name="text">
              <string>Yes</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="roomServiceNo_radioButton">
+           <widget class="QRadioButton" name="extraBedNo_radioButton">
             <property name="text">
              <string>No</string>
             </property>
