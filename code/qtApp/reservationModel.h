@@ -25,7 +25,7 @@ public:
     int calculateTotalPrice(int price, QDate checkInDate, QDate checkOutDate);
 
     void insertCurrent_Reservation(QString roomNr,
-                                   int ssNrInt,
+                                   QString ssNr,
                                    QDate checkInDateInt,
                                    QDate checkOutDateInt,
                                    int extraBedInt,

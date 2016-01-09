@@ -135,7 +135,7 @@ void bookingDialog::on_book_pushButton_clicked()
                 "roomNr " << roomNr << ". ";
 
     parameters->reservationMdl->insertCurrent_Reservation(roomNr,
-                                                          ssn.toInt(),
+                                                          ssn,
                                                           ui->from_dateEdit->date(),
                                                           ui->till_dateEdit->date(),
                                                           ui->roomServiceYes_radioButton->isChecked(),

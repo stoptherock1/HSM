@@ -90,3 +90,8 @@ void reservationsDialog::selectionChanged(const QItemSelection& selected, const 
         ui->modify_pushButton->setEnabled(false);
     }
 }
+
+void reservationsDialog::on_checkIn_pushButton_clicked()
+{
+
+}

@@ -118,21 +118,29 @@ int reservationModel::calculateTotalPrice(int price, QDate checkInDate, QDate ch
 }
 
 void reservationModel::insertCurrent_Reservation(QString roomNr,
-                                                 int ssNrInt,
+                                                 QString ssNr,
                                                  QDate checkInDateInt,
                                                  QDate checkOutDateInt,
                                                  int extraBedInt,
                                                  QString addedByUser)
 {
-    //Generate booking nr
+    //Generate booking nr (the gratest number from old and current reservations)
+    int currentBookingNrInt = 0;
+    int oldBookingNrInt = 0;
+
     QString getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Current_Reservation");
     model.setQuery(getLastBookingNrQuery);
-    int bookingNrInt = 0;
     if( 0 != model.rowCount() )
-    {
-        bookingNrInt = model.record(0).value(0).toInt();
-        bookingNrInt++;
-    }
+        currentBookingNrInt = model.record(0).value(0).toInt();
+
+    getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Old_Reservation");
+    model.setQuery(getLastBookingNrQuery);
+    if( 0 != model.rowCount() )
+        oldBookingNrInt = model.record(0).value(0).toInt();
+
+    int bookingNrInt = (oldBookingNrInt >= currentBookingNrInt) ? oldBookingNrInt : currentBookingNrInt;
+    ++bookingNrInt;
+
 
     //Get the total price
     QString getRoomPriceQuery = QString("SELECT price FROM Room WHERE roomNr = '%1'").arg(roomNr);
@@ -142,7 +150,6 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
 
     //Convert ints to strings
     QString bookingNr = QString::number(bookingNrInt);
-    QString ssNr = QString::number(ssNrInt);
     QString totalPrice = QString::number(totalPriceInt);
     QString extraBed = QString::number(extraBedInt);
     QString checkInDate = checkInDateInt.toString("yyyy-MM-dd");
@@ -185,34 +192,38 @@ void reservationModel::insertOld_Reservation(int bookingNrInt)
     QString getDataFromCurrent_ReservationQuery = QString("SELECT * FROM Current_Reservation WHERE bookingNr = '%1'").arg(bookingNrInt);
     model.setQuery(getDataFromCurrent_ReservationQuery);
 
-    QString roomNr = model.record(1).value("roomNr").toString();
-    int ssNrInt = model.record(2).value("ssNr").toInt();
-    QDate checkInDateInt = model.record(3).value("checkInDate").toDate();
-    QDate checkOutDateInt = model.record(4).value("checkOutDate").toDate();
-    int totalPriceInt = model.record(5).value("totalPrice").toInt();
-    int extraBedInt = model.record(6).value("extraBed").toInt();
-    QDate actuallyCheckInDateInt = model.record(7).value("actuallyCheckInDate").toDate();
-    QString addedByUser= model.record(8).value("addedByUser").toString();
+    if( 0 ==  model.rowCount() )
+    {
+        QMessageBox::critical(0,
+                              "",
+                              QString("An error occured while checking out; check the code."),
+                              QMessageBox::Cancel);
+        return;
+    }
+
+
+    QString bookingNr = QString::number(bookingNrInt);
+    QString roomNr = model.record(0).value("roomNr").toString();
+    QString ssNr = model.record(0).value("ssNr").toString();
+    QString checkInDate = model.record(0).value("checkInDate").toString();
+    QString checkOutDate = model.record(0).value("checkOutDate").toString();
+    QString totalPrice = model.record(0).value("totalPrice").toString();
+    QString extraBed = model.record(0).value("extraBed").toString();
+    QString actuallyCheckInDate = model.record(0).value("actuallyCheckInDate").toString();
+    QString addedByUser= model.record(0).value("addedByUser").toString();
 
     //Set check out date and not deleted
-    QDate actuallyCheckOutDateInt = QDate::currentDate();
-    int ifDeletedInt = 0;
-
-    //Convert ints to strings
-    QString bookingNr = QString::number(bookingNrInt);
-    QString ssNr = QString::number(ssNrInt);
-    QString totalPrice = QString::number(totalPriceInt);
-    QString extraBed = QString::number(extraBedInt);
-    QString checkInDate = checkInDateInt.toString("yyyy-MM-dd");
-    QString checkOutDate = checkOutDateInt.toString("yyyy-MM-dd");
-    QString actuallyCheckInDate = actuallyCheckInDateInt.toString();
-    QString actuallyCheckOutDate = actuallyCheckOutDateInt.toString();
-    QString ifDeleted = QString::number(ifDeletedInt);
+    QString actuallyCheckOutDate = QDate::currentDate().toString("yyyy-MM-dd");
+    QString ifDeleted = "0";
 
     QString insertOld_ReservationQuery = QString("INSERT INTO Old_Reservation "
-                                                 "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, actuallyCheckOutDate, ifDeleted, addedByUser) "
+                                                 "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed,"
+                                                 " actuallyCheckInDate, actuallyCheckOutDate, ifDeleted, addedByUser) "
                                                  "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9', '%10', '%11')"
-                                                 ).arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, actuallyCheckInDate, actuallyCheckOutDate).arg(ifDeleted, addedByUser);
+                                                 ).arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed,
+                                                       actuallyCheckInDate, actuallyCheckOutDate).arg(ifDeleted, addedByUser);
+
+    qDebug() << insertOld_ReservationQuery;
 
     model.setQuery(insertOld_ReservationQuery);
 
