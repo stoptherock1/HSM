@@ -21,6 +21,8 @@ public:
 private slots:
     void on_checkout_pushButton_clicked();
 
+    void on_checkIn_pushButton_clicked();
+
 private:
     Ui::reservationsDialog *ui;
     reservationModel* model;

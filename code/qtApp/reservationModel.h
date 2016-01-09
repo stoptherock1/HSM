@@ -37,11 +37,9 @@ public:
     void readCurrentReservationsTable();
 
 private:
-//    int COLS= 3;
-//    int ROWS= 2;
     const QSqlDatabase* db;
     QSqlQueryModel model;
-//    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
+
 signals:
     void editCompleted(const QString &);
 };

@@ -64,8 +64,8 @@ void bookingDialog::setRoomPrice(int value)
 
 void bookingDialog::setReservationTotalPrice()
 {
-//    int totalPrice = ( (availableRoomsModel*) parameters->model )->calculateTotalPrice(roomPrice, from, till);
-//    ui->totalPrice_lineEdit->setText( QString::number(totalPrice) );
+    int totalPrice = parameters->reservationMdl->calculateTotalPrice(roomPrice, from, till);
+    ui->totalPrice_lineEdit->setText( QString::number(totalPrice) );
 }
 
 

@@ -141,7 +141,6 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
     int bookingNrInt = (oldBookingNrInt >= currentBookingNrInt) ? oldBookingNrInt : currentBookingNrInt;
     ++bookingNrInt;
 
-
     //Get the total price
     QString getRoomPriceQuery = QString("SELECT price FROM Room WHERE roomNr = '%1'").arg(roomNr);
     model.setQuery(getRoomPriceQuery);
@@ -251,7 +250,8 @@ void reservationModel::insertOld_Reservation(int bookingNrInt)
 
 void reservationModel::deleteCurrent_Reservation(int bookingNrInt)
 {
-    QString deleteCurrent_ReservationQuery = QString("DELETE FROM Current_Reservation WHERE bookingNr = '%1'").arg(bookingNrInt);
+    QString deleteCurrent_ReservationQuery = QString("DELETE FROM Current_Reservation "
+                                                     "WHERE bookingNr = '%1'").arg(bookingNrInt);
     model.setQuery(deleteCurrent_ReservationQuery);
 
     if( model.lastError().isValid() )

@@ -39,6 +39,13 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
+          <widget class="QPushButton" name="checkIn_pushButton">
+           <property name="text">
+            <string>Check In</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="checkout_pushButton">
            <property name="text">
             <string>Check Out</string>
