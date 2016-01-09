@@ -17,6 +17,12 @@ int main(int argc, char *argv[])
 
     parameters.loggedInUser = "mousaZB";
 
+    //models initialization
+    reservationModel reservationMdl(0, &parameters);
+    availableRoomsModel availableRoomsMdl(0, &parameters);
+    parameters.reservationMdl = &reservationMdl;
+    parameters.availableRoomsMdl = &availableRoomsMdl;
+
 //    reservationsDialog dialog(0, &parameters);
 //    dialog.show();
 

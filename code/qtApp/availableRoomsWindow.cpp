@@ -9,11 +9,8 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     parameters(parameters_)
 {
     ui->setupUi(this);
-    availableRoomsMdl = new availableRoomsModel(0, parameters);
-    reservationMdl = new reservationModel(0, parameters);
+    availableRoomsMdl = (availableRoomsModel*) parameters->availableRoomsMdl;
 
-    parameters->availableRoomsMdl = availableRoomsMdl;
-    parameters->reservationMdl = reservationMdl;
 
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
                                       Qt::AlignCenter,
@@ -167,7 +164,6 @@ availableRoomsWindow::~availableRoomsWindow()
     delete loginDlg;
     delete bookingDlg;
     delete widgetMapper;
-    delete availableRoomsMdl;
     delete ui;
 }
 
