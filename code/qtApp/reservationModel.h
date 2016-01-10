@@ -12,7 +12,7 @@ class reservationModel: public QSqlTableModel
     Q_OBJECT;
 
 public:
-    reservationModel(QObject *parent = 0, const viewParameters* parameters = 0);
+    reservationModel(QObject *parent = 0, viewParameters* parameters = 0);
     ~reservationModel();
 
     int rowCount( const QModelIndex &parent = QModelIndex() ) const ;
@@ -34,12 +34,13 @@ public:
     void insertOld_Reservation(int bookingNrInt);
     void deleteCurrent_Reservation(int bookingNrInt);
     void deleteOld_Reservation(int bookingNrInt);
-    void readCurrentReservationsTable();
     void performActualCheckIn(int bookingNrInt);
 
 private:
     const QSqlDatabase* db;
 //    QSqlQueryModel oldModel;
+    viewParameters* parameters;
+    QSqlQuery sqlQuery;
 
 signals:
     void editCompleted(const QString &);

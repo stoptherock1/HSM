@@ -9,8 +9,6 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     parameters(parameters_)
 {
     ui->setupUi(this);
-    availableRoomsMdl = (availableRoomsModel*) parameters->availableRoomsMdl;
-
 
     setGeometry( QStyle::alignedRect( Qt::LeftToRight,
                                       Qt::AlignCenter,
@@ -26,16 +24,18 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     loginDlg = new loginDialog(this, parameters);
     reservationsDlg = new reservationsDialog(this, parameters);
 
+    reservationsDlg->setModal(true);
+
     login();
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
              this, SLOT( selectionChanged( const QItemSelection&, const QItemSelection&) ) );
 
-    connect( availableRoomsMdl, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
+    connect( parameters->availableRoomsMdl, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
              this, SLOT( updateBookButton() ) );
 
-    connect( availableRoomsMdl, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
+    connect( parameters->availableRoomsMdl, SIGNAL( dataChanged(QModelIndex,QModelIndex) ),
              this, SLOT( updateMaxGuestNumber() ) );
 
     connect( ui->actionManage_reservations,
@@ -59,14 +59,14 @@ void availableRoomsWindow::login()
     hide();
 
     //login window
-//    int result = loginDlg->exec();
-//    if(1 != result)
-//    {
-//        qDebug() << "Unsuccessfull login";
-//        close();
-//    }
-//    else
-//    {
+    int result = loginDlg->exec();
+    if(1 != result)
+    {
+        qDebug() << "Unsuccessfull login";
+        close();
+    }
+    else
+    {
         QString title = "HSM: Available rooms browser";
 
         if(parameters->loggedInUser != "")
@@ -78,12 +78,12 @@ void availableRoomsWindow::login()
         setWindowTitle(title);
 
         show();
-//    }
+    }
 }
 
 void availableRoomsWindow::reset()
 {
-    availableRoomsMdl->reset();
+    parameters->availableRoomsMdl->reset();
     ui->tableView->selectionModel()->clearSelection();
 
     widgetMapper->setCurrentIndex(0);
@@ -128,7 +128,7 @@ void availableRoomsWindow::updateMaxGuestNumber()
     // set 'maxGuestsNumber' for the 'bookingDlg'
     if(indexes.size() > 0)
     {
-        int maxGuestsNumber = availableRoomsMdl->data( indexes.at(3) ).toInt();
+        int maxGuestsNumber = parameters->availableRoomsMdl->data( indexes.at(3) ).toInt();
         bookingDlg->setMaximumGuestsNumber(maxGuestsNumber);
     }
     else
@@ -142,7 +142,7 @@ void availableRoomsWindow::updateRoomPrice()
     // set 'roomPrice' for the 'bookingDlg'
     if(indexes.size() > 0)
     {
-        int roomPrice = availableRoomsMdl->data( indexes.at(2) ).toInt();
+        int roomPrice = parameters->availableRoomsMdl->data( indexes.at(2) ).toInt();
         bookingDlg->setRoomPrice(roomPrice);
     }
     else
@@ -153,7 +153,7 @@ void availableRoomsWindow::updateBookButton()
 {
     QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
     // enable/disable 'Book' button, depending on the selection
-    if( indexes.size() > 0 &&  "" != availableRoomsMdl->data( indexes.at(0) ).toString() )
+    if( indexes.size() > 0 &&  "" != parameters->availableRoomsMdl->data( indexes.at(0) ).toString() )
         ui->book_pushButton->setEnabled(true);
     else
         ui->book_pushButton->setEnabled(false);
@@ -172,7 +172,7 @@ void availableRoomsWindow::initializeTable()
     qDebug() << Q_FUNC_INFO;
 
     QTableView* tableView = ui->tableView;
-    tableView->setModel(availableRoomsMdl);
+    tableView->setModel(parameters->availableRoomsMdl);
 
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableView->setAlternatingRowColors(true);
@@ -203,13 +203,13 @@ void availableRoomsWindow::checkAvailableRooms()
     QString from = ui->from_dateEdit->date().toString("yyyy-MM-dd");
     QString till = ui->till_dateEdit->date().toString("yyyy-MM-dd");
 
-    availableRoomsMdl->searchForAvailableRooms(from, till);
+    parameters->availableRoomsMdl->searchForAvailableRooms(from, till);
 }
 
 void availableRoomsWindow::configureInputs()
 {
     widgetMapper = new QDataWidgetMapper(this);
-    widgetMapper->setModel(availableRoomsMdl);
+    widgetMapper->setModel(parameters->availableRoomsMdl);
     widgetMapper->addMapping(ui->roomNumber_lineEdit, 0);
     widgetMapper->addMapping(ui->roomName_lineEdit, 1);
     widgetMapper->addMapping(ui->numberOfBeds_lineEdit, 3);

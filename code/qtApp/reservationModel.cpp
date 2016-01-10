@@ -1,18 +1,18 @@
 #include "reservationModel.h"
 
-reservationModel::reservationModel(QObject* parent, const viewParameters* parameters)
-    :QSqlTableModel(parent)
+reservationModel::reservationModel(QObject* parent, viewParameters *parameters_)
+    :QSqlTableModel(parent),
+      parameters(parameters_)
 {
     db = parameters->dbConnection->getDbPtr();
-//    readCurrentReservationsTable();
 
     setTable("Current_reservation");
 //    setEditStrategy(QSqlTableModel::OnManualSubmit);
     setEditStrategy(QSqlTableModel::OnFieldChange);
     select();
+
+    sqlQuery = QSqlQuery( *parameters->dbConnection->getDbPtr() );
 }
-
-
 
 
 int reservationModel::rowCount(const QModelIndex & /*parent*/) const
@@ -82,11 +82,10 @@ QVariant reservationModel::data(const QModelIndex & index, int role) const
 
     if( Qt::CheckStateRole == role && 6 == column && row < QSqlTableModel::rowCount() )
     {
-        if( 1 == QSqlTableModel::data(index, role).toInt() )
-        {
+        if( 1 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Checked;
-        }
-        else if( 0 == QSqlTableModel::data(index, role).toInt() )
+
+        else if( 0 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Unchecked;
     }
 
@@ -112,7 +111,7 @@ int reservationModel::calculateTotalPrice(int price, QDate checkInDate, QDate ch
     return totalPrice;
 }
 
-/*
+
 void reservationModel::insertCurrent_Reservation(QString roomNr,
                                                  QString ssNr,
                                                  QDate checkInDateInt,
@@ -124,24 +123,34 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
     int currentBookingNrInt = 0;
     int oldBookingNrInt = 0;
 
+    sqlQuery.exec("SELECT name, salary FROM employee WHERE salary > 50000");
+
     QString getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Current_Reservation");
-    oldModel.setQuery(getLastBookingNrQuery);
-    if( 0 != oldModel.rowCount() )
-        currentBookingNrInt = oldModel.record(0).value(0).toInt();
+
+    sqlQuery.exec(getLastBookingNrQuery);
+    if( sqlQuery.next() )
+        currentBookingNrInt = sqlQuery.record().value(0).toInt();
 
     getLastBookingNrQuery = QString("SELECT MAX(bookingNr) FROM Old_Reservation");
-    oldModel.setQuery(getLastBookingNrQuery);
-    if( 0 != oldModel.rowCount() )
-        oldBookingNrInt = oldModel.record(0).value(0).toInt();
+    sqlQuery.exec(getLastBookingNrQuery);
+    if( sqlQuery.next() )
+        oldBookingNrInt = sqlQuery.record().value(0).toInt();
 
     int bookingNrInt = (oldBookingNrInt >= currentBookingNrInt) ? oldBookingNrInt : currentBookingNrInt;
     ++bookingNrInt;
 
     //Get the total price
     QString getRoomPriceQuery = QString("SELECT price FROM Room WHERE roomNr = '%1'").arg(roomNr);
-    oldModel.setQuery(getRoomPriceQuery);
-    int price = oldModel.record(0).value(0).toInt();
-    int totalPriceInt = this->calculateTotalPrice(price, checkInDateInt, checkOutDateInt);
+    sqlQuery.exec(getRoomPriceQuery);
+
+    int price = 0;
+    int totalPriceInt = 0;
+
+    if( sqlQuery.next() )
+    {
+        price = sqlQuery.record().value(0).toInt();
+        totalPriceInt = this->calculateTotalPrice(price, checkInDateInt, checkOutDateInt);
+    }
 
     //Convert ints to strings
     QString bookingNr = QString::number(bookingNrInt);
@@ -159,35 +168,29 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
                                          "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser) "
                                          "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8')"
                                          ).arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser);
-    oldModel.setQuery(createBookingQuery);
+    sqlQuery.exec(createBookingQuery);
 
-    if( oldModel.lastError().isValid() )
+    if( sqlQuery.lastError().isValid() )
     {
-        qDebug() << oldModel.lastError();
+        qDebug() << sqlQuery.lastError();
         QMessageBox::critical(0,
                               "Cannot set query",
                               QString("Unable to set query."
                                       "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( oldModel.lastError().text() ),
+                                      "exit.").arg( sqlQuery.lastError().text() ),
                               QMessageBox::Cancel);
     }
 
-    //replace with readCurrentReservationsTable() call
-    readCurrentReservationsTable();
-//    //inform table, that data have changed in the whole table
-//    QModelIndex topLeft = createIndex(0,0);
-//    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
-
-//    emit dataChanged(topLeft, bottomRight);
+    select();
 }
 
 void reservationModel::insertOld_Reservation(int bookingNrInt)
 {
     //Get data from Current_Reservation table before checkout
     QString getDataFromCurrent_ReservationQuery = QString("SELECT * FROM Current_Reservation WHERE bookingNr = '%1'").arg(bookingNrInt);
-    oldModel.setQuery(getDataFromCurrent_ReservationQuery);
+    sqlQuery.exec(getDataFromCurrent_ReservationQuery);
 
-    if( 0 ==  oldModel.rowCount() )
+    if( !sqlQuery.next() /*0 == QSqlTableModel::rowCount()*/ )
     {
         QMessageBox::critical(0,
                               "",
@@ -198,14 +201,14 @@ void reservationModel::insertOld_Reservation(int bookingNrInt)
 
 
     QString bookingNr = QString::number(bookingNrInt);
-    QString roomNr = oldModel.record(0).value("roomNr").toString();
-    QString ssNr = oldModel.record(0).value("ssNr").toString();
-    QString checkInDate = oldModel.record(0).value("checkInDate").toString();
-    QString checkOutDate = oldModel.record(0).value("checkOutDate").toString();
-    QString totalPrice = oldModel.record(0).value("totalPrice").toString();
-    QString extraBed = oldModel.record(0).value("extraBed").toString();
-    QString actuallyCheckInDate = oldModel.record(0).value("actuallyCheckInDate").toString();
-    QString addedByUser= oldModel.record(0).value("addedByUser").toString();
+    QString roomNr = sqlQuery.record().value("roomNr").toString();
+    QString ssNr = sqlQuery.record().value("ssNr").toString();
+    QString checkInDate = sqlQuery.record().value("checkInDate").toString();
+    QString checkOutDate = sqlQuery.record().value("checkOutDate").toString();
+    QString totalPrice = sqlQuery.record().value("totalPrice").toString();
+    QString extraBed = sqlQuery.record().value("extraBed").toString();
+    QString actuallyCheckInDate = sqlQuery.record().value("actuallyCheckInDate").toString();
+    QString addedByUser= sqlQuery.record().value("addedByUser").toString();
 
     //Set check out date and not deleted
     QString actuallyCheckOutDate = QDate::currentDate().toString("yyyy-MM-dd");
@@ -220,78 +223,62 @@ void reservationModel::insertOld_Reservation(int bookingNrInt)
 
     qDebug() << insertOld_ReservationQuery;
 
-    oldModel.setQuery(insertOld_ReservationQuery);
+    sqlQuery.exec(insertOld_ReservationQuery);
 
-    if( oldModel.lastError().isValid() )
+    if( sqlQuery.lastError().isValid() )
     {
-        qDebug() << oldModel.lastError();
+        qDebug() << sqlQuery.lastError();
         QMessageBox::critical(0,
                               "Cannot set query",
                               QString("Unable to set query."
                                       "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( oldModel.lastError().text() ),
+                                      "exit.").arg( sqlQuery.lastError().text() ),
                               QMessageBox::Cancel);
     }
 
     //Check out from Current_Reservation
     this->deleteCurrent_Reservation(bookingNrInt);
 
-    //replace with readCurrentReservationsTable() call
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( oldModel.rowCount(), oldModel.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
+    select();
 }
 
 void reservationModel::deleteCurrent_Reservation(int bookingNrInt)
 {
     QString deleteCurrent_ReservationQuery = QString("DELETE FROM Current_Reservation "
                                                      "WHERE bookingNr = '%1'").arg(bookingNrInt);
-    oldModel.setQuery(deleteCurrent_ReservationQuery);
+    sqlQuery.exec(deleteCurrent_ReservationQuery);
 
-    if( oldModel.lastError().isValid() )
+    if( sqlQuery.lastError().isValid() )
     {
-        qDebug() << oldModel.lastError();
+        qDebug() << sqlQuery.lastError();
         QMessageBox::critical(0,
                               "Cannot set query",
                               QString("Unable to set query."
                                       "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( oldModel.lastError().text() ),
+                                      "exit.").arg( sqlQuery.lastError().text() ),
                               QMessageBox::Cancel);
     }
 
-    readCurrentReservationsTable();
-
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( oldModel.rowCount(), oldModel.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
+    select();
 }
 
 void reservationModel::deleteOld_Reservation(int bookingNrInt)
 {
     QString deleteCurrent_ReservationQuery = QString("DELETE FROM Old_Reservation WHERE bookingNr = '%1'").arg(bookingNrInt);
-    oldModel.setQuery(deleteCurrent_ReservationQuery);
+    sqlQuery.exec(deleteCurrent_ReservationQuery);
 
-    if( oldModel.lastError().isValid() )
+    if( sqlQuery.lastError().isValid() )
     {
-        qDebug() << oldModel.lastError();
+        qDebug() << sqlQuery.lastError();
         QMessageBox::critical(0,
                               "Cannot set query",
                               QString("Unable to set query."
                                       "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( oldModel.lastError().text() ),
+                                      "exit.").arg( sqlQuery.lastError().text() ),
                               QMessageBox::Cancel);
     }
 
-    //replace with readCurrentReservationsTable() call
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( oldModel.rowCount(), oldModel.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
+    select();
 }
 
 
@@ -302,52 +289,10 @@ void reservationModel::performActualCheckIn(int bookingNrInt)
                             "SET actuallyCheckInDate = '%1' "
                             "WHERE bookingNr = '%2'").arg( actuallyCheckInDate,
                                                            QString::number(bookingNrInt) );
-    oldModel.setQuery(query);
+    sqlQuery.exec(query);
 
     qDebug() << query;
 
 
-    readCurrentReservationsTable();
+    select();
 }
-
-void reservationModel::readCurrentReservationsTable()
-{
-    oldModel.setQuery("SELECT * FROM Current_reservation");
-
-    qDebug() << "model.rowCount(): " << oldModel.rowCount();
-
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( oldModel.rowCount(),
-                                           oldModel.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
-}
-*/
-
-void reservationModel::insertCurrent_Reservation(QString roomNr,
-                               QString ssNr,
-                               QDate checkInDateInt,
-                               QDate checkOutDateInt,
-                               int extraBedInt,
-                               QString addedByUser)
-{
-
-}
-
-
-void reservationModel::insertOld_Reservation(int bookingNrInt)
-{}
-
-void reservationModel::deleteCurrent_Reservation(int bookingNrInt)
-{}
-
-void reservationModel::deleteOld_Reservation(int bookingNrInt)
-{}
-
-void reservationModel::readCurrentReservationsTable()
-{}
-
-void reservationModel::performActualCheckIn(int bookingNrInt)
-{}
-

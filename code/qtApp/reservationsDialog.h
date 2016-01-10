@@ -23,13 +23,21 @@ private slots:
 
     void on_checkIn_pushButton_clicked();
 
+    void on_filter_lineEdit_textEdited(const QString &arg1);
+
+    void on_delete_pushButton_clicked();
+
+    void updateSelection();
+
 private:
     Ui::reservationsDialog *ui;
     reservationModel* model;
     viewParameters* parameters;
+    int selectedRow;
 
     void initializeTable();
     int getSelectedReservationNumber();
+    void updateButtons();
 
 public slots:
     void selectionChanged(const QItemSelection& selected, const QItemSelection&);

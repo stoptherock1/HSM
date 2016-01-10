@@ -6,14 +6,14 @@
 #include <QAbstractTableModel>
 
 class reservationModel;
-
+class availableRoomsModel;
 
 struct viewParameters
 {
     std::shared_ptr<databaseConnection> dbConnection;
     QString loggedInUser;
     bool isAdmin;
-    QAbstractTableModel* availableRoomsMdl;
+    availableRoomsModel* availableRoomsMdl;
     reservationModel* reservationMdl;
 
 

@@ -28,8 +28,6 @@ public:
 
 private:
     Ui::availableRoomsWindow *ui;
-    availableRoomsModel* availableRoomsMdl;
-    reservationModel* reservationMdl;
     loginDialog* loginDlg;
     reservationsDialog* reservationsDlg;
 
