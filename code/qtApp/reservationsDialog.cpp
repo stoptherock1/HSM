@@ -18,9 +18,7 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
 
     ui->checkOut_pushButton->setEnabled(false);
     ui->delete_pushButton->setEnabled(false);
-    ui->modify_pushButton->setEnabled(false);
     ui->checkIn_pushButton->setEnabled(false);
-
 
 
     connect( ui->tableView->selectionModel(),
@@ -39,11 +37,6 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
              SLOT( updateSelection() ) );
 
     connect( ui->delete_pushButton,
-             SIGNAL( clicked() ),
-             this,
-             SLOT( updateSelection() ) );
-
-    connect( ui->modify_pushButton,
              SIGNAL( clicked() ),
              this,
              SLOT( updateSelection() ) );
@@ -99,23 +92,23 @@ reservationsDialog::~reservationsDialog()
     delete ui;
 }
 
-int reservationsDialog::getSelectedReservationNumber()
+int reservationsDialog::getSelectedBookingNumber()
 {
-    int reservationNr = -1;
+    int bookingNr = -1;
 
     QList<QModelIndex> indexes = ui->tableView->selectionModel()->selection().indexes();
     if( indexes.size() > 0 &&  "" != parameters->reservationMdl->data( indexes.at(0) ).toString() )
-        reservationNr = parameters->reservationMdl->data( indexes.at(0) ).toInt();
+        bookingNr = parameters->reservationMdl->data( indexes.at(0) ).toInt();
 
-    return reservationNr;
+    return bookingNr;
 }
 
 void reservationsDialog::on_checkOut_pushButton_clicked()
 {
-    int reservationNr = getSelectedReservationNumber();
+    int bookingNr = getSelectedBookingNumber();
 
-    if(0 < reservationNr)
-        parameters->reservationMdl->insertOld_Reservation(reservationNr);
+    if(0 < bookingNr)
+        parameters->reservationMdl->insertOld_Reservation(bookingNr);
 }
 
 void reservationsDialog::updateButtons()
@@ -127,15 +120,13 @@ void reservationsDialog::updateButtons()
     {
         ui->checkOut_pushButton->setEnabled(true);
         ui->checkIn_pushButton->setEnabled(true);
-//        ui->delete_pushButton->setEnabled(true);
-//        ui->modify_pushButton->setEnabled(true);
+        ui->delete_pushButton->setEnabled(true);
     }
     else
     {
         ui->checkOut_pushButton->setEnabled(false);
         ui->checkIn_pushButton->setEnabled(false);
         ui->delete_pushButton->setEnabled(false);
-        ui->modify_pushButton->setEnabled(false);
     }
 }
 
@@ -153,10 +144,10 @@ void reservationsDialog::selectionChanged(const QItemSelection& selected, const 
 
 void reservationsDialog::on_checkIn_pushButton_clicked()
 {
-    int reservationNr = getSelectedReservationNumber();
+    int bookingNr = getSelectedBookingNumber();
 
-    if(0 < reservationNr)
-        parameters->reservationMdl->performActualCheckIn(reservationNr);
+    if(0 < bookingNr)
+        parameters->reservationMdl->performActualCheckIn(bookingNr);
 }
 
 void reservationsDialog::on_filter_lineEdit_textEdited(const QString &arg1)
@@ -211,5 +202,6 @@ void reservationsDialog::updateSelection()
 
 void reservationsDialog::on_delete_pushButton_clicked()
 {
-
+    int bookingNr = getSelectedBookingNumber();
+    parameters->reservationMdl->deleteCurrent_Reservation(bookingNr);
 }

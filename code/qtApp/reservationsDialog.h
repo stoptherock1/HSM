@@ -36,7 +36,7 @@ private:
     int selectedRow;
 
     void initializeTable();
-    int getSelectedReservationNumber();
+    int getSelectedBookingNumber();
     void updateButtons();
 
     void showEvent(QShowEvent * event);

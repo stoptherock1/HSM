@@ -104,11 +104,13 @@ void availableRoomsWindow::manageReservationsTriggered()
 {
     qDebug() << "manageReservationsTriggered";
     reservationsDlg->exec();
+    on_search_pushButton_clicked();
 }
 
 void availableRoomsWindow::editUsersDataTriggered()
 {
     qDebug() << "editUsersDataTriggered";
+    on_search_pushButton_clicked();
 }
 
 void availableRoomsWindow::selectionChanged(const QItemSelection& selected, const QItemSelection&)
@@ -256,6 +258,7 @@ void availableRoomsWindow::on_book_pushButton_clicked()
     updateDate();
     int result = bookingDlg->exec();
     qDebug() << "result: " << result;
+    on_search_pushButton_clicked();
 }
 
 void availableRoomsWindow::on_search_pushButton_clicked()
