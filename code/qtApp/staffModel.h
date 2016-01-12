@@ -1,17 +1,17 @@
 #ifndef STAFFMODEL_H
 #define STAFFMODEL_H
 
-#include <QAbstractTableModel>
+#include <QSqlTableModel>
 #include "hsmMetaData.h"
 #include <QSqlQueryModel>
 
 
-class staffModel: public QAbstractTableModel
+class staffModel: public QSqlTableModel
 {
     Q_OBJECT;
 
 public:
-    staffModel(QObject *parent = 0, const viewParameters* parameters = 0);
+    staffModel(QObject *parent = 0, viewParameters* parameters = 0);
     int rowCount( const QModelIndex &parent = QModelIndex() ) const ;
     int columnCount( const QModelIndex &parent = QModelIndex() ) const ;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -20,17 +20,18 @@ public:
     Qt::ItemFlags flags(const QModelIndex & index) const;
 
 
-    void getUserInfo(QString userName);
-    void getOtherStaffOveralInfo();
-    QString getPassword(QString userName);
-    void setPassword(QString userName, QString password);
-    void setNewUser(QString ssNr, QString name, QString username, QString password, QString ifAdmin);
+//    void getUserInfo(QString userName);
+//    void getOtherStaffOveralInfo();
+//    QString getPassword(QString userName);
+//    void setPassword(QString userName, QString password);
+public slots:
+    void addNewUser(newUser &user);
+
 private:
-//    const int COLS= 3;
-//    const int ROWS= 2;
     const QSqlDatabase* db;
-    QSqlQueryModel model;
-//    QString m_gridData[ROWS][COLS];  //holds text entered into QTableView
+    QSqlQuery sqlQuery;
+    viewParameters *parameters;
+
 signals:
     void editCompleted(const QString &);
 };

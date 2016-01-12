@@ -2,7 +2,7 @@
 #include "ui_availableRoomsWindow.h"
 #include <QDesktopWidget>
 
-#define NOLOGIN
+//#define NOLOGIN
 
 availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :
     QMainWindow(parent),
@@ -26,10 +26,11 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     reservationsDlg = new reservationsDialog(this, parameters);
     roomsDlg = new roomsDialog(this, parameters);
     reservationHistoryDlg = new reservationHistoryDialog(this, parameters);
+    staffDlg = new staffDialog(this, parameters);
 
     login();
 
-    on_search_pushButton_clicked();
+    performAvailableRoomsSearch();
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
@@ -65,6 +66,21 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SIGNAL( triggered() ),
              this,
              SLOT( showReservationHistoryDialog() ) );
+
+    connect( ui->actionEdit_users__data,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( showStaffDialog() ) );
+
+    connect( ui->from_dateEdit,
+             SIGNAL( userDateChanged(QDate) ),
+             this,
+             SLOT( performAvailableRoomsSearch() ) );
+
+    connect( ui->till_dateEdit,
+             SIGNAL( userDateChanged(QDate) ),
+             this,
+             SLOT( performAvailableRoomsSearch() ) );
 }
 
 void availableRoomsWindow::updateWindowTitle()
@@ -118,19 +134,24 @@ void availableRoomsWindow::resetWindow()
     updateRoomPrice();
     resetDate();
     updateWindowTitle();
+
+    if(parameters->isAdmin)
+        ui->actionEdit_users__data->setEnabled(true);
+    else
+        ui->actionEdit_users__data->setEnabled(false);
 }
 
 void availableRoomsWindow::manageReservationsTriggered()
 {
     qDebug() << "manageReservationsTriggered";
     reservationsDlg->exec();
-    on_search_pushButton_clicked();
+    performAvailableRoomsSearch();
 }
 
 void availableRoomsWindow::editUsersDataTriggered()
 {
     qDebug() << "editUsersDataTriggered";
-    on_search_pushButton_clicked();
+    performAvailableRoomsSearch();
 }
 
 void availableRoomsWindow::selectionChanged(const QItemSelection& selected, const QItemSelection&)
@@ -188,6 +209,7 @@ void availableRoomsWindow::updateBookButton()
 
 availableRoomsWindow::~availableRoomsWindow()
 {
+    delete staffDlg;
     delete reservationHistoryDlg;
     delete loginDlg;
     delete bookingDlg;
@@ -225,7 +247,8 @@ void availableRoomsWindow::initializeTable()
     tableView->hideColumn(12);
     tableView->hideColumn(13);
 
-    tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(23);
 }
 
 void availableRoomsWindow::checkAvailableRooms()
@@ -266,8 +289,10 @@ void availableRoomsWindow::configureInputs()
 void availableRoomsWindow::resetDate()
 {
     QDate todaysDate = todaysDate.currentDate();
-    ui->from_dateEdit->setDate( todaysDate );
-    ui->till_dateEdit->setDate( todaysDate.addDays(7) );
+    from = todaysDate;
+    till = todaysDate.addDays(7);
+    ui->from_dateEdit->setDate(from);
+    ui->till_dateEdit->setDate(till);
 }
 
 void availableRoomsWindow::updateDate()
@@ -281,11 +306,14 @@ void availableRoomsWindow::on_book_pushButton_clicked()
     updateDate();
     int result = bookingDlg->exec();
     qDebug() << "result: " << result;
-    on_search_pushButton_clicked();
+    performAvailableRoomsSearch();
 }
 
-void availableRoomsWindow::on_search_pushButton_clicked()
+void availableRoomsWindow::performAvailableRoomsSearch()
 {
+    if( !confirmProvidedDatesCorrectness() )
+        return;
+
     checkAvailableRooms();
 
     QItemSelection selection = ui->tableView->selectionModel()->selection();
@@ -297,10 +325,39 @@ void availableRoomsWindow::showRoomsDialog()
 {
     roomsDlg->exec();
 
-    on_search_pushButton_clicked();
+    performAvailableRoomsSearch();
 }
 
 void availableRoomsWindow::showReservationHistoryDialog()
 {
-    availableRoomsWindow::reservationHistoryDlg->exec();
+    reservationHistoryDlg->exec();
+}
+
+void availableRoomsWindow::showStaffDialog()
+{
+    staffDlg->exec();
+}
+
+bool availableRoomsWindow::confirmProvidedDatesCorrectness()
+{
+    QDate newFrom = ui->from_dateEdit->date();
+    QDate newTill = ui->till_dateEdit->date();
+
+    if(newFrom >= newTill)
+    {
+        ui->from_dateEdit->setDate(from);
+        ui->till_dateEdit->setDate(till);
+        return false;
+    }
+
+    if(newFrom < QDate::currentDate() || newTill < QDate::currentDate())
+    {
+        ui->from_dateEdit->setDate(from);
+        ui->till_dateEdit->setDate(till);
+        return false;
+    }
+
+    from = newFrom;
+    till = newTill;
+    return true;
 }

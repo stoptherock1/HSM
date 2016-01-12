@@ -9,6 +9,7 @@ class reservationModel;
 class availableRoomsModel;
 class roomModel;
 class reservationHistoryModel;
+class staffModel;
 
 struct viewParameters
 {
@@ -19,6 +20,7 @@ struct viewParameters
     reservationModel* reservationMdl;
     roomModel* roomMdl;
     reservationHistoryModel* reservationHistoryMdl;
+    staffModel* staffMdl;
 
     viewParameters()
     {
@@ -30,6 +32,21 @@ struct viewParameters
         reservationMdl = NULL;
         roomMdl = NULL;
         reservationHistoryMdl = NULL;
+        staffMdl = NULL;
+    }
+};
+
+struct newUser
+{
+    QString name;
+    QString username;
+    QString password;
+    QString ssn;
+    bool isAdmin;
+
+    newUser()
+    {
+        isAdmin = false;
     }
 };
 

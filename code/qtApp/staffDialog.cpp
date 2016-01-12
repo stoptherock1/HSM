@@ -1,48 +1,50 @@
-#include "reservationHistoryDialog.h"
-#include "ui_reservationHistoryDialog.h"
-#include "reservationHistoryModel.h"
+#include "staffDialog.h"
+#include "ui_staffDialog.h"
 
-
-reservationHistoryDialog::reservationHistoryDialog(QWidget *parent, viewParameters *parameters_) :
+staffDialog::staffDialog(QWidget *parent, viewParameters *parameters_) :
     QDialog(parent),
-    ui(new Ui::reservationHistoryDialog),
+    ui(new Ui::staffDialog),
     parameters(parameters_)
 {
     ui->setupUi(this);
     initializeTable();
-    this->setFixedSize(this->width(),this->height());
+    addUserDlg = new addUserDialog();
+
+    connect( addUserDlg,
+             SIGNAL( newUserAdded(newUser&) ),
+             parameters->staffMdl,
+             SLOT( addNewUser(newUser&) ) );
 }
 
-void reservationHistoryDialog::initializeTable()
+staffDialog::~staffDialog()
 {
-    ui->tableView->setModel(parameters->reservationHistoryMdl);
+    delete ui;
+    delete addUserDlg;
+}
+
+void staffDialog::initializeTable()
+{
+    ui->tableView->setModel(parameters->staffMdl);
 
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableView->setAlternatingRowColors(true);
 
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
     ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->tableView->verticalHeader()->setDefaultSectionSize(23);
 
 
     ui->tableView->horizontalHeader()->setHighlightSections(false);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setMinimumSectionSize(50);
-    ui->tableView->horizontalHeader()->hideSection(9);
-    ui->tableView->horizontalHeader()->hideSection(10);
-    ui->tableView->horizontalHeader()->hideSection(12);
 }
 
-reservationHistoryDialog::~reservationHistoryDialog()
+void staffDialog::updateWindowTitle()
 {
-    delete ui;
-}
-
-void reservationHistoryDialog::updateWindowTitle()
-{
-    QString title = "HSM: Reservation history";
+    QString title = "HSM: Staff browser";
 
     if(parameters->loggedInUser != "")
     {
@@ -56,10 +58,13 @@ void reservationHistoryDialog::updateWindowTitle()
     setWindowTitle(title);
 }
 
-void reservationHistoryDialog::showEvent(QShowEvent * event)
+void staffDialog::showEvent(QShowEvent * event)
 {
     updateWindowTitle();
-    parameters->reservationHistoryMdl->select();
-
     QDialog::showEvent(event);
+}
+
+void staffDialog::on_pushButton_clicked()
+{
+    addUserDlg->exec();
 }

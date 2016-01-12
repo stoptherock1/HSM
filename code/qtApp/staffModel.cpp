@@ -1,25 +1,30 @@
 #include "staffModel.h"
 
-staffModel::staffModel(QObject* parent, const viewParameters* parameters)
-    :QAbstractTableModel(parent)
+staffModel::staffModel(QObject* parent, viewParameters *parameters_)
+    :QSqlTableModel(parent),
+      parameters(parameters_)
 {
     db = parameters->dbConnection->getDbPtr();
+    sqlQuery = QSqlQuery("", *db);
+
+    setTable("Staff");
+    select();
 }
 
 int staffModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    if(model.rowCount() < 99)
+    if(QSqlTableModel::rowCount() < 99)
         return 99;
     else
-        return model.rowCount();
+        return QSqlTableModel::rowCount();
 }
 
 int staffModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    if(model.columnCount() < 14)
-        return 14;
+    if(QSqlTableModel::columnCount() < 5)
+        return 5;
     else
-        return model.columnCount();
+        return QSqlTableModel::columnCount();
 }
 
 QVariant staffModel::data(const QModelIndex & index, int role) const
@@ -29,17 +34,18 @@ QVariant staffModel::data(const QModelIndex & index, int role) const
 
     if(Qt::DisplayRole == role || Qt::EditRole == role)
     {
-        if(5 == column && Qt::DisplayRole == role)
+        if(4 == column && Qt::DisplayRole == role)
             return QVariant();
 
-        return model.record(row).value(column);
+        return QSqlTableModel::data(index, role);
     }
 
-    if( Qt::CheckStateRole == role && 5 == column && row < model.rowCount() )
+    if( Qt::CheckStateRole == role && 4 == column && row < QSqlTableModel::QSqlTableModel::rowCount() )
     {
-        if( 1 == model.record(row).value(column).toInt() )
+        if( 1 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Checked;
-        else if( 0 == model.record(row).value(column).toInt() )
+
+        else if( 0 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Unchecked;
     }
 
@@ -59,11 +65,11 @@ QVariant staffModel::headerData(int section, Qt::Orientation orientation, int ro
             case 1:
                 return QString("Name");
             case 2:
-                return QString("If admin");
-            case 3:
                 return QString("Username");
-            case 4:
+            case 3:
                 return QString("Password");
+            case 4:
+                return QString("Admin");
             }
         }
 
@@ -75,127 +81,139 @@ QVariant staffModel::headerData(int section, Qt::Orientation orientation, int ro
 
 bool staffModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-//    if (role == Qt::EditRole)
-//      {
-//      }
-    return true;
-}
-
-Qt::ItemFlags staffModel::flags(const QModelIndex & /*index*/) const
-{
-    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
-}
-
-
-void staffModel::getUserInfo(QString userName)
-{
-    QString getUserInfoQuery = QString("SELECT * FROM Staff WHERE userName = '%1'").arg(userName);
-
-    model.setQuery(getUserInfoQuery);
-
-    if( model.lastError().isValid() )
+    if( Qt::CheckStateRole == role && 4 == index.column() )
     {
-        qDebug() << model.lastError();
-        QMessageBox::critical(0,
-                              "Cannot set query",
-                              QString("Unable to set query."
-                                      "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( model.lastError().text() ),
-                              QMessageBox::Cancel);
+        if(0 == value)
+            return QSqlTableModel::setData(index, "0", Qt::EditRole);
+        else
+            return QSqlTableModel::setData(index, "1", Qt::EditRole);
     }
-
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
+    return QSqlTableModel::setData(index, value, role);
 }
 
-void staffModel::getOtherStaffOveralInfo()
+
+//void staffModel::getUserInfo(QString userName)
+//{
+//    QString getUserInfoQuery = QString("SELECT * FROM Staff WHERE userName = '%1'").arg(userName);
+
+//    setQuery(getUserInfoQuery);
+
+//    if( lastError().isValid() )
+//    {
+//        qDebug() << lastError();
+//        QMessageBox::critical(0,
+//                              "Cannot set query",
+//                              QString("Unable to set query."
+//                                      "\nReason: %1\nClick Cancel to "
+//                                      "exit.").arg( lastError().text() ),
+//                              QMessageBox::Cancel);
+//    }
+
+//    //inform table, that data have changed in the whole table
+//    QModelIndex topLeft = createIndex(0,0);
+//    QModelIndex bottomRight = createIndex( QSqlTableModel::rowCount(), QSqlTableModel::columnCount() );
+
+//    emit dataChanged(topLeft, bottomRight);
+//}
+
+//void staffModel::getOtherStaffOveralInfo()
+//{
+//    QString getOtherStaffOveralInfoQuery = QString("SELECT name, username, ifAdmin FROM Staff");
+
+//    setQuery(getOtherStaffOveralInfoQuery);
+
+//    if( lastError().isValid() )
+//    {
+//        qDebug() << lastError();
+//        QMessageBox::critical(0,
+//                              "Cannot set query",
+//                              QString("Unable to set query."
+//                                      "\nReason: %1\nClick Cancel to "
+//                                      "exit.").arg( lastError().text() ),
+//                              QMessageBox::Cancel);
+//    }
+
+//    //inform table, that data have changed in the whole table
+//    QModelIndex topLeft = createIndex(0,0);
+//    QModelIndex bottomRight = createIndex( QSqlTableModel::rowCount(), QSqlTableModel::columnCount() );
+
+//    emit dataChanged(topLeft, bottomRight);
+//}
+
+//QString staffModel::getPassword(QString userName)
+//{
+//    QString getPasswordQuery = QString("SELECT password FROM Staff WHERE userName = '%1'").arg(userName);
+
+//    setQuery(getPasswordQuery);
+
+//    QString password ="";
+//    password = record(0).value("password").toString();
+
+//    return password;
+
+//}
+
+//void staffModel::setPassword(QString userName, QString password)
+//{
+//    QString setPasswordQuery = QString("Update Staff "
+//                                       "SET password = '%1' "
+//                                       "WHERE username = '%2'").arg(password, userName);
+
+//    setQuery(setPasswordQuery);
+
+//    if( lastError().isValid() )
+//    {
+//        qDebug() << lastError();
+//        QMessageBox::critical(0,
+//                              "Cannot set query",
+//                              QString("Unable to set query."
+//                                      "\nReason: %1\nClick Cancel to "
+//                                      "exit.").arg( lastError().text() ),
+//                              QMessageBox::Cancel);
+//    }
+
+//    //inform table, that data have changed in the whole table
+//    QModelIndex topLeft = createIndex(0,0);
+//    QModelIndex bottomRight = createIndex( QSqlTableModel::rowCount(), QSqlTableModel::columnCount() );
+
+//    emit dataChanged(topLeft, bottomRight);
+//}
+
+void staffModel::addNewUser(newUser &user)
 {
-    QString getOtherStaffOveralInfoQuery = QString("SELECT name, username, ifAdmin FROM Staff");
-
-    model.setQuery(getOtherStaffOveralInfoQuery);
-
-    if( model.lastError().isValid() )
-    {
-        qDebug() << model.lastError();
-        QMessageBox::critical(0,
-                              "Cannot set query",
-                              QString("Unable to set query."
-                                      "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( model.lastError().text() ),
-                              QMessageBox::Cancel);
-    }
-
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
-}
-
-QString staffModel::getPassword(QString userName)
-{
-    QString getPasswordQuery = QString("SELECT password FROM Staff WHERE userName = '%1'").arg(userName);
-
-    model.setQuery(getPasswordQuery);
-
-    QString password ="";
-    password = model.record(0).value("password").toString();
-
-    return password;
-
-}
-
-void staffModel::setPassword(QString userName, QString password)
-{
-    QString setPasswordQuery = QString("Update Staff "
-                                       "SET password = '%1' "
-                                       "WHERE username = '%2'").arg(password, userName);
-
-    model.setQuery(setPasswordQuery);
-
-    if( model.lastError().isValid() )
-    {
-        qDebug() << model.lastError();
-        QMessageBox::critical(0,
-                              "Cannot set query",
-                              QString("Unable to set query."
-                                      "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( model.lastError().text() ),
-                              QMessageBox::Cancel);
-    }
-
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
-
-    emit dataChanged(topLeft, bottomRight);
-}
-
-void staffModel::setNewUser(QString ssNr, QString name, QString username, QString password, QString ifAdmin)
-{
-
+    QString ifAdminStr = user.isAdmin ? "1" : "0";
     QString setNewUserQuery = QString("INSERT into Staff "
-                                      "VALUES ('%1', '%2', '%3', '%4', '%5')").arg(ssNr, name, username, password, ifAdmin);
+                                      "VALUES ('%1', '%2', '%3', '%4', '%5')")
+            .arg(user.ssn,
+                 user.name,
+                 user.username,
+                 user.password,
+                 ifAdminStr);
 
-    model.setQuery(setNewUserQuery);
+    sqlQuery.exec(setNewUserQuery);
 
-    if( model.lastError().isValid() )
+    if( sqlQuery.lastError().isValid() )
     {
-        qDebug() << model.lastError();
+        qDebug() << sqlQuery.lastError();
         QMessageBox::critical(0,
                               "Cannot set query",
                               QString("Unable to set query."
                                       "\nReason: %1\nClick Cancel to "
-                                      "exit.").arg( model.lastError().text() ),
+                                      "exit.").arg( sqlQuery.lastError().text() ),
                               QMessageBox::Cancel);
     }
 
-    //inform table, that data have changed in the whole table
-    QModelIndex topLeft = createIndex(0,0);
-    QModelIndex bottomRight = createIndex( model.rowCount(), model.columnCount() );
+    select();
+}
 
-    emit dataChanged(topLeft, bottomRight);
+Qt::ItemFlags staffModel::flags(const QModelIndex & index) const
+{
+    Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    if( 4 == index.column() )
+        result |= Qt::ItemIsUserCheckable;
+
+    result |= Qt::ItemIsEditable;
+
+    return result;
 }

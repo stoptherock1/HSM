@@ -14,6 +14,7 @@
 #include <reservationsDialog.h>
 #include <reservationHistoryDialog.h>
 #include <roomsDialog.h>
+#include <staffDialog.h>
 
 namespace Ui {
 class availableRoomsWindow;
@@ -39,6 +40,9 @@ private:
     bookingDialog* bookingDlg;
     roomsDialog* roomsDlg;
     reservationHistoryDialog* reservationHistoryDlg;
+    staffDialog* staffDlg;
+    QDate from;
+    QDate till;
 
     void initializeTable();
     void configureInputs();
@@ -52,7 +56,7 @@ private slots:
     void manageReservationsTriggered();
     void editUsersDataTriggered();
 
-    void on_search_pushButton_clicked();
+    void performAvailableRoomsSearch();
 
     void resetWindow();
     void resetDate();
@@ -64,6 +68,8 @@ public slots:
     void updateDate();
     void showRoomsDialog();
     void showReservationHistoryDialog();
+    void showStaffDialog();
+    bool confirmProvidedDatesCorrectness();
 };
 
 #endif // AVAILABLEROOMSWINDOW_H

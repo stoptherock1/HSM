@@ -78,7 +78,9 @@ void reservationsDialog::initializeTable()
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableView->setAlternatingRowColors(true);
 
-    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(23);
+
     ui->tableView->horizontalHeader()->setHighlightSections(false);
     ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);

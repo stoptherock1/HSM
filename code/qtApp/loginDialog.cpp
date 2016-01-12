@@ -9,7 +9,7 @@ loginDialog::loginDialog(QWidget *parent,  viewParameters *parameters_) :
     ui->setupUi(this);
     db = parameters->dbConnection->getDbPtr();
 
-    this->setFixedSize(this->width(),this->height());
+    this->setMaximumSize(this->width(), this->height() + 20);
 
     ui->password_lineEdit->setEchoMode(QLineEdit::Password);
 
@@ -71,14 +71,20 @@ void loginDialog::login()
             else
                 parameters->isAdmin = false;
 
-            ui->usename_lineEdit->setFocus();
-            ui->usename_lineEdit->setText("");
-            ui->password_lineEdit->setText("");
-
             done(1);
         }
     }
 
-    adjustSize();
+}
+
+
+void loginDialog::showEvent(QShowEvent * /*event*/)
+{
+    ui->usename_lineEdit->setFocus();
+    ui->usename_lineEdit->clear();
+    ui->password_lineEdit->clear();
+    ui->status_label->clear();
+    ui->status_label->setHidden(true);
+
     adjustSize();
 }

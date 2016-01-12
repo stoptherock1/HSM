@@ -28,6 +28,7 @@ private:
 
 private slots:
     void login();
+    void showEvent(QShowEvent * event);
 };
 
 #endif // LOGINDIALOG_H

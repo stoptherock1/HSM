@@ -22,6 +22,7 @@ void roomsDialog::initializeTable()
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
     ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(23);
 
 
     ui->tableView->horizontalHeader()->setHighlightSections(false);
@@ -36,7 +37,7 @@ roomsDialog::~roomsDialog()
 
 void roomsDialog::updateWindowTitle()
 {
-    QString title = "HSM: Romms browser";
+    QString title = "HSM: Rooms browser";
 
     if(parameters->loggedInUser != "")
     {
