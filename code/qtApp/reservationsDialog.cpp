@@ -14,7 +14,6 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
                                       size(),
                                       qApp->desktop()->availableGeometry() ) );
 
-
     initializeTable();
 
     ui->checkOut_pushButton->setEnabled(false);
@@ -22,13 +21,7 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
     ui->modify_pushButton->setEnabled(false);
     ui->checkIn_pushButton->setEnabled(false);
 
-    QString title = "HSM: Manage current reservations";
 
-    if(parameters->loggedInUser != "")
-        title.append( QString( "  |  Logged in user: %1")
-                      .arg(parameters->loggedInUser) );
-
-    setWindowTitle(title);
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
@@ -59,6 +52,24 @@ reservationsDialog::reservationsDialog(QWidget *parent, viewParameters* paramete
              SIGNAL( textEdited(QString) ),
              this,
              SLOT( updateSelection() ) );
+}
+
+
+void reservationsDialog::updateWindowTitle()
+{
+    QString title = "HSM: Manage current reservations";
+
+    if(parameters->loggedInUser != "")
+        title.append( QString( "  |  Logged in user: %1")
+                      .arg(parameters->loggedInUser) );
+
+    setWindowTitle(title);
+}
+
+void reservationsDialog::showEvent(QShowEvent * event)
+{
+    updateWindowTitle();
+    QDialog::showEvent(event);
 }
 
 void reservationsDialog::initializeTable()

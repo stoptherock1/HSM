@@ -38,6 +38,7 @@ private:
 
     void initializeTable();
     void configureInputs();
+    void updateWindowTitle();
 
 private slots:
     void updateBookButton();
@@ -49,7 +50,7 @@ private slots:
 
     void on_search_pushButton_clicked();
 
-    void reset();
+    void resetWindow();
     void resetDate();
 
 public slots:

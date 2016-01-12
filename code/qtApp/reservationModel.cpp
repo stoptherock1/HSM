@@ -7,13 +7,49 @@ reservationModel::reservationModel(QObject* parent, viewParameters *parameters_)
     db = parameters->dbConnection->getDbPtr();
 
     setTable("Current_reservation");
-//    setEditStrategy(QSqlTableModel::OnManualSubmit);
-    setEditStrategy(QSqlTableModel::OnFieldChange);
+    setEditStrategy(QSqlTableModel::OnManualSubmit);
+//    setEditStrategy(QSqlTableModel::OnFieldChange);
     select();
 
     sqlQuery = QSqlQuery( *parameters->dbConnection->getDbPtr() );
 }
 
+bool reservationModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if( Qt::CheckStateRole == role && 6 == index.column() )
+    {
+        if(0 == value)
+            return QSqlTableModel::setData(index, "0", Qt::EditRole);
+        else
+            return QSqlTableModel::setData(index, "1", Qt::EditRole);
+    }
+    return QSqlTableModel::setData(index, value, role);
+}
+
+QVariant reservationModel::data(const QModelIndex & index, int role) const
+{
+    int row = index.row();
+    int column = index.column();
+
+    if(Qt::DisplayRole == role || Qt::EditRole == role)
+    {
+        if(6 == column && Qt::DisplayRole == role)
+            return QVariant();
+
+        return QSqlTableModel::data(index, role);
+    }
+
+    if( Qt::CheckStateRole == role && 6 == column && row < QSqlTableModel::rowCount() )
+    {
+        if( 1 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
+            return Qt::Checked;
+
+        else if( 0 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
+            return Qt::Unchecked;
+    }
+
+    return QVariant();
+}
 
 int reservationModel::rowCount(const QModelIndex & /*parent*/) const
 {
@@ -67,39 +103,24 @@ QVariant reservationModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-QVariant reservationModel::data(const QModelIndex & index, int role) const
-{
-    int row = index.row();
-    int column = index.column();
 
-    if(Qt::DisplayRole == role || Qt::EditRole == role)
-    {
-        if(6 == column && Qt::DisplayRole == role)
-            return QVariant();
-
-        return QSqlTableModel::data(index, role);
-    }
-
-    if( Qt::CheckStateRole == role && 6 == column && row < QSqlTableModel::rowCount() )
-    {
-        if( 1 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
-            return Qt::Checked;
-
-        else if( 0 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
-            return Qt::Unchecked;
-    }
-
-    return QVariant();
-}
 
 reservationModel::~reservationModel()
 {
 
 }
 
-Qt::ItemFlags reservationModel::flags(const QModelIndex & /*index*/) const
+Qt::ItemFlags reservationModel::flags(const QModelIndex & index) const
 {
-    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
+    Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    if( 6 == index.column() )
+        result |= Qt::ItemIsUserCheckable;
+
+    result |= Qt::ItemIsEditable;
+
+    return result;
+
 }
 
 

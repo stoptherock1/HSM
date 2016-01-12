@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-//    parameters.loggedInUser = "mousaZB";
+
 
     //models initialization
     reservationModel reservationMdl(0, &parameters);

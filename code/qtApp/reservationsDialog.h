@@ -39,6 +39,9 @@ private:
     int getSelectedReservationNumber();
     void updateButtons();
 
+    void showEvent(QShowEvent * event);
+    void updateWindowTitle();
+
 public slots:
     void selectionChanged(const QItemSelection& selected, const QItemSelection&);
 };

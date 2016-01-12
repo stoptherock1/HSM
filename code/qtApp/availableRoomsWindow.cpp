@@ -2,6 +2,7 @@
 #include "ui_availableRoomsWindow.h"
 #include <QDesktopWidget>
 
+#define NOLOGIN
 
 availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :
     QMainWindow(parent),
@@ -23,8 +24,6 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     bookingDlg = new bookingDialog(this, parameters);
     loginDlg = new loginDialog(this, parameters);
     reservationsDlg = new reservationsDialog(this, parameters);
-
-    reservationsDlg->setModal(true);
 
     login();
 
@@ -54,10 +53,21 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SLOT( login() ) );
 }
 
+void availableRoomsWindow::updateWindowTitle()
+{
+    QString title = "HSM: Manage current reservations";
+
+    if(parameters->loggedInUser != "")
+        title.append( QString( "  |  Logged in user: %1")
+                      .arg(parameters->loggedInUser) );
+
+    setWindowTitle(title);
+}
+
 void availableRoomsWindow::login()
 {
     hide();
-
+#ifndef NOLOGIN
     //login window
     int result = loginDlg->exec();
     if(1 != result)
@@ -66,22 +76,16 @@ void availableRoomsWindow::login()
         close();
     }
     else
+#else
+    parameters->loggedInUser = "mousaZB";
+#endif
     {
-        QString title = "HSM: Available rooms browser";
-
-        if(parameters->loggedInUser != "")
-            title.append( QString( "  |  Logged in user: %1")
-                          .arg(parameters->loggedInUser) );
-
-
-        reset();
-        setWindowTitle(title);
-
+        resetWindow();
         show();
     }
 }
 
-void availableRoomsWindow::reset()
+void availableRoomsWindow::resetWindow()
 {
     parameters->availableRoomsMdl->reset();
     ui->tableView->selectionModel()->clearSelection();
@@ -93,12 +97,13 @@ void availableRoomsWindow::reset()
     updateBookButton();
     updateRoomPrice();
     resetDate();
+    updateWindowTitle();
 }
 
 void availableRoomsWindow::manageReservationsTriggered()
 {
     qDebug() << "manageReservationsTriggered";
-    reservationsDlg->show();
+    reservationsDlg->exec();
 }
 
 void availableRoomsWindow::editUsersDataTriggered()
