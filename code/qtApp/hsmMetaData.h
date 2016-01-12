@@ -7,6 +7,7 @@
 
 class reservationModel;
 class availableRoomsModel;
+class roomModel;
 
 struct viewParameters
 {
@@ -15,7 +16,7 @@ struct viewParameters
     bool isAdmin;
     availableRoomsModel* availableRoomsMdl;
     reservationModel* reservationMdl;
-
+    roomModel* roomMdl;
 
     viewParameters()
     {
@@ -25,6 +26,7 @@ struct viewParameters
         isAdmin = false;
         availableRoomsMdl = NULL;
         reservationMdl = NULL;
+        roomMdl = NULL;
     }
 };
 

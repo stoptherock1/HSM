@@ -1,25 +1,26 @@
 #include "roomModel.h"
 
-roomModel::roomModel(QObject* parent, const viewParameters* parameters)
-    :QAbstractTableModel(parent)
+roomModel::roomModel(QObject* parent, viewParameters *parameters_)
+    :QSqlTableModel(parent),
+      parameters(parameters_)
 {
-     db = parameters->dbConnection->getDbPtr();
+    db = parameters->dbConnection->getDbPtr();
+
+    setTable("Room");
+    setEditStrategy(QSqlTableModel::OnFieldChange);
+    select();
 }
 
-int roomModel::rowCount(const QModelIndex & /*parent*/) const
+bool roomModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if(model.rowCount() < 99)
-        return 99;
-    else
-        return model.rowCount();
-}
-
-int roomModel::columnCount(const QModelIndex & /*parent*/) const
-{
-    if(model.columnCount() < 14)
-        return 14;
-    else
-        return model.columnCount();
+    if( Qt::CheckStateRole == role && 5 == index.column() )
+    {
+        if(0 == value)
+            return QSqlTableModel::setData(index, "0", Qt::EditRole);
+        else
+            return QSqlTableModel::setData(index, "1", Qt::EditRole);
+    }
+    return QSqlTableModel::setData(index, value, role);
 }
 
 QVariant roomModel::data(const QModelIndex & index, int role) const
@@ -32,18 +33,35 @@ QVariant roomModel::data(const QModelIndex & index, int role) const
         if(5 == column && Qt::DisplayRole == role)
             return QVariant();
 
-        return model.record(row).value(column);
+        return QSqlTableModel::data(index, role);
     }
 
-    if( Qt::CheckStateRole == role && 5 == column && row < model.rowCount() )
+    if( Qt::CheckStateRole == role && 5 == column && row < QSqlTableModel::rowCount() )
     {
-        if( 1 == model.record(row).value(column).toInt() )
+        if( 1 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Checked;
-        else if( 0 == model.record(row).value(column).toInt() )
+
+        else if( 0 == QSqlTableModel::data(index, Qt::DisplayRole).toInt() )
             return Qt::Unchecked;
     }
 
     return QVariant();
+}
+
+int roomModel::rowCount(const QModelIndex & /*parent*/) const
+{
+    if(QSqlTableModel::rowCount() < 99)
+        return 99;
+    else
+        return QSqlTableModel::rowCount();
+}
+
+int roomModel::columnCount(const QModelIndex & /*parent*/) const
+{
+    if(QSqlTableModel::columnCount() < 7)
+        return 7;
+    else
+        return QSqlTableModel::columnCount();
 }
 
 QVariant roomModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -55,17 +73,19 @@ QVariant roomModel::headerData(int section, Qt::Orientation orientation, int rol
             switch (section)
             {
             case 0:
-                return QString("");
+                return QString("Room nr");
             case 1:
-                return QString("");
+                return QString("Room name");
             case 2:
-                return QString("");
+                return QString("Price");
             case 3:
-                return QString("");
+                return QString("Nr of beds");
             case 4:
-                return QString("");
+                return QString("Room type");
             case 5:
-                return QString("");
+                return QString("Balcony");
+            case 6:
+                return QString("Additional notes");
             }
         }
 
@@ -75,28 +95,16 @@ QVariant roomModel::headerData(int section, Qt::Orientation orientation, int rol
     return QVariant();
 }
 
-bool roomModel::setData(const QModelIndex &index, const QVariant &value, int role)
+Qt::ItemFlags roomModel::flags(const QModelIndex & index) const
 {
-    if (role == Qt::EditRole)
-      {
-          //save value from editor to member m_gridData
-//          m_gridData[index.row()][index.column()] = value.toString();
-          //for presentation purposes only: build and emit a joined string
-          QString result;
-//          for(int row= 0; row < ROWS; row++)
-//          {
-//              for(int col= 0; col < COLS; col++)
-//              {
-//                  result += m_gridData[row][col] + " ";
-//              }
-//          }
-          emit editCompleted( result );
-      }
-      return true;
-}
+    Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
-Qt::ItemFlags roomModel::flags(const QModelIndex & /*index*/) const
-{
-    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
-}
+    if( 5 == index.column() )
+        result |= Qt::ItemIsUserCheckable;
 
+    if(parameters->isAdmin)
+        result |= Qt::ItemIsEditable;
+
+    return result;
+
+}

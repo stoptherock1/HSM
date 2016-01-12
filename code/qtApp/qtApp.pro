@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qtApp
 TEMPLATE = app
 
-
 CONFIG += c++11
 
 FORMS += \
@@ -19,9 +18,7 @@ FORMS += \
     bookingDialog.ui \
     loginDialog.ui \
     reservationsDialog.ui \
-    roomavailability.ui \
-    staffPage.ui \
-    updateInformation.ui
+    roomsDialog.ui
 
 HEADERS += \
     availableRoomsModel.h \
@@ -32,11 +29,9 @@ HEADERS += \
     loginDialog.h \
     reservationModel.h \
     reservationsDialog.h \
-    roomavailability.h \
     roomModel.h \
     staffModel.h \
-    staffPage.h \
-    updateInformation.h
+    roomsDialog.h
 
 SOURCES += \
     availableRoomsModel.cpp \
@@ -47,9 +42,7 @@ SOURCES += \
     main.cpp \
     reservationModel.cpp \
     reservationsDialog.cpp \
-    roomAvailability.cpp \
     roomModel.cpp \
     staffModel.cpp \
-    staffpage.cpp \
-    updateInformation.cpp
+    roomsDialog.cpp
 

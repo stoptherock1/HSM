@@ -2,7 +2,7 @@
 #include "ui_availableRoomsWindow.h"
 #include <QDesktopWidget>
 
-#define NOLOGIN
+//#define NOLOGIN
 
 availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :
     QMainWindow(parent),
@@ -24,8 +24,11 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     bookingDlg = new bookingDialog(this, parameters);
     loginDlg = new loginDialog(this, parameters);
     reservationsDlg = new reservationsDialog(this, parameters);
+    roomsDlg = new roomsDialog(this, parameters);
 
     login();
+
+    on_search_pushButton_clicked();
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
@@ -51,6 +54,11 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SIGNAL( triggered() ),
              this,
              SLOT( login() ) );
+
+    connect( ui->actionEdit_rooms_data,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( showRoomsDialog() ) );
 }
 
 void availableRoomsWindow::updateWindowTitle()
@@ -58,8 +66,13 @@ void availableRoomsWindow::updateWindowTitle()
     QString title = "HSM: Manage current reservations";
 
     if(parameters->loggedInUser != "")
+    {
         title.append( QString( "  |  Logged in user: %1")
                       .arg(parameters->loggedInUser) );
+
+        if(parameters->isAdmin)
+            title.append(" (admin)");
+    }
 
     setWindowTitle(title);
 }
@@ -171,6 +184,8 @@ availableRoomsWindow::~availableRoomsWindow()
     delete loginDlg;
     delete bookingDlg;
     delete widgetMapper;
+    delete reservationsDlg;
+    delete roomsDlg;
     delete ui;
 }
 
@@ -268,4 +283,11 @@ void availableRoomsWindow::on_search_pushButton_clicked()
     QItemSelection selection = ui->tableView->selectionModel()->selection();
 
     selectionChanged(selection, selection);
+}
+
+void availableRoomsWindow::showRoomsDialog()
+{
+    roomsDlg->exec();
+
+    on_search_pushButton_clicked();
 }

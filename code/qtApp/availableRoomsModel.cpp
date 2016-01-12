@@ -76,29 +76,9 @@ QVariant availableRoomsModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
-bool availableRoomsModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (role == Qt::EditRole)
-      {
-          //save value from editor to member m_gridData
-//          m_gridData[index.row()][index.column()] = value.toString();
-          //for presentation purposes only: build and emit a joined string
-          QString result;
-//          for(int row= 0; row < ROWS; row++)
-//          {
-//              for(int col= 0; col < COLS; col++)
-//              {
-//                  result += m_gridData[row][col] + " ";
-//              }
-//          }
-          emit editCompleted( result );
-      }
-      return true;
-}
-
 Qt::ItemFlags availableRoomsModel::flags(const QModelIndex & /*index*/) const
 {
-    return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
+    return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 void availableRoomsModel::reset()

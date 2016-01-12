@@ -26,13 +26,21 @@ bookingDialog::bookingDialog(QWidget *parent, viewParameters* parameters_) :
     widgetMapper->addMapping(ui->roomType_lineEdit, 4);
     widgetMapper->addMapping(ui->balcony_checkBox, 5);
 
+    ui->extraBedYes_radioButton->setChecked(true);
+}
+
+void bookingDialog::updateWindowTitle()
+{
     QString title = "HSM: Make a reservation";
 
-    ui->extraBedYes_radioButton->setChecked(true);
-
     if(parameters->loggedInUser != "")
+    {
         title.append( QString( "  |  Logged in user: %1")
                       .arg(parameters->loggedInUser) );
+
+        if(parameters->isAdmin)
+            title.append(" (admin)");
+    }
 
     setWindowTitle(title);
 }

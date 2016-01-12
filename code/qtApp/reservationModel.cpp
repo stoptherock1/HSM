@@ -102,8 +102,6 @@ QVariant reservationModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-
-
 reservationModel::~reservationModel()
 {
 
@@ -119,7 +117,6 @@ Qt::ItemFlags reservationModel::flags(const QModelIndex & index) const
     result |= Qt::ItemIsEditable;
 
     return result;
-
 }
 
 

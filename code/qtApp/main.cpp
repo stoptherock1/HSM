@@ -3,10 +3,10 @@
 #include <loginDialog.h>
 #include <hsmMetaData.h>
 #include <bookingDialog.h>
-#include <roomAvailability.h>
 #include <staffPage.h>
 #include <updateInformation.h>
 #include <reservationsDialog.h>
+#include <roomModel.h>
 
 
 int main(int argc, char *argv[])
@@ -15,13 +15,13 @@ int main(int argc, char *argv[])
 
     viewParameters parameters;
 
-
-
     //models initialization
     reservationModel reservationMdl(0, &parameters);
     availableRoomsModel availableRoomsMdl(0, &parameters);
+    roomModel roomMdl(0, &parameters);
     parameters.reservationMdl = &reservationMdl;
     parameters.availableRoomsMdl = &availableRoomsMdl;
+    parameters.roomMdl = &roomMdl;
 
 //    reservationsDialog dialog(0, &parameters);
 //    dialog.show();

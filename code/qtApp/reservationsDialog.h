@@ -31,7 +31,6 @@ private slots:
 
 private:
     Ui::reservationsDialog *ui;
-    reservationModel* model;
     viewParameters* parameters;
     int selectedRow;
 

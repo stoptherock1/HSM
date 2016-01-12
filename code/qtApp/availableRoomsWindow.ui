@@ -206,6 +206,8 @@
     <addaction name="actionManage_reservations"/>
     <addaction name="actionEdit_users__data"/>
     <addaction name="actionLog_Out"/>
+    <addaction name="actionEdit_rooms_data"/>
+    <addaction name="actionReservations_history"/>
    </widget>
    <addaction name="menuOptions"/>
   </widget>
@@ -226,6 +228,16 @@
   <action name="actionLog_Out">
    <property name="text">
     <string>Log Out</string>
+   </property>
+  </action>
+  <action name="actionEdit_rooms_data">
+   <property name="text">
+    <string>Edit rooms data</string>
+   </property>
+  </action>
+  <action name="actionReservations_history">
+   <property name="text">
+    <string>Reservations history</string>
    </property>
   </action>
  </widget>

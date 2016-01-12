@@ -39,7 +39,6 @@ public:
 
 private:
     const QSqlDatabase* db;
-//    QSqlQueryModel oldModel;
     viewParameters* parameters;
     QSqlQuery sqlQuery;
 

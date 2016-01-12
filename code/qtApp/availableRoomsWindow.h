@@ -12,6 +12,7 @@
 #include <loginDialog.h>
 #include <bookingDialog.h>
 #include <reservationsDialog.h>
+#include <roomsDialog.h>
 
 namespace Ui {
 class availableRoomsWindow;
@@ -35,6 +36,7 @@ private:
     QDataWidgetMapper* widgetMapper;
     viewParameters* parameters;
     bookingDialog* bookingDlg;
+    roomsDialog* roomsDlg;
 
     void initializeTable();
     void configureInputs();
@@ -58,6 +60,7 @@ public slots:
     void checkAvailableRooms();
     void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
     void updateDate();
+    void showRoomsDialog();
 };
 
 #endif // AVAILABLEROOMSWINDOW_H

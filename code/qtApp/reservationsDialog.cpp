@@ -53,8 +53,13 @@ void reservationsDialog::updateWindowTitle()
     QString title = "HSM: Manage current reservations";
 
     if(parameters->loggedInUser != "")
+    {
         title.append( QString( "  |  Logged in user: %1")
                       .arg(parameters->loggedInUser) );
+
+        if(parameters->isAdmin)
+            title.append(" (admin)");
+    }
 
     setWindowTitle(title);
 }

@@ -36,7 +36,7 @@ private:
     QDate till;
 
     void setReservationTotalPrice();
-
+    void updateWindowTitle();
     void clearInputs();
 
 public slots:

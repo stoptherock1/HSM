@@ -63,6 +63,14 @@ void loginDialog::login()
         {
             parameters->loggedInUser = username;
 
+            QSqlQuery sqlQuery( *parameters->dbConnection->getDbPtr() );
+            QString isAdminQuery = QString("SELECT * FROM Staff WHERE username='%1'").arg(username);
+            sqlQuery.exec(isAdminQuery);
+            if( sqlQuery.next() && 1 == sqlQuery.record().value("ifAdmin").toInt() )
+                parameters->isAdmin = true;
+            else
+                parameters->isAdmin = false;
+
             ui->usename_lineEdit->setFocus();
             ui->usename_lineEdit->setText("");
             ui->password_lineEdit->setText("");
