@@ -7,6 +7,8 @@
 #include <updateInformation.h>
 #include <reservationsDialog.h>
 #include <roomModel.h>
+#include <reservationHistoryModel.h>
+
 
 
 int main(int argc, char *argv[])
@@ -19,9 +21,12 @@ int main(int argc, char *argv[])
     reservationModel reservationMdl(0, &parameters);
     availableRoomsModel availableRoomsMdl(0, &parameters);
     roomModel roomMdl(0, &parameters);
+    reservationHistoryModel reservationHistoryMdl(0, &parameters);
+
     parameters.reservationMdl = &reservationMdl;
     parameters.availableRoomsMdl = &availableRoomsMdl;
     parameters.roomMdl = &roomMdl;
+    parameters.reservationHistoryMdl = &reservationHistoryMdl;
 
 //    reservationsDialog dialog(0, &parameters);
 //    dialog.show();

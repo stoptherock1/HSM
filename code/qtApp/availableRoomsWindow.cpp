@@ -25,6 +25,7 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
     loginDlg = new loginDialog(this, parameters);
     reservationsDlg = new reservationsDialog(this, parameters);
     roomsDlg = new roomsDialog(this, parameters);
+    reservationHistoryDlg = new reservationHistoryDialog(this, parameters);
 
     login();
 
@@ -59,6 +60,11 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SIGNAL( triggered() ),
              this,
              SLOT( showRoomsDialog() ) );
+
+    connect( ui->actionReservations_history,
+             SIGNAL( triggered() ),
+             this,
+             SLOT( showReservationHistoryDialog() ) );
 }
 
 void availableRoomsWindow::updateWindowTitle()
@@ -182,6 +188,7 @@ void availableRoomsWindow::updateBookButton()
 
 availableRoomsWindow::~availableRoomsWindow()
 {
+    delete reservationHistoryDlg;
     delete loginDlg;
     delete bookingDlg;
     delete widgetMapper;
@@ -291,4 +298,9 @@ void availableRoomsWindow::showRoomsDialog()
     roomsDlg->exec();
 
     on_search_pushButton_clicked();
+}
+
+void availableRoomsWindow::showReservationHistoryDialog()
+{
+    availableRoomsWindow::reservationHistoryDlg->exec();
 }

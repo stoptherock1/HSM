@@ -8,6 +8,7 @@
 class reservationModel;
 class availableRoomsModel;
 class roomModel;
+class reservationHistoryModel;
 
 struct viewParameters
 {
@@ -17,6 +18,7 @@ struct viewParameters
     availableRoomsModel* availableRoomsMdl;
     reservationModel* reservationMdl;
     roomModel* roomMdl;
+    reservationHistoryModel* reservationHistoryMdl;
 
     viewParameters()
     {
@@ -27,6 +29,7 @@ struct viewParameters
         availableRoomsMdl = NULL;
         reservationMdl = NULL;
         roomMdl = NULL;
+        reservationHistoryMdl = NULL;
     }
 };
 
