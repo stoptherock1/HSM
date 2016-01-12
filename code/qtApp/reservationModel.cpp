@@ -7,8 +7,7 @@ reservationModel::reservationModel(QObject* parent, viewParameters *parameters_)
     db = parameters->dbConnection->getDbPtr();
 
     setTable("Current_reservation");
-    setEditStrategy(QSqlTableModel::OnManualSubmit);
-//    setEditStrategy(QSqlTableModel::OnFieldChange);
+    setEditStrategy(QSqlTableModel::OnFieldChange);
     select();
 
     sqlQuery = QSqlQuery( *parameters->dbConnection->getDbPtr() );
