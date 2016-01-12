@@ -2,7 +2,7 @@
 #include "ui_availableRoomsWindow.h"
 #include <QDesktopWidget>
 
-//#define NOLOGIN
+#define NOLOGIN
 
 availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *parameters_) :
     QMainWindow(parent),
@@ -91,6 +91,7 @@ void availableRoomsWindow::login()
     else
 #else
     parameters->loggedInUser = "mousaZB";
+    parameters->isAdmin = true;
 #endif
     {
         resetWindow();

@@ -15,14 +15,17 @@ void roomsDialog::initializeTable()
 {
     ui->tableView->setModel(parameters->roomMdl);
 
-    ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Stretch);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->setAlternatingRowColors(true);
 
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+    ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
+
+    ui->tableView->horizontalHeader()->setHighlightSections(false);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setMinimumSectionSize(50);
 }
 
