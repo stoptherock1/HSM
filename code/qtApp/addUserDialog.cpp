@@ -7,6 +7,7 @@ addUserDialog::addUserDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
+    setWindowTitle("Add new user");
 }
 
 addUserDialog::~addUserDialog()
