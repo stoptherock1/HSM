@@ -178,7 +178,7 @@ void reservationModel::insertCurrent_Reservation(QString roomNr,
 
     qDebug() << QString("INSERT INTO Current_Reservation "
                         "(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser) "
-                        "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8')"
+                        "VALUES ('%1', '%2', '%3', '%4T00:00:00.000', '%5T00:00:00.000', '%6', '%7', '%8')"
                         ).arg(bookingNr, roomNr, ssNr, checkInDate, checkOutDate, totalPrice, extraBed, addedByUser);
 
     QString createBookingQuery = QString("INSERT INTO Current_Reservation "

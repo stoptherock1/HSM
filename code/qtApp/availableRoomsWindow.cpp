@@ -30,7 +30,6 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
 
     login();
 
-    performAvailableRoomsSearch();
 
     connect( ui->tableView->selectionModel(),
              SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
@@ -71,16 +70,6 @@ availableRoomsWindow::availableRoomsWindow(QWidget *parent, viewParameters *para
              SIGNAL( triggered() ),
              this,
              SLOT( showStaffDialog() ) );
-
-    connect( ui->from_dateEdit,
-             SIGNAL( userDateChanged(QDate) ),
-             this,
-             SLOT( performAvailableRoomsSearch() ) );
-
-    connect( ui->till_dateEdit,
-             SIGNAL( userDateChanged(QDate) ),
-             this,
-             SLOT( performAvailableRoomsSearch() ) );
 }
 
 void availableRoomsWindow::updateWindowTitle()
@@ -312,7 +301,16 @@ void availableRoomsWindow::on_book_pushButton_clicked()
 void availableRoomsWindow::performAvailableRoomsSearch()
 {
     if( !confirmProvidedDatesCorrectness() )
+    {
+        QMessageBox::critical(0,
+                              "Error",
+                              QString("Incorrect value was provided ti "
+                                      "'From' and/or 'Till'. The dates "
+                                      "wil be reset to previous values."
+                                      ),
+                              QMessageBox::Cancel);
         return;
+    }
 
     checkAvailableRooms();
 
@@ -360,4 +358,9 @@ bool availableRoomsWindow::confirmProvidedDatesCorrectness()
     from = newFrom;
     till = newTill;
     return true;
+}
+
+void availableRoomsWindow::on_pushButton_clicked()
+{
+    performAvailableRoomsSearch();
 }

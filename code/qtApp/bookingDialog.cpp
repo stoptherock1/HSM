@@ -152,3 +152,10 @@ void bookingDialog::on_book_pushButton_clicked()
     clearInputs();
     done(1);
 }
+
+
+void bookingDialog::showEvent(QShowEvent * event)
+{
+    updateWindowTitle();
+    QDialog::showEvent(event);
+}

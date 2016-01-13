@@ -43,6 +43,8 @@ public slots:
     void setFromTillDates(QDate from, QDate till);
     void setMaximumGuestsNumber(int maxGuestsNumber);
     int exec();
+    void showEvent(QShowEvent * event);
+
 private slots:
     void on_book_pushButton_clicked();
 };

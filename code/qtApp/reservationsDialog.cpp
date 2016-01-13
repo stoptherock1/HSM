@@ -91,6 +91,7 @@ void reservationsDialog::initializeTable()
     ui->tableView->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
     ui->tableView->horizontalHeader()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
     ui->tableView->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setMinimumSectionSize(50);
 
 }
 

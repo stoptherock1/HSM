@@ -61,6 +61,8 @@ private slots:
     void resetWindow();
     void resetDate();
 
+    void on_pushButton_clicked();
+
 public slots:
     void login();
     void checkAvailableRooms();

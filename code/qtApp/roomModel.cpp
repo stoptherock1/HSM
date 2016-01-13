@@ -102,7 +102,6 @@ Qt::ItemFlags roomModel::flags(const QModelIndex & index) const
     if( 5 == index.column() )
         result |= Qt::ItemIsUserCheckable;
 
-//    if(parameters->isAdmin)
         result |= Qt::ItemIsEditable;
 
     return result;
