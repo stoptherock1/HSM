@@ -21,7 +21,8 @@ FORMS += \
     roomsDialog.ui \
     reservationHistoryDialog.ui \
     staffDialog.ui \
-    addUserDialog.ui
+    addUserDialog.ui \
+    addNewRoomDialog.ui
 
 HEADERS += \
     availableRoomsModel.h \
@@ -38,7 +39,8 @@ HEADERS += \
     reservationHistoryDialog.h \
     reservationHistoryModel.h \
     staffDialog.h \
-    addUserDialog.h
+    addUserDialog.h \
+    addNewRoomDialog.h
 
 SOURCES += \
     availableRoomsModel.cpp \
@@ -55,5 +57,6 @@ SOURCES += \
     reservationHistoryDialog.cpp \
     reservationHistoryModel.cpp \
     staffDialog.cpp \
-    addUserDialog.cpp
+    addUserDialog.cpp \
+    addNewRoomDialog.cpp
 

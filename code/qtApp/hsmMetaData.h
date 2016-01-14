@@ -50,5 +50,21 @@ struct newUser
     }
 };
 
+struct newRoom
+{
+    QString roomNr;
+    QString roomName;
+    QString price;
+    QString nrOfBeds;
+    QString roomType;
+    bool balcony;
+    QString additionalNotes;
+
+    newRoom()
+    {
+        balcony = false;
+    }
+};
+
 #endif // HSMMETADATA
 

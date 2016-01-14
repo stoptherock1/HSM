@@ -9,6 +9,13 @@ roomsDialog::roomsDialog(QWidget *parent, viewParameters *parameters_) :
 {
     ui->setupUi(this);
     initializeTable();
+
+    addNewRoomDlg = new addNewRoomDialog(this);
+
+    connect( addNewRoomDlg,
+             SIGNAL( newRoomAdded(newRoom&) ),
+             this,
+             SLOT( addNewRoom(newRoom&) ) );
 }
 
 void roomsDialog::initializeTable()
@@ -33,6 +40,7 @@ void roomsDialog::initializeTable()
 roomsDialog::~roomsDialog()
 {
     delete ui;
+    delete addNewRoomDlg;
 }
 
 void roomsDialog::updateWindowTitle()
@@ -55,4 +63,14 @@ void roomsDialog::showEvent(QShowEvent * event)
 {
     updateWindowTitle();
     QDialog::showEvent(event);
+}
+
+void roomsDialog::on_pushButton_clicked()
+{
+    addNewRoomDlg->exec();
+}
+
+void roomsDialog::addNewRoom(newRoom& room)
+{
+    parameters->roomMdl->addNewRoom(room);
 }

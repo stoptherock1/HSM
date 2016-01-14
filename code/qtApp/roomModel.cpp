@@ -106,3 +106,32 @@ Qt::ItemFlags roomModel::flags(const QModelIndex & index) const
 
     return result;
 }
+
+void roomModel::addNewRoom(newRoom &room)
+{
+    QString balcony = room.balcony ? "1" : "0";
+    QString addNewRoomQuery = QString("INSERT into Room "
+                                      "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
+            .arg(room.roomNr,
+                 room.roomName,
+                 room.price,
+                 room.nrOfBeds,
+                 room.roomType,
+                 balcony,
+                 room.additionalNotes);
+
+    sqlQuery.exec(addNewRoomQuery);
+
+    if( sqlQuery.lastError().isValid() )
+    {
+        qDebug() << sqlQuery.lastError();
+        QMessageBox::critical(0,
+                              "Cannot set query",
+                              QString("Unable to set query."
+                                      "\nReason: %1\nClick Cancel to "
+                                      "exit.").arg( sqlQuery.lastError().text() ),
+                              QMessageBox::Cancel);
+    }
+
+    select();
+}

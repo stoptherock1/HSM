@@ -13,6 +13,8 @@ class roomModel: public QSqlTableModel
 private:
     const QSqlDatabase* db;
     viewParameters* parameters;
+    QSqlQuery sqlQuery;
+
 
 public:
     roomModel(QObject *parent = 0, viewParameters* parameters = 0);
@@ -23,6 +25,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     Qt::ItemFlags flags(const QModelIndex & index) const;
+
+public slots:
+    void addNewRoom(newRoom &room);
 };
 
 #endif // ROOMMODEL_H
